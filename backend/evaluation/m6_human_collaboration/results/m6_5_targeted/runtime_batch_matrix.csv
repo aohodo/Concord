@@ -1,0 +1,11 @@
+﻿episode_id,user_condition,passed,case_phase,case_ready,elapsed_ms,m1_ms,m2_ms,questions_asked,max_questions,failure_labels
+m65-batch-001,fragmented,True,waiting_for_user,True,64110.0,38969.0,24984.0,1,1,
+m65-batch-002,half_expert,True,waiting_for_user,True,77719.0,34812.0,42797.0,1,1,
+m65-batch-003,frustrated,True,waiting_for_user,True,54812.0,36844.0,17859.0,1,1,
+m65-batch-004,low_control,True,waiting_for_user,True,104531.0,32235.0,17422.0,1,1,
+m65-batch-005,expert,True,waiting_for_user,True,117484.0,39922.0,13422.0,1,1,
+m65-batch-006,procedural_only,True,waiting_for_user,True,150140.0,38328.0,34032.0,1,1,
+m65-batch-007,cross_domain_transfer,True,waiting_for_user,True,195234.0,43578.0,47078.0,1,1,
+m65-batch-008,low_patience,True,waiting_for_user,True,167750.0,35500.0,14719.0,1,1,
+m65-batch-009,multi_issue,True,waiting_for_user,True,245906.0,53640.0,42078.0,1,1,
+m65-batch-010,uncertain_goal,True,waiting_for_user,True,230625.0,35421.0,27391.0,1,1,

@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-29",
+  "model": "qwen3.8-flash",
+  "provider_protocol": "OpenAI-compatible",
+  "reasoning_effort": "low",
+  "temperature": 0.0,
+  "proxy_inheritance": false,
+  "boundary_cases": 8,
+  "topologies": ["m2_only", "fixed_three", "adaptive"],
+  "longitudinal_episodes": 36,
+  "longitudinal_case_updates": 12,
+  "longitudinal_first_run_passes": 28,
+  "longitudinal_targeted_rerun_passes": 8,
+  "longitudinal_final_passes": 36,
+  "verified_feedback_smoke": true,
+  "permission_boundary_zero_m3_model_calls": true,
+  "notes": [
+    "fixed_three is actually executed, not estimated",
+    "LLM-as-judge is an auxiliary evaluator, not expert ground truth",
+    "all scenarios and downstream labels are synthetic",
+    "raw JSONL remains the source of truth"
+  ]
+}

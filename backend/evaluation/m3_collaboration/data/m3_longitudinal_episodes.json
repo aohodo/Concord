@@ -1,0 +1,4141 @@
+[
+  {
+    "episode_id": "vendor-auth-fragmented",
+    "description": "看不懂厂商认证轨迹 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-vendor-auth-fragmented",
+      "description": "看不懂厂商认证轨迹",
+      "handoff": {
+        "case_id": "m3-long-vendor-auth-fragmented",
+        "thread_id": "m2:m3-long-vendor-auth-fragmented",
+        "case_revision": 0,
+        "reason": "看不懂厂商认证轨迹",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "trace_reader",
+            "observation": "opaque vendor code A17 after token exchange"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor token exchange rejected",
+            "strength": "low"
+          },
+          {
+            "statement": "clock skew",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "vendor trace semantics",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "human_required"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "specialized_diagnosis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "vendor-auth-deadline",
+    "description": "看不懂厂商认证轨迹 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-vendor-auth-deadline",
+      "description": "看不懂厂商认证轨迹",
+      "handoff": {
+        "case_id": "m3-long-vendor-auth-deadline",
+        "thread_id": "m2:m3-long-vendor-auth-deadline",
+        "case_revision": 0,
+        "reason": "看不懂厂商认证轨迹；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "trace_reader",
+            "observation": "opaque vendor code A17 after token exchange"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor token exchange rejected",
+            "strength": "low"
+          },
+          {
+            "statement": "clock skew",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "vendor trace semantics",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "human_required"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "specialized_diagnosis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "vendor-auth-correction",
+    "description": "看不懂厂商认证轨迹 / correction",
+    "initial_case": {
+      "case_id": "m3-long-vendor-auth-correction",
+      "description": "看不懂厂商认证轨迹",
+      "handoff": {
+        "case_id": "m3-long-vendor-auth-correction",
+        "thread_id": "m2:m3-long-vendor-auth-correction",
+        "case_revision": 0,
+        "reason": "看不懂厂商认证轨迹",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "trace_reader",
+            "observation": "opaque vendor code A17 after token exchange"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor token exchange rejected",
+            "strength": "low"
+          },
+          {
+            "statement": "clock skew",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "vendor trace semantics",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "human_required"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-vendor-auth-correction",
+      "thread_id": "m2:m3-long-vendor-auth-correction",
+      "case_revision": 1,
+      "reason": "看不懂厂商认证轨迹；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "trace_reader",
+          "observation": "opaque vendor code A17 after token exchange"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "vendor token exchange rejected",
+          "strength": "low"
+        },
+        {
+          "statement": "clock skew",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "vendor trace semantics",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "specialist_handoff"
+    },
+    "verified_capabilities": [
+      "specialized_diagnosis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "urgent-split-fragmented",
+    "description": "认证与依赖是独立方向 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-urgent-split-fragmented",
+      "description": "认证与依赖是独立方向",
+      "handoff": {
+        "case_id": "m3-long-urgent-split-fragmented",
+        "thread_id": "m2:m3-long-urgent-split-fragmented",
+        "case_revision": 0,
+        "reason": "认证与依赖是独立方向",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "health",
+            "observation": "application reachable; authentication and dependency states unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "credential path",
+            "strength": "low"
+          },
+          {
+            "statement": "dependency path",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "two independent read-only checks",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [
+            "credential path",
+            "dependency path"
+          ],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "specialized_diagnosis",
+      "time_optimization"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "urgent-split-deadline",
+    "description": "认证与依赖是独立方向 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-urgent-split-deadline",
+      "description": "认证与依赖是独立方向",
+      "handoff": {
+        "case_id": "m3-long-urgent-split-deadline",
+        "thread_id": "m2:m3-long-urgent-split-deadline",
+        "case_revision": 0,
+        "reason": "认证与依赖是独立方向；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "health",
+            "observation": "application reachable; authentication and dependency states unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "credential path",
+            "strength": "low"
+          },
+          {
+            "statement": "dependency path",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "two independent read-only checks",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [
+            "credential path",
+            "dependency path"
+          ],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "specialized_diagnosis",
+      "time_optimization"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "urgent-split-correction",
+    "description": "认证与依赖是独立方向 / correction",
+    "initial_case": {
+      "case_id": "m3-long-urgent-split-correction",
+      "description": "认证与依赖是独立方向",
+      "handoff": {
+        "case_id": "m3-long-urgent-split-correction",
+        "thread_id": "m2:m3-long-urgent-split-correction",
+        "case_revision": 0,
+        "reason": "认证与依赖是独立方向",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "health",
+            "observation": "application reachable; authentication and dependency states unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "credential path",
+            "strength": "low"
+          },
+          {
+            "statement": "dependency path",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "two independent read-only checks",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [
+            "credential path",
+            "dependency path"
+          ],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-urgent-split-correction",
+      "thread_id": "m2:m3-long-urgent-split-correction",
+      "case_revision": 1,
+      "reason": "认证与依赖是独立方向；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "health",
+          "observation": "application reachable; authentication and dependency states unknown"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "credential path",
+          "strength": "low"
+        },
+        {
+          "statement": "dependency path",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "two independent read-only checks",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": true,
+        "independent_workstreams": [
+          "credential path",
+          "dependency path"
+        ],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "parallel_workers"
+    },
+    "verified_capabilities": [
+      "specialized_diagnosis",
+      "time_optimization"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "storage-risk-fragmented",
+    "description": "恢复动作可能造成数据损坏 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-storage-risk-fragmented",
+      "description": "恢复动作可能造成数据损坏",
+      "handoff": {
+        "case_id": "m3-long-storage-risk-fragmented",
+        "thread_id": "m2:m3-long-storage-risk-fragmented",
+        "case_revision": 0,
+        "reason": "恢复动作可能造成数据损坏",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "storage_health",
+            "observation": "replica lagging; exact lag unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "replica metadata corruption",
+            "strength": "low"
+          },
+          {
+            "statement": "network partition",
+            "strength": "low"
+          },
+          {
+            "statement": "I/O saturation",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative storage and backup state",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "risk_review",
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "storage-risk-deadline",
+    "description": "恢复动作可能造成数据损坏 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-storage-risk-deadline",
+      "description": "恢复动作可能造成数据损坏",
+      "handoff": {
+        "case_id": "m3-long-storage-risk-deadline",
+        "thread_id": "m2:m3-long-storage-risk-deadline",
+        "case_revision": 0,
+        "reason": "恢复动作可能造成数据损坏；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "storage_health",
+            "observation": "replica lagging; exact lag unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "replica metadata corruption",
+            "strength": "low"
+          },
+          {
+            "statement": "network partition",
+            "strength": "low"
+          },
+          {
+            "statement": "I/O saturation",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative storage and backup state",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "risk_review",
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "storage-risk-correction",
+    "description": "恢复动作可能造成数据损坏 / correction",
+    "initial_case": {
+      "case_id": "m3-long-storage-risk-correction",
+      "description": "恢复动作可能造成数据损坏",
+      "handoff": {
+        "case_id": "m3-long-storage-risk-correction",
+        "thread_id": "m2:m3-long-storage-risk-correction",
+        "case_revision": 0,
+        "reason": "恢复动作可能造成数据损坏",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "storage_health",
+            "observation": "replica lagging; exact lag unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "replica metadata corruption",
+            "strength": "low"
+          },
+          {
+            "statement": "network partition",
+            "strength": "low"
+          },
+          {
+            "statement": "I/O saturation",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative storage and backup state",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-storage-risk-correction",
+      "thread_id": "m2:m3-long-storage-risk-correction",
+      "case_revision": 1,
+      "reason": "恢复动作可能造成数据损坏；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "storage_health",
+          "observation": "replica lagging; exact lag unavailable"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "replica metadata corruption",
+          "strength": "low"
+        },
+        {
+          "statement": "network partition",
+          "strength": "low"
+        },
+        {
+          "statement": "I/O saturation",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "authoritative storage and backup state",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "verified_capabilities": [
+      "risk_review",
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "stagnation-fragmented",
+    "description": "连续检查没有推进 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-stagnation-fragmented",
+      "description": "连续检查没有推进",
+      "handoff": {
+        "case_id": "m3-long-stagnation-fragmented",
+        "thread_id": "m2:m3-long-stagnation-fragmented",
+        "case_revision": 0,
+        "reason": "连续检查没有推进",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "logs",
+            "observation": "no matching error in the searched time window"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "network jitter",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "an observation outside the anchored network path",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "diverse_exploration",
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "stagnation-deadline",
+    "description": "连续检查没有推进 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-stagnation-deadline",
+      "description": "连续检查没有推进",
+      "handoff": {
+        "case_id": "m3-long-stagnation-deadline",
+        "thread_id": "m2:m3-long-stagnation-deadline",
+        "case_revision": 0,
+        "reason": "连续检查没有推进；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "logs",
+            "observation": "no matching error in the searched time window"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "network jitter",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "an observation outside the anchored network path",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "diverse_exploration",
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "stagnation-correction",
+    "description": "连续检查没有推进 / correction",
+    "initial_case": {
+      "case_id": "m3-long-stagnation-correction",
+      "description": "连续检查没有推进",
+      "handoff": {
+        "case_id": "m3-long-stagnation-correction",
+        "thread_id": "m2:m3-long-stagnation-correction",
+        "case_revision": 0,
+        "reason": "连续检查没有推进",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "logs",
+            "observation": "no matching error in the searched time window"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "network jitter",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "an observation outside the anchored network path",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-stagnation-correction",
+      "thread_id": "m2:m3-long-stagnation-correction",
+      "case_revision": 1,
+      "reason": "连续检查没有推进；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "logs",
+          "observation": "no matching error in the searched time window"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "network jitter",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "an observation outside the anchored network path",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "diverse_exploration"
+    },
+    "verified_capabilities": [
+      "diverse_exploration",
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "version-conflict-fragmented",
+    "description": "部署版本来源冲突 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-version-conflict-fragmented",
+      "description": "部署版本来源冲突",
+      "handoff": {
+        "case_id": "m3-long-version-conflict-fragmented",
+        "thread_id": "m2:m3-long-version-conflict-fragmented",
+        "case_revision": 0,
+        "reason": "部署版本来源冲突",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "provider_api",
+            "observation": "version 8",
+            "reliability": 0.9
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative deployment identity",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "goal_alignment_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "version-conflict-deadline",
+    "description": "部署版本来源冲突 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-version-conflict-deadline",
+      "description": "部署版本来源冲突",
+      "handoff": {
+        "case_id": "m3-long-version-conflict-deadline",
+        "thread_id": "m2:m3-long-version-conflict-deadline",
+        "case_revision": 0,
+        "reason": "部署版本来源冲突；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "provider_api",
+            "observation": "version 8",
+            "reliability": 0.9
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative deployment identity",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "goal_alignment_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "version-conflict-correction",
+    "description": "部署版本来源冲突 / correction",
+    "initial_case": {
+      "case_id": "m3-long-version-conflict-correction",
+      "description": "部署版本来源冲突",
+      "handoff": {
+        "case_id": "m3-long-version-conflict-correction",
+        "thread_id": "m2:m3-long-version-conflict-correction",
+        "case_revision": 0,
+        "reason": "部署版本来源冲突",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "provider_api",
+            "observation": "version 8",
+            "reliability": 0.9
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "authoritative deployment identity",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "goal_alignment_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-version-conflict-correction",
+      "thread_id": "m2:m3-long-version-conflict-correction",
+      "case_revision": 1,
+      "reason": "部署版本来源冲突；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "provider_api",
+          "observation": "version 8",
+          "reliability": 0.9
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "authoritative deployment identity",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "goal-conflict-fragmented",
+    "description": "恢复和根因目标冲突 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-goal-conflict-fragmented",
+      "description": "恢复和根因目标冲突",
+      "handoff": {
+        "case_id": "m3-long-goal-conflict-fragmented",
+        "thread_id": "m2:m3-long-goal-conflict-fragmented",
+        "case_revision": 0,
+        "reason": "恢复和根因目标冲突",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "restore-first and root-cause-first imply incompatible next actions",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "user priority",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "goal_alignment_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "goal-conflict-deadline",
+    "description": "恢复和根因目标冲突 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-goal-conflict-deadline",
+      "description": "恢复和根因目标冲突",
+      "handoff": {
+        "case_id": "m3-long-goal-conflict-deadline",
+        "thread_id": "m2:m3-long-goal-conflict-deadline",
+        "case_revision": 0,
+        "reason": "恢复和根因目标冲突；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "restore-first and root-cause-first imply incompatible next actions",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "user priority",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "goal_alignment_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "goal-conflict-correction",
+    "description": "恢复和根因目标冲突 / correction",
+    "initial_case": {
+      "case_id": "m3-long-goal-conflict-correction",
+      "description": "恢复和根因目标冲突",
+      "handoff": {
+        "case_id": "m3-long-goal-conflict-correction",
+        "thread_id": "m2:m3-long-goal-conflict-correction",
+        "case_revision": 0,
+        "reason": "恢复和根因目标冲突",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "restore-first and root-cause-first imply incompatible next actions",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "user priority",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "goal_alignment_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-goal-conflict-correction",
+      "thread_id": "m2:m3-long-goal-conflict-correction",
+      "case_revision": 1,
+      "reason": "恢复和根因目标冲突；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "restore-first and root-cause-first imply incompatible next actions",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "user priority",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "specialist_handoff"
+    },
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "serial-job-fragmented",
+    "description": "必须先读取权威任务状态 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-serial-job-fragmented",
+      "description": "必须先读取权威任务状态",
+      "handoff": {
+        "case_id": "m3-long-serial-job-fragmented",
+        "thread_id": "m2:m3-long-serial-job-fragmented",
+        "case_revision": 0,
+        "reason": "必须先读取权威任务状态",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "job_submit",
+            "observation": "accepted but completion unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "provider job state that unlocks all later decisions",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "provider job state that unlocks all later decisions"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "serial-job-deadline",
+    "description": "必须先读取权威任务状态 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-serial-job-deadline",
+      "description": "必须先读取权威任务状态",
+      "handoff": {
+        "case_id": "m3-long-serial-job-deadline",
+        "thread_id": "m2:m3-long-serial-job-deadline",
+        "case_revision": 0,
+        "reason": "必须先读取权威任务状态；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "job_submit",
+            "observation": "accepted but completion unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "provider job state that unlocks all later decisions",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "provider job state that unlocks all later decisions"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "serial-job-correction",
+    "description": "必须先读取权威任务状态 / correction",
+    "initial_case": {
+      "case_id": "m3-long-serial-job-correction",
+      "description": "必须先读取权威任务状态",
+      "handoff": {
+        "case_id": "m3-long-serial-job-correction",
+        "thread_id": "m2:m3-long-serial-job-correction",
+        "case_revision": 0,
+        "reason": "必须先读取权威任务状态",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "job_submit",
+            "observation": "accepted but completion unknown"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "provider job state that unlocks all later decisions",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "provider job state that unlocks all later decisions"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-serial-job-correction",
+      "thread_id": "m2:m3-long-serial-job-correction",
+      "case_revision": 1,
+      "reason": "必须先读取权威任务状态；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "job_submit",
+          "observation": "accepted but completion unknown"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "provider job state that unlocks all later decisions",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": true,
+        "independent_workstreams": [],
+        "serial_dependencies": [
+          "authoritative observation before later decisions"
+        ],
+        "blocking_evidence": [
+          "provider job state that unlocks all later decisions"
+        ],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "parallel_workers"
+    },
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "cache-pending-fragmented",
+    "description": "已有唯一低风险观察 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-cache-pending-fragmented",
+      "description": "已有唯一低风险观察",
+      "handoff": {
+        "case_id": "m3-long-cache-pending-fragmented",
+        "thread_id": "m2:m3-long-cache-pending-fragmented",
+        "case_revision": 0,
+        "reason": "已有唯一低风险观察",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "cache_refresh",
+            "observation": "accepted; propagation pending"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "post-refresh health after declared wait window",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "post-refresh health after declared wait window"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "cache-pending-deadline",
+    "description": "已有唯一低风险观察 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-cache-pending-deadline",
+      "description": "已有唯一低风险观察",
+      "handoff": {
+        "case_id": "m3-long-cache-pending-deadline",
+        "thread_id": "m2:m3-long-cache-pending-deadline",
+        "case_revision": 0,
+        "reason": "已有唯一低风险观察；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "cache_refresh",
+            "observation": "accepted; propagation pending"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "post-refresh health after declared wait window",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "post-refresh health after declared wait window"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "cache-pending-correction",
+    "description": "已有唯一低风险观察 / correction",
+    "initial_case": {
+      "case_id": "m3-long-cache-pending-correction",
+      "description": "已有唯一低风险观察",
+      "handoff": {
+        "case_id": "m3-long-cache-pending-correction",
+        "thread_id": "m2:m3-long-cache-pending-correction",
+        "case_revision": 0,
+        "reason": "已有唯一低风险观察",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "cache_refresh",
+            "observation": "accepted; propagation pending"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "post-refresh health after declared wait window",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": true,
+          "independent_workstreams": [],
+          "serial_dependencies": [
+            "authoritative observation before later decisions"
+          ],
+          "blocking_evidence": [
+            "post-refresh health after declared wait window"
+          ],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "no_benefit",
+        "ready_for_m2",
+        "evidence_required"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-cache-pending-correction",
+      "thread_id": "m2:m3-long-cache-pending-correction",
+      "case_revision": 1,
+      "reason": "已有唯一低风险观察；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "cache_refresh",
+          "observation": "accepted; propagation pending"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "post-refresh health after declared wait window",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": true,
+        "independent_workstreams": [],
+        "serial_dependencies": [
+          "authoritative observation before later decisions"
+        ],
+        "blocking_evidence": [
+          "post-refresh health after declared wait window"
+        ],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "verified_capabilities": [],
+    "verification_success": true
+  },
+  {
+    "episode_id": "partial-worker-fragmented",
+    "description": "一个协作者不可用但另一方向仍可推进 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-partial-worker-fragmented",
+      "description": "一个协作者不可用但另一方向仍可推进",
+      "handoff": {
+        "case_id": "m3-long-partial-worker-fragmented",
+        "thread_id": "m2:m3-long-partial-worker-fragmented",
+        "case_revision": 0,
+        "reason": "一个协作者不可用但另一方向仍可推进",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "dependency_map",
+            "observation": "one vendor endpoint is unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor outage",
+            "strength": "low"
+          },
+          {
+            "statement": "local configuration drift",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent local evidence despite vendor unavailability",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "partial-worker-deadline",
+    "description": "一个协作者不可用但另一方向仍可推进 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-partial-worker-deadline",
+      "description": "一个协作者不可用但另一方向仍可推进",
+      "handoff": {
+        "case_id": "m3-long-partial-worker-deadline",
+        "thread_id": "m2:m3-long-partial-worker-deadline",
+        "case_revision": 0,
+        "reason": "一个协作者不可用但另一方向仍可推进；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "dependency_map",
+            "observation": "one vendor endpoint is unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor outage",
+            "strength": "low"
+          },
+          {
+            "statement": "local configuration drift",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent local evidence despite vendor unavailability",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "partial-worker-correction",
+    "description": "一个协作者不可用但另一方向仍可推进 / correction",
+    "initial_case": {
+      "case_id": "m3-long-partial-worker-correction",
+      "description": "一个协作者不可用但另一方向仍可推进",
+      "handoff": {
+        "case_id": "m3-long-partial-worker-correction",
+        "thread_id": "m2:m3-long-partial-worker-correction",
+        "case_revision": 0,
+        "reason": "一个协作者不可用但另一方向仍可推进",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "dependency_map",
+            "observation": "one vendor endpoint is unavailable"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "vendor outage",
+            "strength": "low"
+          },
+          {
+            "statement": "local configuration drift",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent local evidence despite vendor unavailability",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "parallel_workers"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "exhausted"
+      ],
+      "expected_modes": [
+        "parallel_workers"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-partial-worker-correction",
+      "thread_id": "m2:m3-long-partial-worker-correction",
+      "case_revision": 1,
+      "reason": "一个协作者不可用但另一方向仍可推进；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "dependency_map",
+          "observation": "one vendor endpoint is unavailable"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "vendor outage",
+          "strength": "low"
+        },
+        {
+          "statement": "local configuration drift",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "independent local evidence despite vendor unavailability",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "parallel_workers"
+    },
+    "verified_capabilities": [
+      "fact_verification"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "shared-source-fragmented",
+    "description": "多个判断依赖同一条转述 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-shared-source-fragmented",
+      "description": "多个判断依赖同一条转述",
+      "handoff": {
+        "case_id": "m3-long-shared-source-fragmented",
+        "thread_id": "m2:m3-long-shared-source-fragmented",
+        "case_revision": 0,
+        "reason": "多个判断依赖同一条转述",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "three reports may all repeat the same operator message",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent provider observation",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "ready_for_m2",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "source_reliability"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "shared-source-deadline",
+    "description": "多个判断依赖同一条转述 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-shared-source-deadline",
+      "description": "多个判断依赖同一条转述",
+      "handoff": {
+        "case_id": "m3-long-shared-source-deadline",
+        "thread_id": "m2:m3-long-shared-source-deadline",
+        "case_revision": 0,
+        "reason": "多个判断依赖同一条转述；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "three reports may all repeat the same operator message",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent provider observation",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "ready_for_m2",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "source_reliability"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "shared-source-correction",
+    "description": "多个判断依赖同一条转述 / correction",
+    "initial_case": {
+      "case_id": "m3-long-shared-source-correction",
+      "description": "多个判断依赖同一条转述",
+      "handoff": {
+        "case_id": "m3-long-shared-source-correction",
+        "thread_id": "m2:m3-long-shared-source-correction",
+        "case_revision": 0,
+        "reason": "多个判断依赖同一条转述",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "three reports may all repeat the same operator message",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "independent provider observation",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "independent_review"
+      },
+      "allowed_statuses": [
+        "evidence_required",
+        "ready_for_m2",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "independent_review"
+      ],
+      "maximum_agents": 2,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-shared-source-correction",
+      "thread_id": "m2:m3-long-shared-source-correction",
+      "case_revision": 1,
+      "reason": "多个判断依赖同一条转述；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "three reports may all repeat the same operator message",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "independent provider observation",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "verified_capabilities": [
+      "source_reliability"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "changing-facts-fragmented",
+    "description": "用户补充事实推翻初始方向 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-changing-facts-fragmented",
+      "description": "用户补充事实推翻初始方向",
+      "handoff": {
+        "case_id": "m3-long-changing-facts-fragmented",
+        "thread_id": "m2:m3-long-changing-facts-fragmented",
+        "case_revision": 0,
+        "reason": "用户补充事实推翻初始方向",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "network_check",
+            "observation": "initial device reports timeout"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "DNS failure",
+            "strength": "low"
+          },
+          {
+            "statement": "device-local credential state",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "cross-device comparison",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "changing-facts-deadline",
+    "description": "用户补充事实推翻初始方向 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-changing-facts-deadline",
+      "description": "用户补充事实推翻初始方向",
+      "handoff": {
+        "case_id": "m3-long-changing-facts-deadline",
+        "thread_id": "m2:m3-long-changing-facts-deadline",
+        "case_revision": 0,
+        "reason": "用户补充事实推翻初始方向；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "network_check",
+            "observation": "initial device reports timeout"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "DNS failure",
+            "strength": "low"
+          },
+          {
+            "statement": "device-local credential state",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "cross-device comparison",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "changing-facts-correction",
+    "description": "用户补充事实推翻初始方向 / correction",
+    "initial_case": {
+      "case_id": "m3-long-changing-facts-correction",
+      "description": "用户补充事实推翻初始方向",
+      "handoff": {
+        "case_id": "m3-long-changing-facts-correction",
+        "thread_id": "m2:m3-long-changing-facts-correction",
+        "case_revision": 0,
+        "reason": "用户补充事实推翻初始方向",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "network_check",
+            "observation": "initial device reports timeout"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "DNS failure",
+            "strength": "low"
+          },
+          {
+            "statement": "device-local credential state",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "cross-device comparison",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": false
+        },
+        "suggested_collaboration_mode": "diverse_exploration"
+      },
+      "allowed_statuses": [
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "diverse_exploration"
+      ],
+      "maximum_agents": 3,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-changing-facts-correction",
+      "thread_id": "m2:m3-long-changing-facts-correction",
+      "case_revision": 1,
+      "reason": "用户补充事实推翻初始方向；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "network_check",
+          "observation": "initial device reports timeout"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "DNS failure",
+          "strength": "low"
+        },
+        {
+          "statement": "device-local credential state",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "cross-device comparison",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": false
+      },
+      "suggested_collaboration_mode": "diverse_exploration"
+    },
+    "verified_capabilities": [
+      "counter_hypothesis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "permission-boundary-fragmented",
+    "description": "需要真实生产权限和责任人 / fragmented",
+    "initial_case": {
+      "case_id": "m3-long-permission-boundary-fragmented",
+      "description": "需要真实生产权限和责任人",
+      "handoff": {
+        "case_id": "m3-long-permission-boundary-fragmented",
+        "thread_id": "m2:m3-long-permission-boundary-fragmented",
+        "case_revision": 0,
+        "reason": "需要真实生产权限和责任人",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "readonly_status",
+            "observation": "production mitigation requires privileged approval"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "safe mitigation exists but cannot be authorized by the agent",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "responsible human approval",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": true
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "human_required",
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "permission-boundary-deadline",
+    "description": "需要真实生产权限和责任人 / deadline",
+    "initial_case": {
+      "case_id": "m3-long-permission-boundary-deadline",
+      "description": "需要真实生产权限和责任人",
+      "handoff": {
+        "case_id": "m3-long-permission-boundary-deadline",
+        "thread_id": "m2:m3-long-permission-boundary-deadline",
+        "case_revision": 0,
+        "reason": "需要真实生产权限和责任人；用户正在催促，只愿意看必要步骤",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因",
+          "deadline_minutes": 12
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "readonly_status",
+            "observation": "production mitigation requires privileged approval"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "safe mitigation exists but cannot be authorized by the agent",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "responsible human approval",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": true
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "human_required",
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": null,
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  },
+  {
+    "episode_id": "permission-boundary-correction",
+    "description": "需要真实生产权限和责任人 / correction",
+    "initial_case": {
+      "case_id": "m3-long-permission-boundary-correction",
+      "description": "需要真实生产权限和责任人",
+      "handoff": {
+        "case_id": "m3-long-permission-boundary-correction",
+        "thread_id": "m2:m3-long-permission-boundary-correction",
+        "case_revision": 0,
+        "reason": "需要真实生产权限和责任人",
+        "goal": {
+          "current_outcome": "先让当前事情恢复，再解释必要原因"
+        },
+        "action_constraints": {
+          "restricted_operation_modes": [
+            "production_write"
+          ],
+          "prefer_reversible": true
+        },
+        "reported_evidence": [
+          {
+            "key": "user_dump",
+            "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+            "epistemic_status": "reported_observation"
+          },
+          {
+            "key": "user_guess",
+            "value": "我觉得肯定是服务器坏了，但我也不确定",
+            "epistemic_status": "reported_hypothesis"
+          }
+        ],
+        "observed_evidence": [
+          {
+            "tool_id": "readonly_status",
+            "observation": "production mitigation requires privileged approval"
+          }
+        ],
+        "confirmed_facts": [],
+        "competing_explanations": [
+          {
+            "statement": "safe mitigation exists but cannot be authorized by the agent",
+            "strength": "low"
+          }
+        ],
+        "failed_directions": [
+          {
+            "tool_id": "first_attempt",
+            "status": "failed",
+            "observation": "no change"
+          }
+        ],
+        "prohibited_retries": [
+          "first_attempt:{}"
+        ],
+        "open_evidence": [
+          {
+            "key": "responsible human approval",
+            "available_via": "read-only adapter"
+          }
+        ],
+        "permission_boundary": [
+          "production_write"
+        ],
+        "coordination_structure": {
+          "parallelism_known": false,
+          "independent_workstreams": [],
+          "serial_dependencies": [],
+          "blocking_evidence": [],
+          "human_authority_required": true
+        },
+        "suggested_collaboration_mode": "specialist_handoff"
+      },
+      "allowed_statuses": [
+        "human_required",
+        "ready_for_m2",
+        "evidence_required",
+        "no_benefit"
+      ],
+      "expected_modes": [
+        "specialist_handoff"
+      ],
+      "maximum_agents": 1,
+      "fixed_baseline_agents": 3
+    },
+    "updated_handoff": {
+      "case_id": "m3-long-permission-boundary-correction",
+      "thread_id": "m2:m3-long-permission-boundary-correction",
+      "case_revision": 1,
+      "reason": "需要真实生产权限和责任人；新事实到达，旧协作输出必须失效",
+      "goal": {
+        "current_outcome": "先让当前事情恢复，再解释必要原因"
+      },
+      "action_constraints": {
+        "restricted_operation_modes": [
+          "production_write"
+        ],
+        "prefer_reversible": true
+      },
+      "reported_evidence": [
+        {
+          "key": "user_dump",
+          "value": "刚才还行 现在不行 我点过两次 反正就卡着",
+          "epistemic_status": "reported_observation"
+        },
+        {
+          "key": "user_guess",
+          "value": "我觉得肯定是服务器坏了，但我也不确定",
+          "epistemic_status": "reported_hypothesis"
+        },
+        {
+          "key": "late_correction",
+          "value": "等下，我刚发现之前说反了；另一个设备其实正常",
+          "epistemic_status": "reported_observation"
+        }
+      ],
+      "observed_evidence": [
+        {
+          "tool_id": "readonly_status",
+          "observation": "production mitigation requires privileged approval"
+        }
+      ],
+      "confirmed_facts": [],
+      "competing_explanations": [
+        {
+          "statement": "safe mitigation exists but cannot be authorized by the agent",
+          "strength": "low"
+        }
+      ],
+      "failed_directions": [
+        {
+          "tool_id": "first_attempt",
+          "status": "failed",
+          "observation": "no change"
+        }
+      ],
+      "prohibited_retries": [
+        "first_attempt:{}"
+      ],
+      "open_evidence": [
+        {
+          "key": "responsible human approval",
+          "available_via": "read-only adapter"
+        }
+      ],
+      "permission_boundary": [
+        "production_write"
+      ],
+      "coordination_structure": {
+        "parallelism_known": false,
+        "independent_workstreams": [],
+        "serial_dependencies": [],
+        "blocking_evidence": [],
+        "human_authority_required": true
+      },
+      "suggested_collaboration_mode": "specialist_handoff"
+    },
+    "verified_capabilities": [
+      "boundary_analysis"
+    ],
+    "verification_success": true
+  }
+]

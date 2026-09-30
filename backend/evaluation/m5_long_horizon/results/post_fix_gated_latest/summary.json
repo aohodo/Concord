@@ -1,0 +1,14 @@
+{
+  "episodes": 2,
+  "passed": 1,
+  "failed": 1,
+  "failure_labels": {
+    "UNEXPECTED_FINAL_STATUS:evidence_required": 1
+  },
+  "coverage_notes": {},
+  "interaction": {
+    "average_turns": 2.5,
+    "average_user_input_characters": 153.0,
+    "average_assistant_response_characters": 238.5
+  }
+}

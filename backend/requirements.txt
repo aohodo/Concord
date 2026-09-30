@@ -1,0 +1,24 @@
+# Model and agent control
+anthropic==0.40.0
+openai==3.19.2
+langgraph>=1.2,<2.0
+langgraph-checkpoint-sqlite>=3.1,<4.0
+aiosqlite>=0.20,<1.0
+langchain-core>=1.4.7,<2.0
+langsmith>=0.4,<1.0
+
+# HTTP API
+fastapi==0.142.2
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+python-multipart==0.0.32
+
+# Storage
+redis==5.2.1
+
+# Observability and HTTP
+prometheus-client==0.21.1
+httpx==0.28.1
+
+# Configuration
+python-dotenv==1.2.3

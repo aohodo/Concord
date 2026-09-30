@@ -1,0 +1,387 @@
+[
+  {
+    "trajectory_id": "vpn_rapid_fragment_burst",
+    "base_scenario_id": "vpn_stale_credential",
+    "initial_user_report": "公司那个内网的又不行了。",
+    "initial_user_hypothesis": "不知道，反正网络看起来没断。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": [
+          "等下",
+          "我今天好像改过密码",
+          "十五分钟后要演示 手机热点能上外网",
+          "别再让我重启了已经弄很多次"
+        ],
+        "interarrival_ms": [0, 620, 410, 530],
+        "evidence": [
+          {
+            "key": "password_changed_today",
+            "value": true,
+            "epistemic_status": "reported_observation",
+            "source": "user"
+          },
+          {
+            "key": "public_network_reachable",
+            "value": true,
+            "epistemic_status": "reported_observation",
+            "source": "user"
+          },
+          {
+            "key": "restart_attempts",
+            "value": "multiple_without_progress",
+            "epistemic_status": "reported_action",
+            "source": "user"
+          }
+        ],
+        "user_state_update": {
+          "urgency": "deadline",
+          "frustration": "high",
+          "reading_budget": "minimal",
+          "deadline_minutes": 15
+        }
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 4,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "webhook_user_corrects_hypothesis",
+    "base_scenario_id": "saas_webhook_secret",
+    "initial_user_report": "回调全失败了，应该是对面挂了。",
+    "initial_user_hypothesis": "第三方服务宕机。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": [
+          "刚问了对方",
+          "他们服务没挂",
+          "昨天我们这边换过密钥 但我不确定谁同步了"
+        ],
+        "interarrival_ms": [0, 780, 1160],
+        "evidence": [
+          {
+            "key": "provider_status_report",
+            "value": "reachable",
+            "epistemic_status": "reported_observation",
+            "source": "user_via_provider"
+          },
+          {
+            "key": "secret_rotated_yesterday",
+            "value": true,
+            "epistemic_status": "reported_observation",
+            "source": "user"
+          }
+        ],
+        "user_state_update": {
+          "urgency": "high",
+          "frustration": "medium",
+          "reading_budget": "short"
+        }
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 4,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "spooler_repeated_action_warning",
+    "base_scenario_id": "logistics_spooler_backlog",
+    "initial_user_report": "面单机不出纸，仓库已经堵住了。",
+    "initial_user_hypothesis": "打印机坏了。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": [
+          "打印机我重启八次了",
+          "不要再让我重启",
+          "刚才有人一直点打印 现在队列三十多条"
+        ],
+        "interarrival_ms": [0, 350, 690],
+        "evidence": [
+          {
+            "key": "printer_restart_attempts",
+            "value": 8,
+            "epistemic_status": "reported_action",
+            "source": "user"
+          },
+          {
+            "key": "queue_growth_after_repeated_clicks",
+            "value": true,
+            "epistemic_status": "reported_observation",
+            "source": "user"
+          }
+        ],
+        "user_state_update": {
+          "urgency": "high",
+          "frustration": "high",
+          "reading_budget": "minimal",
+          "avoid_repeated_actions": ["restart_printer"]
+        }
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 4,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "config_goal_becomes_deadline",
+    "base_scenario_id": "conflicting_config_reports",
+    "initial_user_report": "发布成功但页面还是旧的，想查清楚是哪一层的问题。",
+    "initial_user_hypothesis": "可能是浏览器缓存。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": [
+          "先别深挖了",
+          "客户马上要验收",
+          "先让功能出来 根因后面补"
+        ],
+        "interarrival_ms": [0, 440, 510],
+        "evidence": [
+          {
+            "key": "customer_acceptance_imminent",
+            "value": true,
+            "epistemic_status": "reported_constraint",
+            "source": "user"
+          }
+        ],
+        "user_state_update": {
+          "urgency": "deadline",
+          "reading_budget": "minimal",
+          "resolution_preference": "restore_first"
+        },
+        "goal_update": "先恢复功能可见性，根因分析延后",
+        "success_criteria_update": ["ui.feature_visible=true"]
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 4,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "inventory_user_retracts_cache_claim",
+    "base_scenario_id": "inventory_cache_stale",
+    "initial_user_report": "库存页面不对，我觉得肯定是数据库坏了。",
+    "initial_user_hypothesis": "数据库损坏。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["刚才那句数据库坏了是我猜的", "同事说后台权威库存其实有货", "前台还是显示没货"],
+        "interarrival_ms": [0, 480, 360],
+        "evidence": [
+          {"key": "database_damage_claim_retracted", "value": true, "epistemic_status": "user_correction", "source": "user"},
+          {"key": "authoritative_inventory", "value": "in_stock", "epistemic_status": "reported_observation", "source": "user_via_colleague"}
+        ],
+        "user_state_update": {"reading_budget": "short"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "dependency_topic_drift_keeps_mainline",
+    "base_scenario_id": "dependency_failover",
+    "initial_user_report": "主服务一直报错，先恢复可用性。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["另外报表颜色也不对", "那个不急先别管", "主服务客户正在用"],
+        "interarrival_ms": [0, 220, 330],
+        "evidence": [
+          {"key": "secondary_report_ui_issue", "value": "report_color_wrong", "epistemic_status": "reported_observation", "source": "user"},
+          {"key": "secondary_issue_disposition", "value": "deferred", "epistemic_status": "reported_constraint", "source": "user"}
+        ],
+        "user_state_update": {"urgency": "high", "resolution_preference": "restore_first", "reading_budget": "minimal"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "async_user_returns_after_delay",
+    "base_scenario_id": "asynchronous_recovery",
+    "initial_user_report": "任务都不跑了，我先去开会，你查。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["我回来了", "页面显示启动任务还在处理中", "不要重复点启动"],
+        "interarrival_ms": [1800000, 400, 600],
+        "evidence": [
+          {"key": "provider_job_state", "value": "pending", "epistemic_status": "reported_observation", "source": "user"},
+          {"key": "duplicate_start_forbidden", "value": true, "epistemic_status": "reported_constraint", "source": "user"}
+        ],
+        "user_state_update": {"avoid_repeated_actions": ["start_worker"], "progress_preference": "milestones"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "prediction_mismatch", "verification_complete"],
+      "max_total_model_calls": 6,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "webhook_false_confirmation_corrected",
+    "base_scenario_id": "saas_webhook_secret",
+    "initial_user_report": "好像恢复了，控制台有一条绿的。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["不对我看错环境了", "生产还是全部失败", "刚才绿色那条是测试环境"],
+        "interarrival_ms": [0, 260, 340],
+        "evidence": [
+          {"key": "prior_success_retracted", "value": true, "epistemic_status": "user_correction", "source": "user"},
+          {"key": "production_delivery", "value": "failed", "epistemic_status": "reported_observation", "source": "user"}
+        ],
+        "user_state_update": {"frustration": "medium", "reading_budget": "short"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "education_frustration_deescalates_after_progress",
+    "base_scenario_id": "education_sso_clock_drift",
+    "initial_user_report": "学生全登不上去马上开考了，快点！",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["看到你已经在检查了", "我先通知监考延迟两分钟", "有进度直接告诉我结果"],
+        "interarrival_ms": [0, 900, 510],
+        "evidence": [
+          {"key": "temporary_operational_buffer", "value": "two_minutes", "epistemic_status": "reported_constraint", "source": "user"}
+        ],
+        "user_state_update": {"urgency": "deadline", "frustration": "medium", "progress_preference": "milestones", "reading_budget": "minimal"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "permission_granted_midcase",
+    "base_scenario_id": "permission_boundary",
+    "initial_user_report": "共享盘离线了，我现在没有服务启动权限。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["管理员刚给了临时操作权限", "可以在模拟环境启动文件服务", "操作后帮我确认共享盘真的在线"],
+        "interarrival_ms": [0, 370, 610],
+        "evidence": [
+          {"key": "temporary_permission_granted", "value": "simulation:act", "epistemic_status": "reported_observation", "source": "user"}
+        ],
+        "permissions_update": ["simulation:act"],
+        "user_state_update": {"urgency": "high"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "config_screenshot_adds_visual_evidence",
+    "base_scenario_id": "conflicting_config_reports",
+    "initial_user_report": "发布显示成功，但页面看起来没变化。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["我补一张运行状态截图", "截图上当前版本和发布版本不一样"],
+        "interarrival_ms": [0, 720],
+        "image_evidence": {
+          "observations": ["运行状态面板显示 current=old"],
+          "visible_text": ["deployed=new", "current=old"],
+          "uncertainties": ["截图时间不可见"]
+        },
+        "evidence": [
+          {"key": "screenshot_environment", "value": "production", "epistemic_status": "reported_observation", "source": "user"}
+        ],
+        "user_state_update": {"explanation_preference": "on_demand"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  },
+  {
+    "trajectory_id": "vpn_multiple_fragments_change_priority",
+    "base_scenario_id": "vpn_stale_credential",
+    "initial_user_report": "连不上。",
+    "episode_decision_budgets": [1, 4],
+    "user_bursts": [
+      {
+        "after_episode": 1,
+        "raw_messages": ["是公司内网那个", "网页能开", "刚改密码", "十分钟后要用", "先恢复别讲太多"],
+        "interarrival_ms": [0, 160, 190, 210, 180],
+        "evidence": [
+          {"key": "public_web_access", "value": true, "epistemic_status": "reported_observation", "source": "user"},
+          {"key": "password_recently_changed", "value": true, "epistemic_status": "reported_observation", "source": "user"}
+        ],
+        "user_state_update": {"urgency": "deadline", "deadline_minutes": 10, "reading_budget": "minimal", "resolution_preference": "restore_first"}
+      }
+    ],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["user_evidence_updated", "verification_complete"],
+      "max_total_model_calls": 5,
+      "require_single_bootstrap": true,
+      "require_user_progress": true
+    }
+  }
+]

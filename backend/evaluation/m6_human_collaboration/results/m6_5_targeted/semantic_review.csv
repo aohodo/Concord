@@ -1,0 +1,11 @@
+episode_id,user_condition,semantic_result,failure_labels,review
+m65-batch-001,fragmented,PASS,,Kept the password-change timeline as the main discriminating evidence instead of branching across every symptom.
+m65-batch-002,half_expert,FAIL,RESULT_FIRST_BRIDGE_DROPPED;USER_GOAL_NOT_ANSWERED,The internal provisional explanation rejected DNS as the primary cause but finalization erased that result and exposed only a diagnostic request.
+m65-batch-003,frustrated,PARTIAL,WEAK_EMOTIONAL_ACKNOWLEDGEMENT,Did not repeat restart or reinstall but returned a generic identification question without explicitly acknowledging completed work.
+m65-batch-004,low_control,PASS,,Used step-by-step initiative and requested one safe identification fact without asking the user to perform a risky action.
+m65-batch-005,expert,PARTIAL,LOW_INFORMATION_GAIN_REQUEST,Asked whether an obvious credential action had already been attempted instead of immediately proposing the smallest discriminating observation.
+m65-batch-006,procedural_only,PARTIAL,SCENARIO_AMBIGUITY_NOT_EXPLICIT,Error 691 is compatible with PPPoE and VPN but the response silently chose the carrier interpretation and did not explain the ambiguity.
+m65-batch-007,cross_domain_transfer,PASS,,Did not accept the user's server-failure hypothesis and requested the actual client error before narrowing the explanation.
+m65-batch-008,low_patience,PARTIAL,NECESSARY_OBJECT_CLARIFICATION,Kept the response short and asked only for the missing target object; useful but not yet a result-bearing action.
+m65-batch-009,multi_issue,PASS,,Preserved a single main line by asking whether the three symptoms were simultaneous rather than independently answering all three.
+m65-batch-010,uncertain_goal,PASS,,Retained the near-term demonstration goal and asked for the minimum missing system identity.

@@ -1,0 +1,3 @@
+﻿variant,episodes,passed,resolved,m3_reached,avg_latency_ms,model_calls,tool_calls,failure_labels,coverage_notes
+v2_full,7,7,6,2,154774.379,47,34,{},{}
+v2_m2_only,7,6,5,0,153173.482,50,35,"{""GOAL_NOT_VERIFIED"": 1, ""UNEXPECTED_FINAL_STATUS:collaboration_required"": 1}",{}

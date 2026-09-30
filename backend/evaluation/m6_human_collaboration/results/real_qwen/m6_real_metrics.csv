@@ -1,0 +1,5 @@
+﻿episode_id,domain,user_condition,passed,final_status,turns,user_chars,latency_ms,mean_turn_latency_ms,first_effective_action_ms,model_calls,tool_calls,expression_depth,primary_chars,deferred_chars,mean_primary_chars_per_turn,repeated_execute_actions,progress_events,turn_received_visible,effort_accounted,goal_revisions,goal_correction_recovered,recorded_primary_chars
+saas_webhook_secret__fragmented_novice,saas_operations,fragmented_novice,True,resolved,3,97,159353.983,53100.99833333333,42674.89599999999,7,5,guided,320,0,106.66666666666667,0,21,True,True,1,True,320
+education_sso_clock_drift__deadline_result_first,education_it,deadline_result_first,True,resolved,2,79,125005.462,62486.998,48030.607,6,5,minimal,40,0,20.0,0,14,True,True,0,False,40
+logistics_spooler_backlog__self_correction,logistics,self_correction,True,resolved,3,237,153929.221,51301.246333333336,53871.293,7,5,guided,378,0,126.0,0,21,True,True,1,True,378
+permission_boundary__fragmented_novice,enterprise_it,fragmented_novice,True,human_required,3,61,119734.09,39814.632000000005,23890.612,6,2,guided,204,0,68.0,0,36,True,True,1,True,204

@@ -1,0 +1,55 @@
+# Secrets and local configuration
+**/.env
+!**/.env.example
+
+# Private local documentation (never publish)
+/docs/
+/文档+简历/
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+**/*.egg-info/
+**/.venv/
+**/venv/
+**/.pytest_cache/
+/.pytest-tmp/
+
+# Node.js
+**/node_modules/
+**/dist/
+
+# Java and Maven
+**/target/
+**/.mvn/apache-maven-*/
+**/.mvn/apache-maven-*-bin.zip
+
+# Runtime data
+**/data/
+**/logs/
+**/*.sqlite3
+**/*.log
+
+# Synthetic, non-sensitive evaluation catalogs are source fixtures.
+!backend/evaluation/m2_resolution/data/
+!backend/evaluation/m2_resolution/data/*.json
+!backend/evaluation/m3_collaboration/data/
+!backend/evaluation/m3_collaboration/data/*.json
+!backend/evaluation/m3_collaboration/results/
+!backend/evaluation/m3_collaboration/results/*.jsonl
+!backend/evaluation/m3_collaboration/results/README.md
+!backend/evaluation/m3_collaboration/results/*.md
+!backend/evaluation/m3_collaboration/results/*.csv
+!backend/evaluation/m3_collaboration/results/*.json
+
+# IDE and OS
+**/.idea/
+**/.vscode/
+**/.DS_Store
+**/Thumbs.db
+
+# Temporary files
+**/*~
+**/*.bak
+**/*.swp
+**/*.swo

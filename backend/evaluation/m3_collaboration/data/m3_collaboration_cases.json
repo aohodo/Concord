@@ -1,0 +1,180 @@
+[
+  {
+    "case_id": "m3-low-value-no-recruitment",
+    "description": "M2 已有单一低风险可验证方向，不应为了形式扩员",
+    "handoff": {
+      "case_id": "m3-low-value-no-recruitment",
+      "thread_id": "m2:m3-low-value-no-recruitment",
+      "reason": "requested review despite a single reversible next observation",
+      "goal": {"current_outcome": "确认缓存刷新后的状态"},
+      "reported_evidence": [],
+      "observed_evidence": [{"tool_id": "health", "observation": "refresh pending"}],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [],
+      "open_evidence": [{"key": "post_refresh_health", "available_via": "health tool"}],
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "allowed_statuses": ["no_benefit", "ready_for_m2"],
+    "expected_modes": ["independent_review"],
+    "maximum_agents": 1,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-capability-boundary",
+    "description": "当前能力边界只需要一名真正匹配的专家",
+    "handoff": {
+      "case_id": "m3-capability-boundary",
+      "thread_id": "m2:m3-capability-boundary",
+      "reason": "current runtime cannot interpret a vendor-specific authentication trace",
+      "goal": {"current_outcome": "定位认证失败环节"},
+      "reported_evidence": [{"key": "error", "value": "vendor trace attached", "epistemic_status": "reported_observation"}],
+      "observed_evidence": [],
+      "confirmed_facts": [],
+      "competing_explanations": [{"statement": "vendor token exchange may be rejected"}],
+      "failed_directions": [],
+      "open_evidence": [],
+      "suggested_collaboration_mode": "specialist_handoff"
+    },
+    "allowed_statuses": ["ready_for_m2", "evidence_required", "human_required"],
+    "expected_modes": ["specialist_handoff"],
+    "maximum_agents": 1,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-urgent-independent-directions",
+    "description": "截止时间前存在两个互不依赖的调查方向",
+    "handoff": {
+      "case_id": "m3-urgent-independent-directions",
+      "thread_id": "m2:m3-urgent-independent-directions",
+      "reason": "deadline in ten minutes and two independent failure surfaces remain",
+      "goal": {"current_outcome": "十分钟内恢复演示环境"},
+      "reported_evidence": [{"key": "deadline_minutes", "value": 10, "epistemic_status": "reported_constraint"}],
+      "observed_evidence": [{"tool_id": "health", "observation": "application degraded"}],
+      "confirmed_facts": [],
+      "competing_explanations": [{"statement": "credential path"}, {"statement": "dependency path"}],
+      "failed_directions": [],
+      "open_evidence": [],
+      "coordination_structure": {
+        "parallelism_known": true,
+        "independent_workstreams": ["credential path", "dependency path"]
+      },
+      "suggested_collaboration_mode": "parallel_workers"
+    },
+    "allowed_statuses": ["ready_for_m2", "evidence_required"],
+    "expected_modes": ["parallel_workers"],
+    "maximum_agents": 3,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-high-risk-review",
+    "description": "已有高风险恢复建议，应独立复核而不是继续发散",
+    "handoff": {
+      "case_id": "m3-high-risk-review",
+      "thread_id": "m2:m3-high-risk-review",
+      "reason": "candidate action may cause irreversible data loss",
+      "goal": {"current_outcome": "恢复服务且不得损坏数据"},
+      "action_constraints": {"restricted_operation_modes": ["production_write"]},
+      "reported_evidence": [],
+      "observed_evidence": [{"tool_id": "storage_health", "observation": "replica lagging"}],
+      "confirmed_facts": [],
+      "competing_explanations": [{"statement": "replica metadata may be corrupt"}],
+      "failed_directions": [{"tool_id": "safe_restart", "status": "failed"}],
+      "open_evidence": [],
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "allowed_statuses": ["ready_for_m2", "evidence_required", "human_required"],
+    "expected_modes": ["independent_review"],
+    "maximum_agents": 2,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-search-stagnation",
+    "description": "连续方向无进展，需要独立替代路径打破锚定",
+    "handoff": {
+      "case_id": "m3-search-stagnation",
+      "thread_id": "m2:m3-search-stagnation",
+      "reason": "three consecutive tool steps produced no progress",
+      "goal": {"current_outcome": "解释间歇性失败并恢复稳定"},
+      "reported_evidence": [],
+      "observed_evidence": [{"tool_id": "logs", "observation": "no matching error"}],
+      "confirmed_facts": [],
+      "competing_explanations": [{"statement": "network jitter"}],
+      "failed_directions": [{"tool_id": "network_check", "status": "succeeded", "observation": "normal"}],
+      "open_evidence": [],
+      "suggested_collaboration_mode": "diverse_exploration"
+    },
+    "allowed_statuses": ["ready_for_m2", "evidence_required", "exhausted"],
+    "expected_modes": ["diverse_exploration"],
+    "maximum_agents": 3,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-fact-conflict",
+    "description": "两个来源对同一事实冲突，必须重新取证而不是投票",
+    "handoff": {
+      "case_id": "m3-fact-conflict",
+      "thread_id": "m2:m3-fact-conflict",
+      "reason": "sources disagree about the deployed version",
+      "goal": {"current_outcome": "确认是否需要版本回滚"},
+      "reported_evidence": [{"key": "operator_report", "value": "version 7", "epistemic_status": "reported_observation"}],
+      "observed_evidence": [{"tool_id": "provider_api", "observation": "version 8", "reliability": 0.9}],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [],
+      "open_evidence": [],
+      "suggested_collaboration_mode": "independent_review"
+    },
+    "allowed_statuses": ["evidence_required"],
+    "expected_modes": ["independent_review"],
+    "maximum_agents": 2,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-goal-conflict",
+    "description": "恢复优先与彻底根因分析发生目标冲突，应回到用户目标",
+    "handoff": {
+      "case_id": "m3-goal-conflict",
+      "thread_id": "m2:m3-goal-conflict",
+      "reason": "recommended directions optimize incompatible outcomes",
+      "goal": {"current_outcome": "尚未确认恢复优先还是根因优先"},
+      "reported_evidence": [],
+      "observed_evidence": [],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [],
+      "open_evidence": [],
+      "suggested_collaboration_mode": "specialist_handoff"
+    },
+    "allowed_statuses": ["goal_alignment_required", "no_benefit"],
+    "expected_modes": ["specialist_handoff"],
+    "maximum_agents": 2,
+    "fixed_baseline_agents": 3
+  },
+  {
+    "case_id": "m3-serial-dependency",
+    "description": "下一步依赖前一步结果，不应错误并行多个 Agent",
+    "handoff": {
+      "case_id": "m3-serial-dependency",
+      "thread_id": "m2:m3-serial-dependency",
+      "reason": "only one authoritative observation can unlock later decisions",
+      "goal": {"current_outcome": "先确认任务真实状态"},
+      "reported_evidence": [],
+      "observed_evidence": [{"tool_id": "job_submit", "observation": "accepted"}],
+      "confirmed_facts": [],
+      "competing_explanations": [],
+      "failed_directions": [],
+      "open_evidence": [{"key": "provider_job_state", "available_via": "poll"}],
+      "coordination_structure": {
+        "parallelism_known": true,
+        "serial_dependencies": ["provider job state before later decisions"],
+        "blocking_evidence": ["provider_job_state"]
+      },
+      "suggested_collaboration_mode": "parallel_workers"
+    },
+    "allowed_statuses": ["no_benefit", "ready_for_m2"],
+    "expected_modes": ["parallel_workers", "specialist_handoff"],
+    "maximum_agents": 1,
+    "fixed_baseline_agents": 3
+  }
+]

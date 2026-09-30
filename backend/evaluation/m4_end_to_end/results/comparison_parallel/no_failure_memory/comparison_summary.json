@@ -1,0 +1,28 @@
+[
+  {
+    "variant": "v2_full",
+    "episodes": 7,
+    "passed": 7,
+    "resolved": 6,
+    "m3_reached": 2,
+    "avg_latency_ms": 154774.379,
+    "model_calls": 47,
+    "tool_calls": 34,
+    "failure_labels": {},
+    "coverage_notes": {}
+  },
+  {
+    "variant": "v2_no_failure_memory",
+    "episodes": 7,
+    "passed": 7,
+    "resolved": 6,
+    "m3_reached": 1,
+    "avg_latency_ms": 139403.057,
+    "model_calls": 45,
+    "tool_calls": 34,
+    "failure_labels": {},
+    "coverage_notes": {
+      "M3_COVERAGE_NOT_REACHED": 1
+    }
+  }
+]

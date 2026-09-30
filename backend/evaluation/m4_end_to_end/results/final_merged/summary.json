@@ -1,0 +1,11 @@
+{
+  "episodes": 31,
+  "passed": 31,
+  "failed": 0,
+  "failure_labels": {},
+  "interaction": {
+    "average_turns": 2.6129032258064515,
+    "average_user_input_characters": 119.87096774193549,
+    "average_assistant_response_characters": 231.8709677419355
+  }
+}

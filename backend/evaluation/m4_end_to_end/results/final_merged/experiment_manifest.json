@@ -1,0 +1,15 @@
+{
+  "strategy": "later input replaces the same episode_id; every raw source is retained",
+  "catalog_episodes": 31,
+  "replacements": 1,
+  "sources": [
+    {
+      "path": "E:\\personal_project\\Concord\\backend\\evaluation\\m4_end_to_end\\results\\final\\raw_runs.jsonl",
+      "episodes": 31
+    },
+    {
+      "path": "E:\\personal_project\\Concord\\backend\\evaluation\\m4_end_to_end\\results\\vertical_final2\\raw_runs.jsonl",
+      "episodes": 1
+    }
+  ]
+}

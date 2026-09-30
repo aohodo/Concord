@@ -1,0 +1,4 @@
+﻿topology,cases,quality_boundary_passes,judge_passes,judge_partials,judge_failures,average_model_calls,average_agents,average_latency_ms,average_input_tokens,average_output_tokens,average_measured_cost
+adaptive,8,8,8,0,0,2.75,1.12,50744.12,5258.62,3665.5,0.28
+fixed_three,8,6,2,4,2,4.12,3,50511.75,7621.88,4917.75,0.33
+m2_only,8,3,3,0,5,0.0,0,0.0,0.0,0.0,0.0

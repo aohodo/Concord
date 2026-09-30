@@ -1,0 +1,26 @@
+# Prometheus configuration — Concord
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'concord'
+    environment: 'production'
+
+rule_files:
+  - "alerts/*.yml"
+
+scrape_configs:
+  # Concord application metrics
+  - job_name: 'concord-app'
+    static_configs:
+      - targets: ['concord:8000']
+        labels:
+          service: 'concord'
+    scrape_interval: 10s
+    metrics_path: '/metrics'
+
+  # Prometheus 自监控
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

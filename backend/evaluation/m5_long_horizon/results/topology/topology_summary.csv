@@ -1,0 +1,5 @@
+﻿variant,episodes,governance_passed,environment_goal_met,regressed_after_resolution,formulation_errors,m3_reached,model_calls,tool_calls,latency_ms
+v2_m2_only,8,8,8,0,0,0,50,43,117125.17
+v2_always_on_fixed_three,8,0,8,7,0,8,73,44,330838.9
+v2_gated_fixed_three,8,6,8,2,2,1,50,42,118384.73
+v2_full,8,8,8,0,0,1,54,43,133566.87

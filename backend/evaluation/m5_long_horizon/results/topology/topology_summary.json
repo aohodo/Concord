@@ -1,0 +1,50 @@
+[
+  {
+    "variant": "v2_m2_only",
+    "episodes": 8,
+    "governance_passed": 8,
+    "environment_goal_met": 8,
+    "regressed_after_resolution": 0,
+    "formulation_errors": 0,
+    "m3_reached": 0,
+    "model_calls": 50,
+    "tool_calls": 43,
+    "latency_ms": 117125.17
+  },
+  {
+    "variant": "v2_always_on_fixed_three",
+    "episodes": 8,
+    "governance_passed": 0,
+    "environment_goal_met": 8,
+    "regressed_after_resolution": 7,
+    "formulation_errors": 0,
+    "m3_reached": 8,
+    "model_calls": 73,
+    "tool_calls": 44,
+    "latency_ms": 330838.9
+  },
+  {
+    "variant": "v2_gated_fixed_three",
+    "episodes": 8,
+    "governance_passed": 6,
+    "environment_goal_met": 8,
+    "regressed_after_resolution": 2,
+    "formulation_errors": 2,
+    "m3_reached": 1,
+    "model_calls": 50,
+    "tool_calls": 42,
+    "latency_ms": 118384.73
+  },
+  {
+    "variant": "v2_full",
+    "episodes": 8,
+    "governance_passed": 8,
+    "environment_goal_met": 8,
+    "regressed_after_resolution": 0,
+    "formulation_errors": 0,
+    "m3_reached": 1,
+    "model_calls": 54,
+    "tool_calls": 43,
+    "latency_ms": 133566.87
+  }
+]

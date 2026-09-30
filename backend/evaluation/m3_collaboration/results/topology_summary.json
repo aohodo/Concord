@@ -1,0 +1,44 @@
+[
+  {
+    "topology": "adaptive",
+    "cases": 8,
+    "quality_boundary_passes": 8,
+    "judge_passes": 8,
+    "judge_partials": 0,
+    "judge_failures": 0,
+    "average_model_calls": 2.75,
+    "average_agents": 1.12,
+    "average_latency_ms": 50744.12,
+    "average_input_tokens": 5258.62,
+    "average_output_tokens": 3665.5,
+    "average_measured_cost": 0.28
+  },
+  {
+    "topology": "fixed_three",
+    "cases": 8,
+    "quality_boundary_passes": 6,
+    "judge_passes": 2,
+    "judge_partials": 4,
+    "judge_failures": 2,
+    "average_model_calls": 4.12,
+    "average_agents": 3,
+    "average_latency_ms": 50511.75,
+    "average_input_tokens": 7621.88,
+    "average_output_tokens": 4917.75,
+    "average_measured_cost": 0.33
+  },
+  {
+    "topology": "m2_only",
+    "cases": 8,
+    "quality_boundary_passes": 3,
+    "judge_passes": 3,
+    "judge_partials": 0,
+    "judge_failures": 5,
+    "average_model_calls": 0.0,
+    "average_agents": 0,
+    "average_latency_ms": 0.0,
+    "average_input_tokens": 0.0,
+    "average_output_tokens": 0.0,
+    "average_measured_cost": 0.0
+  }
+]

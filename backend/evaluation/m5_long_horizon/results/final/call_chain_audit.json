@@ -1,0 +1,58 @@
+[
+  {
+    "mechanism": "case_user_state",
+    "producer": "core/problem_formulation/models.py:CaseUserState",
+    "transfer": "SharedProblemState.to_resolution_context.user_state",
+    "consumer": "core/adaptive_resolution/graph.py:_select_tool/_finalize",
+    "behavior": "tool latency/burden weights and response load",
+    "evaluations": 22,
+    "activations": 4,
+    "behavior_changes": 4,
+    "downstream_outcomes": 4,
+    "outcome_evidence": "control_event.outcome",
+    "classification": "ACTIVATED_AND_CONSUMED",
+    "effectiveness_evaluable": true
+  },
+  {
+    "mechanism": "failure_memory",
+    "producer": "adaptive_resolution.tool_history",
+    "transfer": "ResolutionGraphState.tool_history",
+    "consumer": "AdaptiveResolutionGraph._same_failed_call",
+    "behavior": "block identical failed call until retry condition changes",
+    "evaluations": 22,
+    "activations": 0,
+    "behavior_changes": 0,
+    "downstream_outcomes": 0,
+    "outcome_evidence": "control_event.outcome",
+    "classification": "EVALUATED_NOT_TRIGGERED",
+    "effectiveness_evaluable": false
+  },
+  {
+    "mechanism": "m3_invocation_policy",
+    "producer": "M2 collaboration_required or explicit control variant",
+    "transfer": "durable collaborate_then_resume CaseJob",
+    "consumer": "DurableCaseJobWorker",
+    "behavior": "avoid or schedule collaboration",
+    "evaluations": 22,
+    "activations": 4,
+    "behavior_changes": 4,
+    "downstream_outcomes": 2,
+    "outcome_evidence": "durable_job_enqueued",
+    "classification": "ACTIVATED_AND_CONSUMED",
+    "effectiveness_evaluable": true
+  },
+  {
+    "mechanism": "adaptive_m3",
+    "producer": "M3 coordinator plan",
+    "transfer": "CollaborationPlan and M2ResumePacket",
+    "consumer": "M3 workers then M2 independent verification",
+    "behavior": "dynamic mode/team/expansion/stopping",
+    "evaluations": 4,
+    "activations": 1,
+    "behavior_changes": 1,
+    "downstream_outcomes": 0,
+    "outcome_evidence": "m2_resumed_after_collaboration",
+    "classification": "ACTIVATED_AND_CONSUMED",
+    "effectiveness_evaluable": false
+  }
+]

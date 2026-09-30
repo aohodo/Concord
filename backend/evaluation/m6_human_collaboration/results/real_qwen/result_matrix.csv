@@ -1,0 +1,5 @@
+﻿domain,deadline_result_first,fragmented_novice,self_correction
+education_it,PASS,NOT_RUN,NOT_RUN
+enterprise_it,NOT_RUN,PASS,NOT_RUN
+logistics,NOT_RUN,NOT_RUN,PASS
+saas_operations,NOT_RUN,PASS,NOT_RUN

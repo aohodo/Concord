@@ -1,0 +1,391 @@
+[
+  {
+    "scenario_id": "vpn_stale_credential",
+    "domain": "enterprise_it",
+    "title": "域密码变更后的 VPN 认证失败",
+    "user_report": "内网那个东西又连不上了，网页能开，刚改过密码，已经重启很多次。",
+    "user_hypothesis": "可能是公司 DNS 坏了。",
+    "urgency": "deadline",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "vpn": "authentication_failed",
+      "access": "blocked",
+      "public_network": "reachable",
+      "client_note": "error 691; cached profile age unknown"
+    },
+    "hidden_state": {"root_cause": "stale_credential"},
+    "action_rules": [
+      {
+        "action_id": "refresh_credential",
+        "description": "刷新本地认证凭据并重新建立会话",
+        "preconditions": [{"path": "vpn", "value": "authentication_failed"}],
+        "effects": [
+          {"path": "vpn", "value": "connected"},
+          {"path": "access", "value": "restored"}
+        ],
+        "success_observation": "凭据刷新请求已执行",
+        "verification_targets": ["vpn", "access"]
+      }
+    ],
+    "goal": "尽快恢复内网访问",
+    "success_criteria": ["access=restored"],
+    "tags": ["dirty_report", "wrong_hypothesis", "deadline"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["bootstrap_complete", "verification_complete"],
+      "required_verification_targets": ["vpn", "access"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "saas_webhook_secret",
+    "domain": "saas_operations",
+    "title": "Webhook 在密钥轮换后持续返回 401",
+    "user_report": "回调从下午开始一会儿好一会儿坏，现在全是401，群里有人说对方服务器挂了。",
+    "user_hypothesis": "第三方接口宕机。",
+    "urgency": "high",
+    "explanation_preference": "on_demand",
+    "visible_state": {
+      "endpoint": {"reachable": true, "latency_ms": 86},
+      "delivery": {"status": "unauthorized", "recent_codes": [200, 401, 401, 401]},
+      "secret": {"local_version": 7, "remote_expected_version": 8},
+      "operator_note": "昨天似乎轮换过，谁操作的不清楚"
+    },
+    "hidden_state": {"root_cause": "stale_webhook_secret"},
+    "action_rules": [
+      {
+        "action_id": "sync_webhook_secret",
+        "description": "从受控配置源同步当前 Webhook 密钥版本",
+        "preconditions": [{"path": "delivery.status", "value": "unauthorized"}],
+        "effects": [
+          {"path": "secret.local_version", "value": 8},
+          {"path": "delivery.status", "value": "accepted"}
+        ],
+        "success_observation": "密钥同步操作已提交",
+        "verification_targets": ["secret.local_version", "delivery.status"]
+      }
+    ],
+    "goal": "恢复 Webhook 投递",
+    "success_criteria": ["delivery.status=accepted"],
+    "tags": ["intermittent_report", "wrong_hypothesis", "version_mismatch"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["secret.local_version", "delivery.status"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "education_sso_clock_drift",
+    "domain": "education_it",
+    "title": "考试平台 SSO 断言时间窗失效",
+    "user_report": "学生都说登录后又跳回登录页，我也不知道是不是账号批量坏了，十分钟后开考。",
+    "user_hypothesis": "学生账号被批量锁定。",
+    "urgency": "deadline",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "sso": {"status": "assertion_rejected", "error": "NotOnOrAfter"},
+      "clock": {"drift_seconds": 427, "source": "local", "last_sync": null},
+      "accounts": {"sample_locked": false, "sample_count": 3},
+      "raw_note": "页面就是转圈然后回来 没截图"
+    },
+    "hidden_state": {"root_cause": "clock_drift"},
+    "action_rules": [
+      {
+        "action_id": "synchronize_clock",
+        "description": "在模拟环境中同步身份服务时钟",
+        "preconditions": [{"path": "clock.drift_seconds", "operator": "ne", "value": 0}],
+        "effects": [
+          {"path": "clock.drift_seconds", "value": 0},
+          {"path": "sso.status", "value": "accepted"}
+        ],
+        "success_observation": "时钟同步已触发",
+        "verification_targets": ["clock.drift_seconds", "sso.status"]
+      }
+    ],
+    "goal": "在开考前恢复学生登录",
+    "success_criteria": ["sso.status=accepted"],
+    "tags": ["deadline", "sparse_report", "null_value", "wrong_hypothesis"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["clock.drift_seconds", "sso.status"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "logistics_spooler_backlog",
+    "domain": "logistics",
+    "title": "仓库面单打印队列卡住",
+    "user_report": "机器灯是绿的但就是不出纸，前面的人点了很多遍，现在单子全混在一起。",
+    "user_hypothesis": "打印机硬件坏了。",
+    "urgency": "high",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "printer": {"hardware": "online", "paper": "ok", "last_error": ""},
+      "spooler": {"status": "stalled", "queued_jobs": 38, "duplicate_jobs": 11},
+      "shipment": {"label_delivery": "blocked"},
+      "note": "有人已经连续点了十几次打印"
+    },
+    "hidden_state": {"root_cause": "spooler_deadlock"},
+    "action_rules": [
+      {
+        "action_id": "restart_spooler_safely",
+        "description": "保留队列记录后重建模拟打印队列",
+        "preconditions": [{"path": "spooler.status", "value": "stalled"}],
+        "effects": [
+          {"path": "spooler.status", "value": "running"},
+          {"path": "shipment.label_delivery", "value": "restored"}
+        ],
+        "success_observation": "队列服务重建已执行",
+        "verification_targets": ["spooler.status", "shipment.label_delivery"]
+      }
+    ],
+    "goal": "恢复面单打印且不要继续制造重复任务",
+    "success_criteria": ["shipment.label_delivery=restored"],
+    "tags": ["repeated_action", "operational_pressure", "wrong_hypothesis"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["spooler.status", "shipment.label_delivery"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "inventory_cache_stale",
+    "domain": "commerce",
+    "title": "库存已入库但前台仍显示无货",
+    "user_report": "仓库说已经有货了，页面还是没货，有时候刷新又闪一下有货，到底哪个是真的？",
+    "user_hypothesis": "数据库数据丢了。",
+    "urgency": "normal",
+    "explanation_preference": "on_demand",
+    "visible_state": {
+      "database": {"stock": 126, "updated_at": "2026-09-28T13:20:00Z"},
+      "cache": {"stock": 0, "age_seconds": 8631, "status": "stale"},
+      "storefront": {"availability": "out_of_stock"},
+      "reports": ["仓库说126", "客服页面显示0", "有人刷新见过1次有货"]
+    },
+    "hidden_state": {"root_cause": "stale_inventory_cache"},
+    "action_rules": [
+      {
+        "action_id": "rebuild_inventory_cache",
+        "description": "从权威库存快照重建模拟缓存",
+        "preconditions": [{"path": "cache.status", "value": "stale"}],
+        "effects": [
+          {"path": "cache.stock", "value": 126},
+          {"path": "cache.status", "value": "fresh"},
+          {"path": "storefront.availability", "value": "in_stock"}
+        ],
+        "success_observation": "缓存重建已执行",
+        "verification_targets": ["cache.status", "storefront.availability"]
+      }
+    ],
+    "goal": "让前台库存与权威库存一致",
+    "success_criteria": ["storefront.availability=in_stock"],
+    "tags": ["conflicting_observations", "stale_data", "wrong_hypothesis"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["cache.status", "storefront.availability"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "dependency_failover",
+    "domain": "platform_operations",
+    "title": "主依赖不可用但备用节点健康",
+    "user_report": "服务一直报上游错误，监控一会儿红一会儿绿，先恢复业务，根因晚点再说。",
+    "urgency": "deadline",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "service": {"status": "degraded", "success_rate": 0.18},
+      "dependency": {
+        "primary": "unreachable",
+        "backup": "healthy",
+        "routing": "primary"
+      },
+      "alerts": ["UPSTREAM_TIMEOUT", "UPSTREAM_TIMEOUT", "probe recovered", "UPSTREAM_TIMEOUT"]
+    },
+    "hidden_state": {"root_cause": "primary_dependency_partition"},
+    "action_rules": [
+      {
+        "action_id": "route_to_backup",
+        "description": "把模拟流量切换到已健康的备用依赖",
+        "preconditions": [{"path": "dependency.backup", "value": "healthy"}],
+        "effects": [
+          {"path": "dependency.routing", "value": "backup"},
+          {"path": "service.status", "value": "healthy"}
+        ],
+        "success_observation": "备用路由切换已提交",
+        "verification_targets": ["dependency.routing", "service.status"]
+      }
+    ],
+    "goal": "优先恢复服务可用性",
+    "success_criteria": ["service.status=healthy"],
+    "tags": ["intermittent_signal", "mitigation_first", "deadline"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["dependency.routing", "service.status"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "write_committed_response_lost",
+    "domain": "platform_operations",
+    "title": "状态变更已提交但响应在网络中丢失",
+    "user_report": "点恢复之后一直转圈，页面说超时，我不知道到底成功没有，也不敢再点。",
+    "user_hypothesis": "恢复操作肯定失败了。",
+    "urgency": "high",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "service": {"status": "degraded"},
+      "operation": {"last_response": "timeout", "commit_status": "unknown"}
+    },
+    "hidden_state": {"root_cause": "transport_loss_after_commit"},
+    "action_rules": [
+      {
+        "action_id": "restore_service",
+        "description": "提交幂等的模拟服务恢复操作",
+        "preconditions": [{"path": "service.status", "value": "degraded"}],
+        "effects": [
+          {"path": "service.status", "value": "healthy"},
+          {"path": "operation.commit_status", "value": "committed"}
+        ],
+        "success_observation": "恢复操作已提交",
+        "verification_targets": ["service.status", "operation.commit_status"]
+      }
+    ],
+    "faults": [
+      {
+        "tool_id": "simulation_execute_action",
+        "kind": "network_lost_after_commit",
+        "phase": "after",
+        "message": "response lost after commit",
+        "retryable": true
+      }
+    ],
+    "goal": "确认操作真实结果并恢复服务",
+    "success_criteria": ["service.status=healthy"],
+    "tags": ["uncertain_commit", "idempotency", "failure_feedback"],
+    "expected": {
+      "allowed_statuses": ["resolved", "collaboration_required"],
+      "required_decision_events": ["tool_failure"],
+      "required_verification_targets": [],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "asynchronous_recovery",
+    "domain": "saas_operations",
+    "title": "恢复动作需要异步生效",
+    "user_report": "已经点了恢复但还是不可用，是不是按钮没用？",
+    "urgency": "normal",
+    "explanation_preference": "on_demand",
+    "visible_state": {
+      "worker": {"status": "stopped"},
+      "jobs": {"processing": "blocked"}
+    },
+    "hidden_state": {"root_cause": "worker_stopped"},
+    "action_rules": [
+      {
+        "action_id": "start_worker",
+        "description": "启动模拟 Worker；操作将在 30 秒虚拟时间后生效",
+        "preconditions": [{"path": "worker.status", "value": "stopped"}],
+        "effects": [
+          {"path": "worker.status", "value": "running"},
+          {"path": "jobs.processing", "value": "restored"}
+        ],
+        "success_observation": "Worker 启动任务已进入队列",
+        "verification_targets": ["worker.status", "jobs.processing"],
+        "delay_seconds": 30
+      }
+    ],
+    "goal": "恢复任务处理并确认不是重复启动",
+    "success_criteria": ["jobs.processing=restored"],
+    "tags": ["delayed_effect", "prediction_error", "user_uncertainty"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["prediction_mismatch", "verification_complete"],
+      "required_verification_targets": ["worker.status", "jobs.processing"],
+      "max_model_calls": 4
+    }
+  },
+  {
+    "scenario_id": "permission_boundary",
+    "domain": "enterprise_it",
+    "title": "可诊断但无权执行恢复动作",
+    "user_report": "共享盘所有人都打不开，我只能看状态，没有管理员权限。",
+    "urgency": "high",
+    "explanation_preference": "minimal",
+    "visible_state": {
+      "share": {"status": "offline", "read_probe": "connection_refused"},
+      "host": {"reachable": true},
+      "operator": {"role": "readonly"}
+    },
+    "hidden_state": {"root_cause": "file_service_stopped"},
+    "action_rules": [
+      {
+        "action_id": "start_file_service",
+        "description": "启动模拟文件服务",
+        "preconditions": [{"path": "share.status", "value": "offline"}],
+        "effects": [{"path": "share.status", "value": "online"}],
+        "success_observation": "文件服务启动已执行",
+        "verification_targets": ["share.status"]
+      }
+    ],
+    "permissions": [],
+    "goal": "恢复共享盘访问",
+    "success_criteria": ["share.status=online"],
+    "tags": ["permission_boundary", "handoff_required"],
+    "expected": {
+      "allowed_statuses": ["collaboration_required"],
+      "required_decision_events": ["bootstrap_complete"],
+      "required_verification_targets": [],
+      "max_model_calls": 2
+    }
+  },
+  {
+    "scenario_id": "conflicting_config_reports",
+    "domain": "software_delivery",
+    "title": "部署后配置来源相互矛盾",
+    "user_report": "发布显示成功，但新功能还是旧样子。开发说配置是开的，运维页面又显示关。",
+    "user_hypothesis": "前端缓存肯定没清。",
+    "urgency": "normal",
+    "explanation_preference": "detailed",
+    "visible_state": {
+      "deployment": {"status": "succeeded", "version": "2026.09.28.4"},
+      "config": {"desired_flag": true, "runtime_flag": false, "source": "old_snapshot"},
+      "ui": {"feature_visible": false},
+      "reports": {
+        "developer": "flag=true",
+        "operations_console": "flag=false",
+        "user": "还是旧页面"
+      }
+    },
+    "hidden_state": {"root_cause": "runtime_config_not_reloaded"},
+    "action_rules": [
+      {
+        "action_id": "reload_runtime_config",
+        "description": "从期望配置重新加载模拟运行时配置",
+        "preconditions": [{"path": "config.runtime_flag", "value": false}],
+        "effects": [
+          {"path": "config.runtime_flag", "value": true},
+          {"path": "config.source", "value": "desired_config"},
+          {"path": "ui.feature_visible", "value": true}
+        ],
+        "success_observation": "运行时配置重载已提交",
+        "verification_targets": ["config.runtime_flag", "ui.feature_visible"]
+      }
+    ],
+    "goal": "使运行状态与已发布配置一致",
+    "success_criteria": ["ui.feature_visible=true"],
+    "tags": ["conflicting_sources", "wrong_hypothesis", "deployment"],
+    "expected": {
+      "allowed_statuses": ["resolved"],
+      "required_decision_events": ["verification_complete"],
+      "required_verification_targets": ["config.runtime_flag", "ui.feature_visible"],
+      "max_model_calls": 4
+    }
+  }
+]

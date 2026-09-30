@@ -1,0 +1,3 @@
+﻿variant,episodes,passed,resolved,m3_reached,avg_latency_ms,model_calls,tool_calls,failure_labels,coverage_notes
+v2_full,7,7,6,2,154774.379,47,34,{},{}
+v2_no_user_state,7,7,6,1,142539.132,45,35,{},"{""M3_COVERAGE_NOT_REACHED"": 1}"

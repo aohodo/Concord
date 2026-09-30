@@ -1,0 +1,13 @@
+﻿case_id,domain,user_condition,expression_depth,progress_cadence,primary_chars,deferred_chars,max_user_actions,detail_preserved,passed
+it_deadline,it,deadline,minimal,milestones,359,180,1,True,True
+saas_frustrated,saas,frustrated,minimal,milestones,359,180,1,True,True
+logistics_novice,logistics,novice,guided,milestones,539,0,1,True,True
+education_fragmented,education,fragmented,guided,every_step,539,0,1,True,True
+finance_expert,finance,expert,expert,milestones,539,0,2,True,True
+medical_detail,medical,detail_request,expert,milestones,539,0,2,True,True
+sales_result,sales,result_first,minimal,milestones,359,180,1,True,True
+repair_shared,repair,shared,guided,milestones,539,0,1,True,True
+merchant_steps,merchant,procedural,guided,milestones,539,0,1,True,True
+cross_border_blockers,cross_border,low_patience,minimal,blockers_only,359,180,1,True,True
+membership_override,membership,preference_correction,expert,milestones,539,0,2,True,True
+promotion_override,promotion,preference_correction,minimal,every_step,359,180,1,True,True

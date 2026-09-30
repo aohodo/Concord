@@ -1,0 +1,55 @@
+{
+  "episodes": 31,
+  "completed": 31,
+  "judge_errors": 0,
+  "dimensions": {
+    "outcome_orientation": {
+      "PARTIAL": 17,
+      "PASS": 10,
+      "FAIL": 4
+    },
+    "cognitive_load": {
+      "FAIL": 6,
+      "PASS": 10,
+      "PARTIAL": 15
+    },
+    "emotional_attunement": {
+      "FAIL": 9,
+      "PASS": 7,
+      "PARTIAL": 15
+    },
+    "progress_truthfulness": {
+      "PASS": 15,
+      "PARTIAL": 11,
+      "FAIL": 5
+    },
+    "failure_memory": {
+      "PASS": 13,
+      "PARTIAL": 7,
+      "NOT_APPLICABLE": 11
+    },
+    "epistemic_humility": {
+      "PARTIAL": 13,
+      "PASS": 17,
+      "FAIL": 1
+    }
+  },
+  "variants": {
+    "v2_full": {
+      "completed": 31,
+      "dimension_verdicts": {
+        "PARTIAL": 78,
+        "FAIL": 25,
+        "PASS": 72,
+        "NOT_APPLICABLE": 11
+      }
+    }
+  },
+  "failure_labels": {
+    "USER_STATE_IGNORED": 18,
+    "HYPOTHESIS_AS_FACT": 2,
+    "GOAL_DRIFT": 7,
+    "FALSE_PROGRESS": 11,
+    "OVERLONG_RESPONSE": 2
+  }
+}

@@ -1,0 +1,5 @@
+﻿mechanism,producer,transfer,consumer,behavior,evaluations,activations,behavior_changes,downstream_outcomes,outcome_evidence,classification,effectiveness_evaluable
+case_user_state,core/problem_formulation/models.py:CaseUserState,SharedProblemState.to_resolution_context.user_state,core/adaptive_resolution/graph.py:_select_tool/_finalize,tool latency/burden weights and response load,22,4,4,4,control_event.outcome,ACTIVATED_AND_CONSUMED,True
+failure_memory,adaptive_resolution.tool_history,ResolutionGraphState.tool_history,AdaptiveResolutionGraph._same_failed_call,block identical failed call until retry condition changes,22,0,0,0,control_event.outcome,EVALUATED_NOT_TRIGGERED,False
+m3_invocation_policy,M2 collaboration_required or explicit control variant,durable collaborate_then_resume CaseJob,DurableCaseJobWorker,avoid or schedule collaboration,22,4,4,2,durable_job_enqueued,ACTIVATED_AND_CONSUMED,True
+adaptive_m3,M3 coordinator plan,CollaborationPlan and M2ResumePacket,M3 workers then M2 independent verification,dynamic mode/team/expansion/stopping,4,1,1,0,m2_resumed_after_collaboration,ACTIVATED_AND_CONSUMED,False
