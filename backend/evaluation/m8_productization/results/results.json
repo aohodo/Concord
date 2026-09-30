@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-09-30T13:39:03.509202+00:00",
+  "checks": [
+    {
+      "name": "backend M1-M7 regression and M8-A call-chain tests",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "backend/tests",
+        "-q"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 9.703,
+      "output_tail": "........................................................................ [ 36%]\n........................................................................ [ 73%]\n.....................................................                    [100%]\n197 passed in 7.35s"
+    },
+    {
+      "name": "longitudinal interaction evaluation protocol",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "evaluation/v2_interaction/tests",
+        "-q"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 1.586,
+      "output_tail": "...............                                                          [100%]\n15 passed in 0.24s"
+    },
+    {
+      "name": "Python lint",
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "backend",
+        "evaluation/v2_interaction"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 0.122,
+      "output_tail": "All checks passed!"
+    },
+    {
+      "name": "tracked public-tree safety",
+      "command": [
+        "python",
+        "backend/evaluation/m8_productization/public_safety.py",
+        "--root",
+        "."
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 2.074,
+      "output_tail": "Public safety scan passed: tracked private docs and obvious secrets not found."
+    },
+    {
+      "name": "Python dependency audit",
+      "command": [
+        "python",
+        "-m",
+        "pip_audit",
+        "-r",
+        "backend/requirements.txt"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 50.935,
+      "output_tail": "No known vulnerabilities found"
+    },
+    {
+      "name": "Vue production build",
+      "command": [
+        "npm",
+        "run",
+        "build",
+        "--prefix",
+        "frontend"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 1.689,
+      "output_tail": "> concord-case-console@8.0.0-alpha.0 build\n> vite build\n\nvite v7.3.5 building client environment for production...\ntransforming...\n✓ 12 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                  0.47 kB │ gzip:  0.30 kB\ndist/assets/index-CxAZsTBD.css  22.13 kB │ gzip:  5.17 kB\ndist/assets/index-PUcpn-tI.js   93.26 kB │ gzip: 35.75 kB\n✓ built in 613ms"
+    },
+    {
+      "name": "frontend high-severity dependency audit",
+      "command": [
+        "npm",
+        "audit",
+        "--audit-level=high",
+        "--prefix",
+        "frontend"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 1.639,
+      "output_tail": "# npm audit report\n\nesbuild  0.27.3 - 0.28.0\nesbuild allows arbitrary file read when running the development server on Windows - https://github.com/advisories/GHSA-g7r4-m6w7-qqqr\nfix available via `npm audit fix`\nnode_modules/esbuild\n\n1 low severity vulnerability\n\nTo address all issues, run:\n  npm audit fix"
+    },
+    {
+      "name": "backend Docker Compose topology",
+      "command": [
+        "docker",
+        "compose",
+        "-f",
+        "backend/docker-compose.yml",
+        "config",
+        "-q"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 0.386,
+      "output_tail": ""
+    },
+    {
+      "name": "frontend Docker Compose topology",
+      "command": [
+        "docker",
+        "compose",
+        "-f",
+        "frontend/docker-compose.yml",
+        "config",
+        "-q"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 0.364,
+      "output_tail": ""
+    }
+  ]
+}

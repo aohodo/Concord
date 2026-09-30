@@ -1,4 +1,7 @@
+import sys
+
 from evaluation.m8_productization.public_safety import scan_paths
+from evaluation.m8_productization.validate import _public_command
 
 
 def test_public_safety_rejects_private_docs_and_secret_material(tmp_path):
@@ -30,3 +33,12 @@ def test_public_safety_accepts_examples_without_credentials(tmp_path):
     example.write_text("OPENAI_API_KEY=your_api_key\n", encoding="utf-8")
 
     assert scan_paths(tmp_path, [example]) == []
+
+
+def test_validation_evidence_hides_local_python_and_workspace_paths(tmp_path):
+    command = _public_command(
+        [sys.executable, "--root", str(tmp_path)],
+        tmp_path,
+    )
+
+    assert command == ["python", "--root", "."]

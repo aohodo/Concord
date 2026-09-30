@@ -13,6 +13,33 @@ from pathlib import Path
 from typing import Any
 
 
+def _public_command(command: list[str], root: Path) -> list[str]:
+    """Remove workstation-specific executable and workspace paths from evidence."""
+
+    rendered: list[str] = []
+    executable_aliases = {
+        str(Path(sys.executable).resolve()).casefold(): "python",
+    }
+    for raw in command:
+        value = str(raw)
+        resolved_alias = executable_aliases.get(str(Path(value).resolve()).casefold())
+        if resolved_alias:
+            rendered.append(resolved_alias)
+            continue
+        if Path(value).name.casefold() in {"npm", "npm.cmd"}:
+            rendered.append("npm")
+            continue
+        if Path(value).name.casefold() in {"docker", "docker.exe"}:
+            rendered.append("docker")
+            continue
+        try:
+            candidate = Path(value).resolve()
+            rendered.append(candidate.relative_to(root).as_posix() or ".")
+        except (OSError, ValueError):
+            rendered.append(value)
+    return rendered
+
+
 def _run(name: str, command: list[str], root: Path) -> dict[str, Any]:
     started = time.perf_counter()
     completed = subprocess.run(
@@ -29,7 +56,7 @@ def _run(name: str, command: list[str], root: Path) -> dict[str, Any]:
     )
     return {
         "name": name,
-        "command": command,
+        "command": _public_command(command, root),
         "passed": completed.returncode == 0,
         "return_code": completed.returncode,
         "duration_seconds": round(time.perf_counter() - started, 3),
