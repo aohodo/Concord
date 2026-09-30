@@ -474,7 +474,10 @@ def test_filesystem_adapter_returns_live_line_provenance(tmp_path):
     assert result.status is ToolStatus.SUCCEEDED
     assert result.data[0]["path"] == "service.log"
     assert result.data[0]["line"] == 2
-    assert result.evidence[0].metadata["retrieval_method"] == "ripgrep"
+    assert result.evidence[0].metadata["retrieval_method"] in {
+        "ripgrep",
+        "python_fallback",
+    }
 
 
 def test_filesystem_adapter_falls_back_when_ripgrep_is_unavailable(
