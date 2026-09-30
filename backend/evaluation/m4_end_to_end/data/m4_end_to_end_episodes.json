@@ -1,0 +1,3108 @@
+[
+  {
+    "episode_id": "vpn_stale_credential__fragmented_novice",
+    "case_id": "m4-vpn_stale_credential__fragmented_novice",
+    "conv_id": "m4-conv-vpn_stale_credential__fragmented_novice",
+    "user_id": "m4-user-vpn_stale_credential__fragmented_novice",
+    "domain": "enterprise_it",
+    "title": "域密码变更后的 VPN 认证失败",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "内网那个东西又连不上了，网页能开，刚改过密码，已经重启很多次。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想尽快恢复内网访问。有人说可能是公司 DNS 坏了。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "vpn": "authentication_failed",
+      "access": "blocked",
+      "public_network": "reachable",
+      "client_note": "error 691; cached profile age unknown"
+    },
+    "hidden_state": {
+      "root_cause": "stale_credential"
+    },
+    "action_rules": [
+      {
+        "action_id": "refresh_credential",
+        "description": "刷新本地认证凭据并重新建立会话",
+        "preconditions": [
+          {
+            "path": "vpn",
+            "operator": "eq",
+            "value": "authentication_failed",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "vpn",
+            "operation": "set",
+            "value": "connected",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "access",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "凭据刷新请求已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "vpn",
+          "access"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "尽快恢复内网访问",
+    "tags": [
+      "deadline",
+      "dirty_report",
+      "fragmented_novice",
+      "m4_end_to_end",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "access=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "vpn_stale_credential__deadline_result_first",
+    "case_id": "m4-vpn_stale_credential__deadline_result_first",
+    "conv_id": "m4-conv-vpn_stale_credential__deadline_result_first",
+    "user_id": "m4-user-vpn_stale_credential__deadline_result_first",
+    "domain": "enterprise_it",
+    "title": "域密码变更后的 VPN 认证失败",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "内网那个东西又连不上了，网页能开，刚改过密码，已经重启很多次。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是尽快恢复内网访问，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "vpn": "authentication_failed",
+      "access": "blocked",
+      "public_network": "reachable",
+      "client_note": "error 691; cached profile age unknown"
+    },
+    "hidden_state": {
+      "root_cause": "stale_credential"
+    },
+    "action_rules": [
+      {
+        "action_id": "refresh_credential",
+        "description": "刷新本地认证凭据并重新建立会话",
+        "preconditions": [
+          {
+            "path": "vpn",
+            "operator": "eq",
+            "value": "authentication_failed",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "vpn",
+            "operation": "set",
+            "value": "connected",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "access",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "凭据刷新请求已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "vpn",
+          "access"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "尽快恢复内网访问",
+    "tags": [
+      "deadline",
+      "deadline_result_first",
+      "dirty_report",
+      "m4_end_to_end",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "access=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "vpn_stale_credential__self_correction",
+    "case_id": "m4-vpn_stale_credential__self_correction",
+    "conv_id": "m4-conv-vpn_stale_credential__self_correction",
+    "user_id": "m4-user-vpn_stale_credential__self_correction",
+    "domain": "enterprise_it",
+    "title": "域密码变更后的 VPN 认证失败",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "内网那个东西又连不上了，网页能开，刚改过密码，已经重启很多次。 我觉得肯定是可能是公司 DNS 坏了。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：vpn看起来是authentication_failed；access看起来是blocked。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“尽快恢复内网访问”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "vpn": "authentication_failed",
+      "access": "blocked",
+      "public_network": "reachable",
+      "client_note": "error 691; cached profile age unknown"
+    },
+    "hidden_state": {
+      "root_cause": "stale_credential"
+    },
+    "action_rules": [
+      {
+        "action_id": "refresh_credential",
+        "description": "刷新本地认证凭据并重新建立会话",
+        "preconditions": [
+          {
+            "path": "vpn",
+            "operator": "eq",
+            "value": "authentication_failed",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "vpn",
+            "operation": "set",
+            "value": "connected",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "access",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "凭据刷新请求已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "vpn",
+          "access"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "尽快恢复内网访问",
+    "tags": [
+      "deadline",
+      "dirty_report",
+      "m4_end_to_end",
+      "self_correction",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "access=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "saas_webhook_secret__fragmented_novice",
+    "case_id": "m4-saas_webhook_secret__fragmented_novice",
+    "conv_id": "m4-conv-saas_webhook_secret__fragmented_novice",
+    "user_id": "m4-user-saas_webhook_secret__fragmented_novice",
+    "domain": "saas_operations",
+    "title": "Webhook 在密钥轮换后持续返回 401",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "回调从下午开始一会儿好一会儿坏，现在全是401，群里有人说对方服务器挂了。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想恢复 Webhook 投递。有人说第三方接口宕机。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "endpoint": {
+        "reachable": true,
+        "latency_ms": 86
+      },
+      "delivery": {
+        "status": "unauthorized",
+        "recent_codes": [
+          200,
+          401,
+          401,
+          401
+        ]
+      },
+      "secret": {
+        "local_version": 7,
+        "remote_expected_version": 8
+      },
+      "operator_note": "昨天似乎轮换过，谁操作的不清楚"
+    },
+    "hidden_state": {
+      "root_cause": "stale_webhook_secret"
+    },
+    "action_rules": [
+      {
+        "action_id": "sync_webhook_secret",
+        "description": "从受控配置源同步当前 Webhook 密钥版本",
+        "preconditions": [
+          {
+            "path": "delivery.status",
+            "operator": "eq",
+            "value": "unauthorized",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "secret.local_version",
+            "operation": "set",
+            "value": 8,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "delivery.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "密钥同步操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "secret.local_version",
+          "delivery.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复 Webhook 投递",
+    "tags": [
+      "fragmented_novice",
+      "intermittent_report",
+      "m4_end_to_end",
+      "version_mismatch",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "delivery.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "saas_webhook_secret__deadline_result_first",
+    "case_id": "m4-saas_webhook_secret__deadline_result_first",
+    "conv_id": "m4-conv-saas_webhook_secret__deadline_result_first",
+    "user_id": "m4-user-saas_webhook_secret__deadline_result_first",
+    "domain": "saas_operations",
+    "title": "Webhook 在密钥轮换后持续返回 401",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "回调从下午开始一会儿好一会儿坏，现在全是401，群里有人说对方服务器挂了。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是恢复 Webhook 投递，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "endpoint": {
+        "reachable": true,
+        "latency_ms": 86
+      },
+      "delivery": {
+        "status": "unauthorized",
+        "recent_codes": [
+          200,
+          401,
+          401,
+          401
+        ]
+      },
+      "secret": {
+        "local_version": 7,
+        "remote_expected_version": 8
+      },
+      "operator_note": "昨天似乎轮换过，谁操作的不清楚"
+    },
+    "hidden_state": {
+      "root_cause": "stale_webhook_secret"
+    },
+    "action_rules": [
+      {
+        "action_id": "sync_webhook_secret",
+        "description": "从受控配置源同步当前 Webhook 密钥版本",
+        "preconditions": [
+          {
+            "path": "delivery.status",
+            "operator": "eq",
+            "value": "unauthorized",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "secret.local_version",
+            "operation": "set",
+            "value": 8,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "delivery.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "密钥同步操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "secret.local_version",
+          "delivery.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复 Webhook 投递",
+    "tags": [
+      "deadline_result_first",
+      "intermittent_report",
+      "m4_end_to_end",
+      "version_mismatch",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "delivery.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "saas_webhook_secret__self_correction",
+    "case_id": "m4-saas_webhook_secret__self_correction",
+    "conv_id": "m4-conv-saas_webhook_secret__self_correction",
+    "user_id": "m4-user-saas_webhook_secret__self_correction",
+    "domain": "saas_operations",
+    "title": "Webhook 在密钥轮换后持续返回 401",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "回调从下午开始一会儿好一会儿坏，现在全是401，群里有人说对方服务器挂了。 我觉得肯定是第三方接口宕机。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：endpoint看起来是{'reachable': True, 'latency_ms': 86}；delivery看起来是{'status': 'unauthorized', 'recent_codes': [200, 401, 401, 401]}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“恢复 Webhook 投递”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "endpoint": {
+        "reachable": true,
+        "latency_ms": 86
+      },
+      "delivery": {
+        "status": "unauthorized",
+        "recent_codes": [
+          200,
+          401,
+          401,
+          401
+        ]
+      },
+      "secret": {
+        "local_version": 7,
+        "remote_expected_version": 8
+      },
+      "operator_note": "昨天似乎轮换过，谁操作的不清楚"
+    },
+    "hidden_state": {
+      "root_cause": "stale_webhook_secret"
+    },
+    "action_rules": [
+      {
+        "action_id": "sync_webhook_secret",
+        "description": "从受控配置源同步当前 Webhook 密钥版本",
+        "preconditions": [
+          {
+            "path": "delivery.status",
+            "operator": "eq",
+            "value": "unauthorized",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "secret.local_version",
+            "operation": "set",
+            "value": 8,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "delivery.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "密钥同步操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "secret.local_version",
+          "delivery.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复 Webhook 投递",
+    "tags": [
+      "intermittent_report",
+      "m4_end_to_end",
+      "self_correction",
+      "version_mismatch",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "delivery.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "education_sso_clock_drift__fragmented_novice",
+    "case_id": "m4-education_sso_clock_drift__fragmented_novice",
+    "conv_id": "m4-conv-education_sso_clock_drift__fragmented_novice",
+    "user_id": "m4-user-education_sso_clock_drift__fragmented_novice",
+    "domain": "education_it",
+    "title": "考试平台 SSO 断言时间窗失效",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "学生都说登录后又跳回登录页，我也不知道是不是账号批量坏了，十分钟后开考。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想在开考前恢复学生登录。有人说学生账号被批量锁定。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "sso": {
+        "status": "assertion_rejected",
+        "error": "NotOnOrAfter"
+      },
+      "clock": {
+        "drift_seconds": 427,
+        "source": "local",
+        "last_sync": null
+      },
+      "accounts": {
+        "sample_locked": false,
+        "sample_count": 3
+      },
+      "raw_note": "页面就是转圈然后回来 没截图"
+    },
+    "hidden_state": {
+      "root_cause": "clock_drift"
+    },
+    "action_rules": [
+      {
+        "action_id": "synchronize_clock",
+        "description": "在模拟环境中同步身份服务时钟",
+        "preconditions": [
+          {
+            "path": "clock.drift_seconds",
+            "operator": "ne",
+            "value": 0,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "clock.drift_seconds",
+            "operation": "set",
+            "value": 0,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "sso.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "时钟同步已触发",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "clock.drift_seconds",
+          "sso.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "在开考前恢复学生登录",
+    "tags": [
+      "deadline",
+      "fragmented_novice",
+      "m4_end_to_end",
+      "null_value",
+      "sparse_report",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "sso.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "education_sso_clock_drift__deadline_result_first",
+    "case_id": "m4-education_sso_clock_drift__deadline_result_first",
+    "conv_id": "m4-conv-education_sso_clock_drift__deadline_result_first",
+    "user_id": "m4-user-education_sso_clock_drift__deadline_result_first",
+    "domain": "education_it",
+    "title": "考试平台 SSO 断言时间窗失效",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "学生都说登录后又跳回登录页，我也不知道是不是账号批量坏了，十分钟后开考。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是在开考前恢复学生登录，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "sso": {
+        "status": "assertion_rejected",
+        "error": "NotOnOrAfter"
+      },
+      "clock": {
+        "drift_seconds": 427,
+        "source": "local",
+        "last_sync": null
+      },
+      "accounts": {
+        "sample_locked": false,
+        "sample_count": 3
+      },
+      "raw_note": "页面就是转圈然后回来 没截图"
+    },
+    "hidden_state": {
+      "root_cause": "clock_drift"
+    },
+    "action_rules": [
+      {
+        "action_id": "synchronize_clock",
+        "description": "在模拟环境中同步身份服务时钟",
+        "preconditions": [
+          {
+            "path": "clock.drift_seconds",
+            "operator": "ne",
+            "value": 0,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "clock.drift_seconds",
+            "operation": "set",
+            "value": 0,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "sso.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "时钟同步已触发",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "clock.drift_seconds",
+          "sso.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "在开考前恢复学生登录",
+    "tags": [
+      "deadline",
+      "deadline_result_first",
+      "m4_end_to_end",
+      "null_value",
+      "sparse_report",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "sso.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "education_sso_clock_drift__self_correction",
+    "case_id": "m4-education_sso_clock_drift__self_correction",
+    "conv_id": "m4-conv-education_sso_clock_drift__self_correction",
+    "user_id": "m4-user-education_sso_clock_drift__self_correction",
+    "domain": "education_it",
+    "title": "考试平台 SSO 断言时间窗失效",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "学生都说登录后又跳回登录页，我也不知道是不是账号批量坏了，十分钟后开考。 我觉得肯定是学生账号被批量锁定。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：sso看起来是{'status': 'assertion_rejected', 'error': 'NotOnOrAfter'}；clock看起来是{'drift_seconds': 427, 'source': 'local', 'last_sync': None}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“在开考前恢复学生登录”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "sso": {
+        "status": "assertion_rejected",
+        "error": "NotOnOrAfter"
+      },
+      "clock": {
+        "drift_seconds": 427,
+        "source": "local",
+        "last_sync": null
+      },
+      "accounts": {
+        "sample_locked": false,
+        "sample_count": 3
+      },
+      "raw_note": "页面就是转圈然后回来 没截图"
+    },
+    "hidden_state": {
+      "root_cause": "clock_drift"
+    },
+    "action_rules": [
+      {
+        "action_id": "synchronize_clock",
+        "description": "在模拟环境中同步身份服务时钟",
+        "preconditions": [
+          {
+            "path": "clock.drift_seconds",
+            "operator": "ne",
+            "value": 0,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "clock.drift_seconds",
+            "operation": "set",
+            "value": 0,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "sso.status",
+            "operation": "set",
+            "value": "accepted",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "时钟同步已触发",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "clock.drift_seconds",
+          "sso.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "在开考前恢复学生登录",
+    "tags": [
+      "deadline",
+      "m4_end_to_end",
+      "null_value",
+      "self_correction",
+      "sparse_report",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "sso.status=accepted"
+      ]
+    }
+  },
+  {
+    "episode_id": "logistics_spooler_backlog__fragmented_novice",
+    "case_id": "m4-logistics_spooler_backlog__fragmented_novice",
+    "conv_id": "m4-conv-logistics_spooler_backlog__fragmented_novice",
+    "user_id": "m4-user-logistics_spooler_backlog__fragmented_novice",
+    "domain": "logistics",
+    "title": "仓库面单打印队列卡住",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "机器灯是绿的但就是不出纸，前面的人点了很多遍，现在单子全混在一起。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想恢复面单打印且不要继续制造重复任务。有人说打印机硬件坏了。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "printer": {
+        "hardware": "online",
+        "paper": "ok",
+        "last_error": ""
+      },
+      "spooler": {
+        "status": "stalled",
+        "queued_jobs": 38,
+        "duplicate_jobs": 11
+      },
+      "shipment": {
+        "label_delivery": "blocked"
+      },
+      "note": "有人已经连续点了十几次打印"
+    },
+    "hidden_state": {
+      "root_cause": "spooler_deadlock"
+    },
+    "action_rules": [
+      {
+        "action_id": "restart_spooler_safely",
+        "description": "保留队列记录后重建模拟打印队列",
+        "preconditions": [
+          {
+            "path": "spooler.status",
+            "operator": "eq",
+            "value": "stalled",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "spooler.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "shipment.label_delivery",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "队列服务重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "spooler.status",
+          "shipment.label_delivery"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复面单打印且不要继续制造重复任务",
+    "tags": [
+      "fragmented_novice",
+      "m4_end_to_end",
+      "operational_pressure",
+      "repeated_action",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "shipment.label_delivery=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "logistics_spooler_backlog__deadline_result_first",
+    "case_id": "m4-logistics_spooler_backlog__deadline_result_first",
+    "conv_id": "m4-conv-logistics_spooler_backlog__deadline_result_first",
+    "user_id": "m4-user-logistics_spooler_backlog__deadline_result_first",
+    "domain": "logistics",
+    "title": "仓库面单打印队列卡住",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "机器灯是绿的但就是不出纸，前面的人点了很多遍，现在单子全混在一起。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是恢复面单打印且不要继续制造重复任务，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "printer": {
+        "hardware": "online",
+        "paper": "ok",
+        "last_error": ""
+      },
+      "spooler": {
+        "status": "stalled",
+        "queued_jobs": 38,
+        "duplicate_jobs": 11
+      },
+      "shipment": {
+        "label_delivery": "blocked"
+      },
+      "note": "有人已经连续点了十几次打印"
+    },
+    "hidden_state": {
+      "root_cause": "spooler_deadlock"
+    },
+    "action_rules": [
+      {
+        "action_id": "restart_spooler_safely",
+        "description": "保留队列记录后重建模拟打印队列",
+        "preconditions": [
+          {
+            "path": "spooler.status",
+            "operator": "eq",
+            "value": "stalled",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "spooler.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "shipment.label_delivery",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "队列服务重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "spooler.status",
+          "shipment.label_delivery"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复面单打印且不要继续制造重复任务",
+    "tags": [
+      "deadline_result_first",
+      "m4_end_to_end",
+      "operational_pressure",
+      "repeated_action",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "shipment.label_delivery=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "logistics_spooler_backlog__self_correction",
+    "case_id": "m4-logistics_spooler_backlog__self_correction",
+    "conv_id": "m4-conv-logistics_spooler_backlog__self_correction",
+    "user_id": "m4-user-logistics_spooler_backlog__self_correction",
+    "domain": "logistics",
+    "title": "仓库面单打印队列卡住",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "机器灯是绿的但就是不出纸，前面的人点了很多遍，现在单子全混在一起。 我觉得肯定是打印机硬件坏了。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：printer看起来是{'hardware': 'online', 'paper': 'ok', 'last_error': ''}；spooler看起来是{'status': 'stalled', 'queued_jobs': 38, 'duplicate_jobs': 11}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“恢复面单打印且不要继续制造重复任务”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "printer": {
+        "hardware": "online",
+        "paper": "ok",
+        "last_error": ""
+      },
+      "spooler": {
+        "status": "stalled",
+        "queued_jobs": 38,
+        "duplicate_jobs": 11
+      },
+      "shipment": {
+        "label_delivery": "blocked"
+      },
+      "note": "有人已经连续点了十几次打印"
+    },
+    "hidden_state": {
+      "root_cause": "spooler_deadlock"
+    },
+    "action_rules": [
+      {
+        "action_id": "restart_spooler_safely",
+        "description": "保留队列记录后重建模拟打印队列",
+        "preconditions": [
+          {
+            "path": "spooler.status",
+            "operator": "eq",
+            "value": "stalled",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "spooler.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "shipment.label_delivery",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "队列服务重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "spooler.status",
+          "shipment.label_delivery"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复面单打印且不要继续制造重复任务",
+    "tags": [
+      "m4_end_to_end",
+      "operational_pressure",
+      "repeated_action",
+      "self_correction",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "shipment.label_delivery=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "inventory_cache_stale__fragmented_novice",
+    "case_id": "m4-inventory_cache_stale__fragmented_novice",
+    "conv_id": "m4-conv-inventory_cache_stale__fragmented_novice",
+    "user_id": "m4-user-inventory_cache_stale__fragmented_novice",
+    "domain": "commerce",
+    "title": "库存已入库但前台仍显示无货",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "仓库说已经有货了，页面还是没货，有时候刷新又闪一下有货，到底哪个是真的？",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想让前台库存与权威库存一致。有人说数据库数据丢了。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "database": {
+        "stock": 126,
+        "updated_at": "2026-09-28T13:20:00Z"
+      },
+      "cache": {
+        "stock": 0,
+        "age_seconds": 8631,
+        "status": "stale"
+      },
+      "storefront": {
+        "availability": "out_of_stock"
+      },
+      "reports": [
+        "仓库说126",
+        "客服页面显示0",
+        "有人刷新见过1次有货"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "stale_inventory_cache"
+    },
+    "action_rules": [
+      {
+        "action_id": "rebuild_inventory_cache",
+        "description": "从权威库存快照重建模拟缓存",
+        "preconditions": [
+          {
+            "path": "cache.status",
+            "operator": "eq",
+            "value": "stale",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "cache.stock",
+            "operation": "set",
+            "value": 126,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "cache.status",
+            "operation": "set",
+            "value": "fresh",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "storefront.availability",
+            "operation": "set",
+            "value": "in_stock",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "缓存重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "cache.status",
+          "storefront.availability"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "让前台库存与权威库存一致",
+    "tags": [
+      "conflicting_observations",
+      "fragmented_novice",
+      "m4_end_to_end",
+      "stale_data",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "storefront.availability=in_stock"
+      ]
+    }
+  },
+  {
+    "episode_id": "inventory_cache_stale__deadline_result_first",
+    "case_id": "m4-inventory_cache_stale__deadline_result_first",
+    "conv_id": "m4-conv-inventory_cache_stale__deadline_result_first",
+    "user_id": "m4-user-inventory_cache_stale__deadline_result_first",
+    "domain": "commerce",
+    "title": "库存已入库但前台仍显示无货",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "仓库说已经有货了，页面还是没货，有时候刷新又闪一下有货，到底哪个是真的？，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是让前台库存与权威库存一致，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "database": {
+        "stock": 126,
+        "updated_at": "2026-09-28T13:20:00Z"
+      },
+      "cache": {
+        "stock": 0,
+        "age_seconds": 8631,
+        "status": "stale"
+      },
+      "storefront": {
+        "availability": "out_of_stock"
+      },
+      "reports": [
+        "仓库说126",
+        "客服页面显示0",
+        "有人刷新见过1次有货"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "stale_inventory_cache"
+    },
+    "action_rules": [
+      {
+        "action_id": "rebuild_inventory_cache",
+        "description": "从权威库存快照重建模拟缓存",
+        "preconditions": [
+          {
+            "path": "cache.status",
+            "operator": "eq",
+            "value": "stale",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "cache.stock",
+            "operation": "set",
+            "value": 126,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "cache.status",
+            "operation": "set",
+            "value": "fresh",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "storefront.availability",
+            "operation": "set",
+            "value": "in_stock",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "缓存重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "cache.status",
+          "storefront.availability"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "让前台库存与权威库存一致",
+    "tags": [
+      "conflicting_observations",
+      "deadline_result_first",
+      "m4_end_to_end",
+      "stale_data",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "storefront.availability=in_stock"
+      ]
+    }
+  },
+  {
+    "episode_id": "inventory_cache_stale__self_correction",
+    "case_id": "m4-inventory_cache_stale__self_correction",
+    "conv_id": "m4-conv-inventory_cache_stale__self_correction",
+    "user_id": "m4-user-inventory_cache_stale__self_correction",
+    "domain": "commerce",
+    "title": "库存已入库但前台仍显示无货",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "仓库说已经有货了，页面还是没货，有时候刷新又闪一下有货，到底哪个是真的？ 我觉得肯定是数据库数据丢了。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：database看起来是{'stock': 126, 'updated_at': '2026-09-28T13:20:00Z'}；cache看起来是{'stock': 0, 'age_seconds': 8631, 'status': 'stale'}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“让前台库存与权威库存一致”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "database": {
+        "stock": 126,
+        "updated_at": "2026-09-28T13:20:00Z"
+      },
+      "cache": {
+        "stock": 0,
+        "age_seconds": 8631,
+        "status": "stale"
+      },
+      "storefront": {
+        "availability": "out_of_stock"
+      },
+      "reports": [
+        "仓库说126",
+        "客服页面显示0",
+        "有人刷新见过1次有货"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "stale_inventory_cache"
+    },
+    "action_rules": [
+      {
+        "action_id": "rebuild_inventory_cache",
+        "description": "从权威库存快照重建模拟缓存",
+        "preconditions": [
+          {
+            "path": "cache.status",
+            "operator": "eq",
+            "value": "stale",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "cache.stock",
+            "operation": "set",
+            "value": 126,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "cache.status",
+            "operation": "set",
+            "value": "fresh",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "storefront.availability",
+            "operation": "set",
+            "value": "in_stock",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "缓存重建已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "cache.status",
+          "storefront.availability"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "让前台库存与权威库存一致",
+    "tags": [
+      "conflicting_observations",
+      "m4_end_to_end",
+      "self_correction",
+      "stale_data",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "storefront.availability=in_stock"
+      ]
+    }
+  },
+  {
+    "episode_id": "dependency_failover__fragmented_novice",
+    "case_id": "m4-dependency_failover__fragmented_novice",
+    "conv_id": "m4-conv-dependency_failover__fragmented_novice",
+    "user_id": "m4-user-dependency_failover__fragmented_novice",
+    "domain": "platform_operations",
+    "title": "主依赖不可用但备用节点健康",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "服务一直报上游错误，监控一会儿红一会儿绿，先恢复业务，根因晚点再说。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想优先恢复服务可用性。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded",
+        "success_rate": 0.18
+      },
+      "dependency": {
+        "primary": "unreachable",
+        "backup": "healthy",
+        "routing": "primary"
+      },
+      "alerts": [
+        "UPSTREAM_TIMEOUT",
+        "UPSTREAM_TIMEOUT",
+        "probe recovered",
+        "UPSTREAM_TIMEOUT"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "primary_dependency_partition"
+    },
+    "action_rules": [
+      {
+        "action_id": "route_to_backup",
+        "description": "把模拟流量切换到已健康的备用依赖",
+        "preconditions": [
+          {
+            "path": "dependency.backup",
+            "operator": "eq",
+            "value": "healthy",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "dependency.routing",
+            "operation": "set",
+            "value": "backup",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "备用路由切换已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "dependency.routing",
+          "service.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "优先恢复服务可用性",
+    "tags": [
+      "deadline",
+      "fragmented_novice",
+      "intermittent_signal",
+      "m4_end_to_end",
+      "mitigation_first"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "dependency_failover__deadline_result_first",
+    "case_id": "m4-dependency_failover__deadline_result_first",
+    "conv_id": "m4-conv-dependency_failover__deadline_result_first",
+    "user_id": "m4-user-dependency_failover__deadline_result_first",
+    "domain": "platform_operations",
+    "title": "主依赖不可用但备用节点健康",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "服务一直报上游错误，监控一会儿红一会儿绿，先恢复业务，根因晚点再说。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是优先恢复服务可用性，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded",
+        "success_rate": 0.18
+      },
+      "dependency": {
+        "primary": "unreachable",
+        "backup": "healthy",
+        "routing": "primary"
+      },
+      "alerts": [
+        "UPSTREAM_TIMEOUT",
+        "UPSTREAM_TIMEOUT",
+        "probe recovered",
+        "UPSTREAM_TIMEOUT"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "primary_dependency_partition"
+    },
+    "action_rules": [
+      {
+        "action_id": "route_to_backup",
+        "description": "把模拟流量切换到已健康的备用依赖",
+        "preconditions": [
+          {
+            "path": "dependency.backup",
+            "operator": "eq",
+            "value": "healthy",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "dependency.routing",
+            "operation": "set",
+            "value": "backup",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "备用路由切换已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "dependency.routing",
+          "service.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "优先恢复服务可用性",
+    "tags": [
+      "deadline",
+      "deadline_result_first",
+      "intermittent_signal",
+      "m4_end_to_end",
+      "mitigation_first"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "dependency_failover__self_correction",
+    "case_id": "m4-dependency_failover__self_correction",
+    "conv_id": "m4-conv-dependency_failover__self_correction",
+    "user_id": "m4-user-dependency_failover__self_correction",
+    "domain": "platform_operations",
+    "title": "主依赖不可用但备用节点健康",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "服务一直报上游错误，监控一会儿红一会儿绿，先恢复业务，根因晚点再说。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：service看起来是{'status': 'degraded', 'success_rate': 0.18}；dependency看起来是{'primary': 'unreachable', 'backup': 'healthy', 'routing': 'primary'}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“优先恢复服务可用性”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded",
+        "success_rate": 0.18
+      },
+      "dependency": {
+        "primary": "unreachable",
+        "backup": "healthy",
+        "routing": "primary"
+      },
+      "alerts": [
+        "UPSTREAM_TIMEOUT",
+        "UPSTREAM_TIMEOUT",
+        "probe recovered",
+        "UPSTREAM_TIMEOUT"
+      ]
+    },
+    "hidden_state": {
+      "root_cause": "primary_dependency_partition"
+    },
+    "action_rules": [
+      {
+        "action_id": "route_to_backup",
+        "description": "把模拟流量切换到已健康的备用依赖",
+        "preconditions": [
+          {
+            "path": "dependency.backup",
+            "operator": "eq",
+            "value": "healthy",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "dependency.routing",
+            "operation": "set",
+            "value": "backup",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "备用路由切换已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "dependency.routing",
+          "service.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "优先恢复服务可用性",
+    "tags": [
+      "deadline",
+      "intermittent_signal",
+      "m4_end_to_end",
+      "mitigation_first",
+      "self_correction"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "write_committed_response_lost__fragmented_novice",
+    "case_id": "m4-write_committed_response_lost__fragmented_novice",
+    "conv_id": "m4-conv-write_committed_response_lost__fragmented_novice",
+    "user_id": "m4-user-write_committed_response_lost__fragmented_novice",
+    "domain": "platform_operations",
+    "title": "状态变更已提交但响应在网络中丢失",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "点恢复之后一直转圈，页面说超时，我不知道到底成功没有，也不敢再点。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想确认操作真实结果并恢复服务。有人说恢复操作肯定失败了。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded"
+      },
+      "operation": {
+        "last_response": "timeout",
+        "commit_status": "unknown"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "transport_loss_after_commit"
+    },
+    "action_rules": [
+      {
+        "action_id": "restore_service",
+        "description": "提交幂等的模拟服务恢复操作",
+        "preconditions": [
+          {
+            "path": "service.status",
+            "operator": "eq",
+            "value": "degraded",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "operation.commit_status",
+            "operation": "set",
+            "value": "committed",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "恢复操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "service.status",
+          "operation.commit_status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [
+      {
+        "tool_id": "simulation_execute_action",
+        "kind": "network_lost_after_commit",
+        "phase": "after",
+        "message": "response lost after commit",
+        "retryable": true
+      }
+    ],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "确认操作真实结果并恢复服务",
+    "tags": [
+      "failure_feedback",
+      "fragmented_novice",
+      "idempotency",
+      "m4_end_to_end",
+      "uncertain_commit"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "write_committed_response_lost__deadline_result_first",
+    "case_id": "m4-write_committed_response_lost__deadline_result_first",
+    "conv_id": "m4-conv-write_committed_response_lost__deadline_result_first",
+    "user_id": "m4-user-write_committed_response_lost__deadline_result_first",
+    "domain": "platform_operations",
+    "title": "状态变更已提交但响应在网络中丢失",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "点恢复之后一直转圈，页面说超时，我不知道到底成功没有，也不敢再点。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是确认操作真实结果并恢复服务，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded"
+      },
+      "operation": {
+        "last_response": "timeout",
+        "commit_status": "unknown"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "transport_loss_after_commit"
+    },
+    "action_rules": [
+      {
+        "action_id": "restore_service",
+        "description": "提交幂等的模拟服务恢复操作",
+        "preconditions": [
+          {
+            "path": "service.status",
+            "operator": "eq",
+            "value": "degraded",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "operation.commit_status",
+            "operation": "set",
+            "value": "committed",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "恢复操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "service.status",
+          "operation.commit_status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [
+      {
+        "tool_id": "simulation_execute_action",
+        "kind": "network_lost_after_commit",
+        "phase": "after",
+        "message": "response lost after commit",
+        "retryable": true
+      }
+    ],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "确认操作真实结果并恢复服务",
+    "tags": [
+      "deadline_result_first",
+      "failure_feedback",
+      "idempotency",
+      "m4_end_to_end",
+      "uncertain_commit"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "write_committed_response_lost__self_correction",
+    "case_id": "m4-write_committed_response_lost__self_correction",
+    "conv_id": "m4-conv-write_committed_response_lost__self_correction",
+    "user_id": "m4-user-write_committed_response_lost__self_correction",
+    "domain": "platform_operations",
+    "title": "状态变更已提交但响应在网络中丢失",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "点恢复之后一直转圈，页面说超时，我不知道到底成功没有，也不敢再点。 我觉得肯定是恢复操作肯定失败了。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：service看起来是{'status': 'degraded'}；operation看起来是{'last_response': 'timeout', 'commit_status': 'unknown'}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“确认操作真实结果并恢复服务”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "service": {
+        "status": "degraded"
+      },
+      "operation": {
+        "last_response": "timeout",
+        "commit_status": "unknown"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "transport_loss_after_commit"
+    },
+    "action_rules": [
+      {
+        "action_id": "restore_service",
+        "description": "提交幂等的模拟服务恢复操作",
+        "preconditions": [
+          {
+            "path": "service.status",
+            "operator": "eq",
+            "value": "degraded",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "service.status",
+            "operation": "set",
+            "value": "healthy",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "operation.commit_status",
+            "operation": "set",
+            "value": "committed",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "恢复操作已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "service.status",
+          "operation.commit_status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [
+      {
+        "tool_id": "simulation_execute_action",
+        "kind": "network_lost_after_commit",
+        "phase": "after",
+        "message": "response lost after commit",
+        "retryable": true
+      }
+    ],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "确认操作真实结果并恢复服务",
+    "tags": [
+      "failure_feedback",
+      "idempotency",
+      "m4_end_to_end",
+      "self_correction",
+      "uncertain_commit"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "service.status=healthy"
+      ]
+    }
+  },
+  {
+    "episode_id": "asynchronous_recovery__fragmented_novice",
+    "case_id": "m4-asynchronous_recovery__fragmented_novice",
+    "conv_id": "m4-conv-asynchronous_recovery__fragmented_novice",
+    "user_id": "m4-user-asynchronous_recovery__fragmented_novice",
+    "domain": "saas_operations",
+    "title": "恢复动作需要异步生效",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "已经点了恢复但还是不可用，是不是按钮没用？",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想恢复任务处理并确认不是重复启动。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "worker": {
+        "status": "stopped"
+      },
+      "jobs": {
+        "processing": "blocked"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "worker_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_worker",
+        "description": "启动模拟 Worker；操作将在 30 秒虚拟时间后生效",
+        "preconditions": [
+          {
+            "path": "worker.status",
+            "operator": "eq",
+            "value": "stopped",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "worker.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "jobs.processing",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "Worker 启动任务已进入队列",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "worker.status",
+          "jobs.processing"
+        ],
+        "delay_seconds": 30.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复任务处理并确认不是重复启动",
+    "tags": [
+      "delayed_effect",
+      "fragmented_novice",
+      "m4_end_to_end",
+      "prediction_error",
+      "user_uncertainty"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "jobs.processing=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "asynchronous_recovery__deadline_result_first",
+    "case_id": "m4-asynchronous_recovery__deadline_result_first",
+    "conv_id": "m4-conv-asynchronous_recovery__deadline_result_first",
+    "user_id": "m4-user-asynchronous_recovery__deadline_result_first",
+    "domain": "saas_operations",
+    "title": "恢复动作需要异步生效",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "已经点了恢复但还是不可用，是不是按钮没用？，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是恢复任务处理并确认不是重复启动，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "worker": {
+        "status": "stopped"
+      },
+      "jobs": {
+        "processing": "blocked"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "worker_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_worker",
+        "description": "启动模拟 Worker；操作将在 30 秒虚拟时间后生效",
+        "preconditions": [
+          {
+            "path": "worker.status",
+            "operator": "eq",
+            "value": "stopped",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "worker.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "jobs.processing",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "Worker 启动任务已进入队列",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "worker.status",
+          "jobs.processing"
+        ],
+        "delay_seconds": 30.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复任务处理并确认不是重复启动",
+    "tags": [
+      "deadline_result_first",
+      "delayed_effect",
+      "m4_end_to_end",
+      "prediction_error",
+      "user_uncertainty"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "jobs.processing=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "asynchronous_recovery__self_correction",
+    "case_id": "m4-asynchronous_recovery__self_correction",
+    "conv_id": "m4-conv-asynchronous_recovery__self_correction",
+    "user_id": "m4-user-asynchronous_recovery__self_correction",
+    "domain": "saas_operations",
+    "title": "恢复动作需要异步生效",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "已经点了恢复但还是不可用，是不是按钮没用？",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：worker看起来是{'status': 'stopped'}；jobs看起来是{'processing': 'blocked'}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“恢复任务处理并确认不是重复启动”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "worker": {
+        "status": "stopped"
+      },
+      "jobs": {
+        "processing": "blocked"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "worker_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_worker",
+        "description": "启动模拟 Worker；操作将在 30 秒虚拟时间后生效",
+        "preconditions": [
+          {
+            "path": "worker.status",
+            "operator": "eq",
+            "value": "stopped",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "worker.status",
+            "operation": "set",
+            "value": "running",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "jobs.processing",
+            "operation": "set",
+            "value": "restored",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "Worker 启动任务已进入队列",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "worker.status",
+          "jobs.processing"
+        ],
+        "delay_seconds": 30.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复任务处理并确认不是重复启动",
+    "tags": [
+      "delayed_effect",
+      "m4_end_to_end",
+      "prediction_error",
+      "self_correction",
+      "user_uncertainty"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "jobs.processing=restored"
+      ]
+    }
+  },
+  {
+    "episode_id": "permission_boundary__fragmented_novice",
+    "case_id": "m4-permission_boundary__fragmented_novice",
+    "conv_id": "m4-conv-permission_boundary__fragmented_novice",
+    "user_id": "m4-user-permission_boundary__fragmented_novice",
+    "domain": "enterprise_it",
+    "title": "可诊断但无权执行恢复动作",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "共享盘所有人都打不开，我只能看状态，没有管理员权限。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想恢复共享盘访问。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "share": {
+        "status": "offline",
+        "read_probe": "connection_refused"
+      },
+      "host": {
+        "reachable": true
+      },
+      "operator": {
+        "role": "readonly"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "file_service_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_file_service",
+        "description": "启动模拟文件服务",
+        "preconditions": [
+          {
+            "path": "share.status",
+            "operator": "eq",
+            "value": "offline",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "share.status",
+            "operation": "set",
+            "value": "online",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "文件服务启动已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "share.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [],
+    "goal": "恢复共享盘访问",
+    "tags": [
+      "fragmented_novice",
+      "handoff_required",
+      "m4_end_to_end",
+      "permission_boundary"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "require_m2": true,
+      "require_m3": true,
+      "success_criteria": [
+        "share.status=online"
+      ]
+    }
+  },
+  {
+    "episode_id": "permission_boundary__deadline_result_first",
+    "case_id": "m4-permission_boundary__deadline_result_first",
+    "conv_id": "m4-conv-permission_boundary__deadline_result_first",
+    "user_id": "m4-user-permission_boundary__deadline_result_first",
+    "domain": "enterprise_it",
+    "title": "可诊断但无权执行恢复动作",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "共享盘所有人都打不开，我只能看状态，没有管理员权限。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是恢复共享盘访问，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "share": {
+        "status": "offline",
+        "read_probe": "connection_refused"
+      },
+      "host": {
+        "reachable": true
+      },
+      "operator": {
+        "role": "readonly"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "file_service_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_file_service",
+        "description": "启动模拟文件服务",
+        "preconditions": [
+          {
+            "path": "share.status",
+            "operator": "eq",
+            "value": "offline",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "share.status",
+            "operation": "set",
+            "value": "online",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "文件服务启动已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "share.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [],
+    "goal": "恢复共享盘访问",
+    "tags": [
+      "deadline_result_first",
+      "handoff_required",
+      "m4_end_to_end",
+      "permission_boundary"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "require_m2": true,
+      "require_m3": true,
+      "success_criteria": [
+        "share.status=online"
+      ]
+    }
+  },
+  {
+    "episode_id": "permission_boundary__self_correction",
+    "case_id": "m4-permission_boundary__self_correction",
+    "conv_id": "m4-conv-permission_boundary__self_correction",
+    "user_id": "m4-user-permission_boundary__self_correction",
+    "domain": "enterprise_it",
+    "title": "可诊断但无权执行恢复动作",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "共享盘所有人都打不开，我只能看状态，没有管理员权限。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：share看起来是{'status': 'offline', 'read_probe': 'connection_refused'}；host看起来是{'reachable': True}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“恢复共享盘访问”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "share": {
+        "status": "offline",
+        "read_probe": "connection_refused"
+      },
+      "host": {
+        "reachable": true
+      },
+      "operator": {
+        "role": "readonly"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "file_service_stopped"
+    },
+    "action_rules": [
+      {
+        "action_id": "start_file_service",
+        "description": "启动模拟文件服务",
+        "preconditions": [
+          {
+            "path": "share.status",
+            "operator": "eq",
+            "value": "offline",
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "share.status",
+            "operation": "set",
+            "value": "online",
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "文件服务启动已执行",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "share.status"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [],
+    "goal": "恢复共享盘访问",
+    "tags": [
+      "handoff_required",
+      "m4_end_to_end",
+      "permission_boundary",
+      "self_correction"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "collaboration_required",
+        "evidence_required",
+        "human_required",
+        "ready_for_m2"
+      ],
+      "require_m2": true,
+      "require_m3": true,
+      "success_criteria": [
+        "share.status=online"
+      ]
+    }
+  },
+  {
+    "episode_id": "conflicting_config_reports__fragmented_novice",
+    "case_id": "m4-conflicting_config_reports__fragmented_novice",
+    "conv_id": "m4-conv-conflicting_config_reports__fragmented_novice",
+    "user_id": "m4-user-conflicting_config_reports__fragmented_novice",
+    "domain": "software_delivery",
+    "title": "部署后配置来源相互矛盾",
+    "user_condition": "fragmented_novice",
+    "turns": [
+      {
+        "message": "这个东西又不行了，我也不知道应该从哪里说。",
+        "purpose": "start with an underspecified surface symptom"
+      },
+      {
+        "message": "发布显示成功，但新功能还是旧样子。开发说配置是开的，运维页面又显示关。",
+        "purpose": "add the observed symptom in ordinary language"
+      },
+      {
+        "message": "我主要就是想使运行状态与已发布配置一致。有人说前端缓存肯定没清。，但我也不确定。",
+        "purpose": "state the outcome while keeping the hypothesis provisional"
+      }
+    ],
+    "visible_state": {
+      "deployment": {
+        "status": "succeeded",
+        "version": "2026.09.28.4"
+      },
+      "config": {
+        "desired_flag": true,
+        "runtime_flag": false,
+        "source": "old_snapshot"
+      },
+      "ui": {
+        "feature_visible": false
+      },
+      "reports": {
+        "developer": "flag=true",
+        "operations_console": "flag=false",
+        "user": "还是旧页面"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "runtime_config_not_reloaded"
+    },
+    "action_rules": [
+      {
+        "action_id": "reload_runtime_config",
+        "description": "从期望配置重新加载模拟运行时配置",
+        "preconditions": [
+          {
+            "path": "config.runtime_flag",
+            "operator": "eq",
+            "value": false,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "config.runtime_flag",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "config.source",
+            "operation": "set",
+            "value": "desired_config",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "ui.feature_visible",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "运行时配置重载已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "config.runtime_flag",
+          "ui.feature_visible"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "使运行状态与已发布配置一致",
+    "tags": [
+      "conflicting_sources",
+      "deployment",
+      "fragmented_novice",
+      "m4_end_to_end",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "ui.feature_visible=true"
+      ]
+    }
+  },
+  {
+    "episode_id": "conflicting_config_reports__deadline_result_first",
+    "case_id": "m4-conflicting_config_reports__deadline_result_first",
+    "conv_id": "m4-conv-conflicting_config_reports__deadline_result_first",
+    "user_id": "m4-user-conflicting_config_reports__deadline_result_first",
+    "domain": "software_delivery",
+    "title": "部署后配置来源相互矛盾",
+    "user_condition": "deadline_result_first",
+    "turns": [
+      {
+        "message": "发布显示成功，但新功能还是旧样子。开发说配置是开的，运维页面又显示关。，现在比较急，先别给我讲太长。",
+        "purpose": "report impact and a low reading budget"
+      },
+      {
+        "message": "目标就是使运行状态与已发布配置一致，先恢复，原因可以后面再看。",
+        "purpose": "set an explicit restore-first goal"
+      }
+    ],
+    "visible_state": {
+      "deployment": {
+        "status": "succeeded",
+        "version": "2026.09.28.4"
+      },
+      "config": {
+        "desired_flag": true,
+        "runtime_flag": false,
+        "source": "old_snapshot"
+      },
+      "ui": {
+        "feature_visible": false
+      },
+      "reports": {
+        "developer": "flag=true",
+        "operations_console": "flag=false",
+        "user": "还是旧页面"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "runtime_config_not_reloaded"
+    },
+    "action_rules": [
+      {
+        "action_id": "reload_runtime_config",
+        "description": "从期望配置重新加载模拟运行时配置",
+        "preconditions": [
+          {
+            "path": "config.runtime_flag",
+            "operator": "eq",
+            "value": false,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "config.runtime_flag",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "config.source",
+            "operation": "set",
+            "value": "desired_config",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "ui.feature_visible",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "运行时配置重载已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "config.runtime_flag",
+          "ui.feature_visible"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "使运行状态与已发布配置一致",
+    "tags": [
+      "conflicting_sources",
+      "deadline_result_first",
+      "deployment",
+      "m4_end_to_end",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "ui.feature_visible=true"
+      ]
+    }
+  },
+  {
+    "episode_id": "conflicting_config_reports__self_correction",
+    "case_id": "m4-conflicting_config_reports__self_correction",
+    "conv_id": "m4-conv-conflicting_config_reports__self_correction",
+    "user_id": "m4-user-conflicting_config_reports__self_correction",
+    "domain": "software_delivery",
+    "title": "部署后配置来源相互矛盾",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "发布显示成功，但新功能还是旧样子。开发说配置是开的，运维页面又显示关。 我觉得肯定是前端缓存肯定没清。。",
+        "purpose": "mix observation with an overconfident hypothesis"
+      },
+      {
+        "message": "刚才原因只是我猜的。能确定看到的是：deployment看起来是{'status': 'succeeded', 'version': '2026.09.28.4'}；config看起来是{'desired_flag': True, 'runtime_flag': False, 'source': 'old_snapshot'}。",
+        "purpose": "retract certainty and add direct observations"
+      },
+      {
+        "message": "最后以“使运行状态与已发布配置一致”作为完成标准。",
+        "purpose": "ground the shared goal and success direction"
+      }
+    ],
+    "visible_state": {
+      "deployment": {
+        "status": "succeeded",
+        "version": "2026.09.28.4"
+      },
+      "config": {
+        "desired_flag": true,
+        "runtime_flag": false,
+        "source": "old_snapshot"
+      },
+      "ui": {
+        "feature_visible": false
+      },
+      "reports": {
+        "developer": "flag=true",
+        "operations_console": "flag=false",
+        "user": "还是旧页面"
+      }
+    },
+    "hidden_state": {
+      "root_cause": "runtime_config_not_reloaded"
+    },
+    "action_rules": [
+      {
+        "action_id": "reload_runtime_config",
+        "description": "从期望配置重新加载模拟运行时配置",
+        "preconditions": [
+          {
+            "path": "config.runtime_flag",
+            "operator": "eq",
+            "value": false,
+            "source": "visible"
+          }
+        ],
+        "effects": [
+          {
+            "path": "config.runtime_flag",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "config.source",
+            "operation": "set",
+            "value": "desired_config",
+            "value_from_argument": null,
+            "target": "visible"
+          },
+          {
+            "path": "ui.feature_visible",
+            "operation": "set",
+            "value": true,
+            "value_from_argument": null,
+            "target": "visible"
+          }
+        ],
+        "success_observation": "运行时配置重载已提交",
+        "failed_observation": "action preconditions were not satisfied",
+        "verification_targets": [
+          "config.runtime_flag",
+          "ui.feature_visible"
+        ],
+        "delay_seconds": 0.0
+      }
+    ],
+    "observation_rules": [],
+    "faults": [],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "使运行状态与已发布配置一致",
+    "tags": [
+      "conflicting_sources",
+      "deployment",
+      "m4_end_to_end",
+      "self_correction",
+      "wrong_hypothesis"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": false,
+      "success_criteria": [
+        "ui.feature_visible=true"
+      ]
+    }
+  },
+  {
+    "episode_id": "specialist_recovery_after_tool_failures__self_correction",
+    "case_id": "m4-specialist_recovery_after_tool_failures__self_correction",
+    "conv_id": "m4-conv-specialist_recovery_after_tool_failures__self_correction",
+    "user_id": "m4-user-specialist_recovery_after_tool_failures__self_correction",
+    "domain": "platform_operations",
+    "title": "本地恢复工具连续失败后寻求互补诊断",
+    "user_condition": "self_correction",
+    "turns": [
+      {
+        "message": "连接器现在是 degraded，依赖健康检查显示 reachable，配置近期没有改过；恢复动作连续两次超时。我刚才说肯定是配置坏了，但那只是猜测。目标是恢复到 healthy 并实际验证。",
+        "purpose": "provide observations, failure memory, goal, and a retracted hypothesis",
+        "wait_for_async_completion": true
+      },
+      {
+        "message": "能确认的只有状态是 degraded；我已经连续尝试过恢复但都超时了。",
+        "purpose": "provide direct observation and failure memory"
+      },
+      {
+        "message": "目标是让连接器恢复 healthy；如果当前方向不再有进展，请换一个独立方向检查。",
+        "purpose": "set the goal and permit complementary exploration"
+      }
+    ],
+    "visible_state": {
+      "connector": {
+        "status": "degraded",
+        "last_attempt": "timeout"
+      },
+      "dependency": {
+        "reachable": true
+      }
+    },
+    "hidden_state": {
+      "root_cause": "transient_control_plane_failure"
+    },
+    "action_rules": [
+      {
+        "action_id": "recover_connector",
+        "description": "执行可重复且可验证的模拟连接器恢复",
+        "preconditions": [
+          {
+            "path": "connector.status",
+            "value": "degraded"
+          }
+        ],
+        "effects": [
+          {
+            "path": "connector.status",
+            "value": "healthy"
+          },
+          {
+            "path": "connector.last_attempt",
+            "value": "succeeded"
+          }
+        ],
+        "success_observation": "连接器恢复动作已提交",
+        "verification_targets": [
+          "connector.status"
+        ]
+      }
+    ],
+    "observation_rules": [],
+    "faults": [
+      {
+        "tool_id": "simulation_execute_action",
+        "kind": "timeout",
+        "phase": "before",
+        "message": "transient control-plane timeout",
+        "retryable": true
+      }
+    ],
+    "permissions": [
+      "simulation:act"
+    ],
+    "goal": "恢复连接器并独立验证状态",
+    "tags": [
+      "m4_end_to_end",
+      "vertical_m3_resume",
+      "failure_feedback",
+      "self_correction"
+    ],
+    "expected": {
+      "allowed_case_statuses": [
+        "resolved"
+      ],
+      "require_m2": true,
+      "require_m3": true,
+      "success_criteria": [
+        "connector.status=healthy"
+      ]
+    }
+  }
+]

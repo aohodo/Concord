@@ -41,6 +41,8 @@
 !backend/evaluation/m3_collaboration/results/*.md
 !backend/evaluation/m3_collaboration/results/*.csv
 !backend/evaluation/m3_collaboration/results/*.json
+!backend/evaluation/m4_end_to_end/data/
+!backend/evaluation/m4_end_to_end/data/*.json
 
 # IDE and OS
 **/.idea/

@@ -477,6 +477,26 @@ def test_filesystem_adapter_returns_live_line_provenance(tmp_path):
     assert result.evidence[0].metadata["retrieval_method"] == "ripgrep"
 
 
+def test_filesystem_adapter_falls_back_when_ripgrep_is_unavailable(
+    tmp_path,
+    monkeypatch,
+):
+    source = tmp_path / "service.log"
+    source.write_text("ready\nerror TS-999 credential mismatch\n", encoding="utf-8")
+
+    async def missing_ripgrep(*args, **kwargs):
+        raise FileNotFoundError("rg")
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", missing_ripgrep)
+    adapter = FilesystemRetrievalAdapter(tmp_path, respect_ignore=False)
+
+    matches = run(adapter.search_text("TS-999"))
+
+    assert matches[0]["path"] == "service.log"
+    assert matches[0]["line"] == 2
+    assert matches[0]["retrieval_method"] == "python_fallback"
+
+
 def test_langsmith_defaults_to_off_and_sanitizes_sensitive_content(monkeypatch):
     monkeypatch.delenv("LANGSMITH_TRACING", raising=False)
     sink = build_trace_sink_from_env()

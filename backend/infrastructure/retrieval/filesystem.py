@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import asyncio
+import fnmatch
 import json
+import re
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -56,11 +59,20 @@ class FilesystemRetrievalAdapter:
                 str(self.root),
             ]
         )
-        process = await asyncio.create_subprocess_exec(
-            *command,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
+        try:
+            process = await asyncio.create_subprocess_exec(
+                *command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+        except FileNotFoundError:
+            return await asyncio.to_thread(
+                self._search_text_without_ripgrep,
+                query,
+                regex=regex,
+                globs=globs or [],
+                max_results=max_results,
+            )
         stdout, stderr = await process.communicate()
         if process.returncode not in {0, 1}:
             raise RuntimeError(stderr.decode("utf-8", errors="replace").strip() or "rg failed")
@@ -81,11 +93,96 @@ class FilesystemRetrievalAdapter:
                     "line": int(data.get("line_number", 0)),
                     "text": data.get("lines", {}).get("text", "").rstrip("\r\n"),
                     "submatches": data.get("submatches", []),
+                    "retrieval_method": "ripgrep",
                 }
             )
             if len(matches) >= max(1, min(max_results, 200)):
                 break
         return matches
+
+    def _search_text_without_ripgrep(
+        self,
+        query: str,
+        *,
+        regex: bool,
+        globs: list[str],
+        max_results: int,
+    ) -> list[dict[str, Any]]:
+        """Portable exact-text fallback for clean machines without ``rg``.
+
+        A Git workspace is restricted to files Git considers publishable. This
+        preserves ignore boundaries for private docs, runtime data and local
+        configuration. A non-Git directory (for example a test fixture) uses a
+        conservative visible-file walk.
+        """
+
+        candidates = self._git_visible_files() if self.respect_ignore else None
+        if candidates is None:
+            candidates = [path for path in self.root.rglob("*") if path.is_file()]
+        matcher = re.compile(query) if regex else None
+        limit = max(1, min(max_results, 200))
+        matches: list[dict[str, Any]] = []
+        excluded_parts = {".git", ".venv", "venv", "node_modules", "data"}
+        for path in candidates:
+            try:
+                relative = path.relative_to(self.root)
+            except ValueError:
+                continue
+            if any(part in excluded_parts for part in relative.parts):
+                continue
+            if not self.respect_ignore and any(part.startswith(".") for part in relative.parts):
+                continue
+            relative_text = relative.as_posix()
+            if globs and not any(fnmatch.fnmatch(relative_text, pattern) for pattern in globs):
+                continue
+            try:
+                if path.stat().st_size > 2_000_000:
+                    continue
+                lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+            except OSError:
+                continue
+            for line_number, line in enumerate(lines, start=1):
+                found = bool(matcher.search(line)) if matcher is not None else query in line
+                if not found:
+                    continue
+                matches.append(
+                    {
+                        "path": relative_text,
+                        "line": line_number,
+                        "text": line,
+                        "submatches": [],
+                        "retrieval_method": "python_fallback",
+                    }
+                )
+                if len(matches) >= limit:
+                    return matches
+        return matches
+
+    def _git_visible_files(self) -> list[Path] | None:
+        try:
+            completed = subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(self.root),
+                    "ls-files",
+                    "-z",
+                    "--cached",
+                    "--others",
+                    "--exclude-standard",
+                ],
+                check=False,
+                capture_output=True,
+            )
+        except OSError:
+            return None
+        if completed.returncode != 0:
+            return None
+        return [
+            (self.root / item.decode("utf-8", errors="replace")).resolve()
+            for item in completed.stdout.split(b"\0")
+            if item
+        ]
 
     async def read_text(
         self,
@@ -148,7 +245,7 @@ def build_filesystem_tools(adapter: FilesystemRetrievalAdapter) -> list[ToolSpec
                 line_end=item["line"],
                 retrieved_at=now,
                 reliability=1.0,
-                metadata={"retrieval_method": "ripgrep"},
+                metadata={"retrieval_method": item.get("retrieval_method", "unknown")},
             )
             for item in matches
         ]
