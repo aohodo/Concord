@@ -147,6 +147,7 @@ class OpenAICompatibleMessagesClient:
 
     supports_json_object = True
     supports_vision = True
+    supports_thinking_control = True
 
     def __init__(
         self,
@@ -340,8 +341,16 @@ class OpenAICompatibleMessagesClient:
         tools = kwargs.pop("tools", None)
         if tools:
             request["tools"] = self._convert_tools(tools)
+        enable_thinking = kwargs.pop("enable_thinking", None)
         reasoning_effort = kwargs.pop("reasoning_effort", self._reasoning_effort)
-        if reasoning_effort:
+        if enable_thinking is not None:
+            # DashScope-compatible models expose thinking control through
+            # extra_body.  Keep this provider detail at the adapter boundary
+            # and never send two competing reasoning controls together.
+            extra_body = dict(kwargs.pop("extra_body", {}) or {})
+            extra_body["enable_thinking"] = bool(enable_thinking)
+            request["extra_body"] = extra_body
+        elif reasoning_effort:
             request["reasoning_effort"] = reasoning_effort
         request.update(kwargs)
 

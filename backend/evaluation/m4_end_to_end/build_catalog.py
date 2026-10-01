@@ -1,4 +1,4 @@
-"""Build 30 imperfect multi-turn Episodes from the reusable M2 environments."""
+"""Build 110 imperfect multi-turn Episodes from reusable M2 environments."""
 
 from __future__ import annotations
 
@@ -60,6 +60,124 @@ def build_catalog() -> list[dict]:
                 {
                     "message": f"最后以“{scenario.goal}”作为完成标准。",
                     "purpose": "ground the shared goal and success direction",
+                },
+            ],
+            "expert_precise": [
+                {
+                    "message": (
+                        f"现象：{scenario.user_report} 可直接观察到：{_visible_fragment(scenario.visible_state)}。"
+                    ),
+                    "purpose": "provide a concise symptom and directly observed state",
+                },
+                {
+                    "message": f"完成标准是“{scenario.goal}”；请先验证现状，再执行可回退的最小动作。",
+                    "purpose": "state a testable goal and an evidence-first action constraint",
+                },
+            ],
+            "half_expert_hypothesis": [
+                {
+                    "message": (
+                        f"{scenario.user_report} "
+                        + (
+                            f"这个我见过，肯定就是{scenario.user_hypothesis}。"
+                            if scenario.user_hypothesis
+                            else "这个我见过，肯定是后台链路的问题。"
+                        )
+                    ),
+                    "purpose": "mix useful terminology with an overconfident causal claim",
+                },
+                {
+                    "message": f"我说的是经验判断，不是已经验证的事实；最终还是要{scenario.goal}。",
+                    "purpose": "expose the hypothesis while grounding the actual outcome",
+                },
+            ],
+            "procedural_only": [
+                {
+                    "message": (
+                        f"{scenario.user_report} 我照着别人以前发的步骤重新打开、退出再进都做了，"
+                        "但我不知道每一步是在查什么。"
+                    ),
+                    "purpose": "report copied procedures without claiming mechanism knowledge",
+                },
+                {
+                    "message": f"别让我再盲目重复一遍；你按结果判断下一步，目标是{scenario.goal}。",
+                    "purpose": "preserve failure memory and request a result-oriented next step",
+                },
+            ],
+            "cross_domain_transfer": [
+                {
+                    "message": (
+                        f"{scenario.user_report} 我平时处理家里路由器都是重启就好，"
+                        "所以这次是不是也直接全部重启？"
+                    ),
+                    "purpose": "transfer a familiar but unverified strategy into this domain",
+                },
+                {
+                    "message": (
+                        f"那个只是类比，不一定适用。现在能直接看到的是："
+                        f"{_visible_fragment(scenario.visible_state)}；我要{scenario.goal}。"
+                    ),
+                    "purpose": "separate analogy from observation and restore the main goal",
+                },
+            ],
+            "frustrated_repeat": [
+                {
+                    "message": (
+                        f"{scenario.user_report} 我已经来回试很多次了，还是这样，"
+                        "别再让我把刚才那些动作原样做一遍。"
+                    ),
+                    "purpose": "express frustration and a strong repeated-action constraint",
+                },
+                {
+                    "message": f"先告诉我你在确认什么，然后尽快把“{scenario.goal}”做成。",
+                    "purpose": "request visible progress while retaining the outcome goal",
+                },
+            ],
+            "low_control": [
+                {
+                    "message": (
+                        f"{scenario.user_report} 我不太敢继续点，怕把现在的数据或设置弄坏。"
+                    ),
+                    "purpose": "report low perceived control and a safety concern",
+                },
+                {
+                    "message": f"你可以先做不会改数据的检查；确实安全再推进，目标是{scenario.goal}。",
+                    "purpose": "allow low-risk evidence gathering before action",
+                },
+                {
+                    "message": (
+                        "如果检查确认是在可重置的模拟环境内、动作可回退，我确认继续；"
+                        "如果需要真实生产权限就停下来告诉我。"
+                    ),
+                    "purpose": "grant conditional confirmation without bypassing a real authority boundary",
+                },
+            ],
+            "low_patience_stream": [
+                {
+                    "message": "又不行了，能不能快点看？",
+                    "purpose": "start with a terse high-pressure request",
+                },
+                {
+                    "message": scenario.user_report,
+                    "purpose": "add the actual symptom in a rapid follow-up",
+                },
+                {
+                    "message": f"反正我现在只要{scenario.goal}，先给结果，说明尽量短。",
+                    "purpose": "state a low-reading-budget result-first preference",
+                },
+            ],
+            "multi_issue_dump": [
+                {
+                    "message": (
+                        f"我把看到的都说一下：{scenario.user_report}；"
+                        f"界面上还有这些东西：{_visible_fragment(scenario.visible_state)}；"
+                        "昨天似乎也慢过一次，同事说过可能是网络，但我不确定这些是不是一回事。"
+                    ),
+                    "purpose": "dump relevant, weakly related and uncertain information together",
+                },
+                {
+                    "message": f"你先抓主线，当前最重要的是{scenario.goal}，其他现象可以先挂着。",
+                    "purpose": "prioritize one issue without discarding the rest",
                 },
             ],
         }

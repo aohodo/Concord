@@ -22,6 +22,10 @@ TERMINAL_PHASES = {
     "error",
 }
 TERMINAL_CASE_STATUSES = {
+    "aligning_goal",
+    "reconstructing_situation",
+    "assessing_evidence",
+    "seeking_information",
     "human_required",
     "evidence_required",
     "failed",
@@ -35,6 +39,7 @@ class M4TurnRun(BaseModel):
     turn_index: int
     raw_user_input: str
     latency_ms: float
+    first_progress_ms: float | None = None
     status_code: int
     response: dict[str, Any] = Field(default_factory=dict)
     error: str | None = None
@@ -131,10 +136,73 @@ async def _poll_case(
             latest = response.json()
             phase = str(latest.get("phase", ""))
             status = str(latest.get("status", ""))
-            if phase in TERMINAL_PHASES or status in terminal_statuses:
-                return latest
+            terminal = phase in TERMINAL_PHASES or status in terminal_statuses
+            if terminal:
+                jobs_response = await client.get(
+                    f"/cases/{episode.case_id}/jobs",
+                    params={"user_id": episode.user_id, "tenant_id": "local"},
+                )
+                if jobs_response.status_code == 200:
+                    jobs = jobs_response.json().get("jobs", [])
+                    durable_work_pending = any(
+                        item.get("status") in {"pending", "running", "waiting"}
+                        for item in jobs
+                    )
+                    if not durable_work_pending:
+                        return latest
         await asyncio.sleep(0.25)
     return latest
+
+
+async def _event_sequence(client: httpx.AsyncClient, episode: M4Episode) -> int:
+    """Return the last visible Case event without treating a new Case as an error."""
+
+    response = await client.get(
+        f"/cases/{episode.case_id}",
+        params={"user_id": episode.user_id, "tenant_id": "local"},
+    )
+    if response.status_code != 200:
+        return 0
+    events = response.json().get("events", [])
+    return max((int(item.get("sequence", 0)) for item in events), default=0)
+
+
+async def _post_chat_with_progress(
+    client: httpx.AsyncClient,
+    episode: M4Episode,
+    payload: dict[str, Any],
+) -> tuple[httpx.Response, float | None]:
+    """Measure backend-visible acknowledgement while the synchronous POST runs."""
+
+    prior_sequence = await _event_sequence(client, episode)
+    started = time.perf_counter()
+    request = asyncio.create_task(client.post("/chat", json=payload))
+    first_progress_ms: float | None = None
+    while not request.done():
+        try:
+            response = await client.get(
+                f"/cases/{episode.case_id}",
+                params={"user_id": episode.user_id, "tenant_id": "local"},
+            )
+            if response.status_code == 200:
+                events = response.json().get("events", [])
+                if any(
+                    int(item.get("sequence", 0)) > prior_sequence
+                    and item.get("event_type")
+                    in {"user_turn_received", "case_progress_heartbeat"}
+                    for item in events
+                ):
+                    first_progress_ms = round(
+                        (time.perf_counter() - started) * 1000,
+                        3,
+                    )
+                    break
+        except httpx.HTTPError:
+            # The POST result remains authoritative; a transient console poll
+            # must not turn an otherwise valid Episode into a failed run.
+            pass
+        await asyncio.sleep(0.05)
+    return await request, first_progress_ms
 
 
 async def evaluate_episode(
@@ -152,9 +220,10 @@ async def evaluate_episode(
         await _seed_episode(client, episode)
         for index, turn in enumerate(episode.turns, start=1):
             turn_started = time.perf_counter()
-            response = await client.post(
-                "/chat",
-                json={
+            response, first_progress_ms = await _post_chat_with_progress(
+                client,
+                episode,
+                {
                     "message": turn.message,
                     "user_id": episode.user_id,
                     "conv_id": episode.conv_id,
@@ -173,6 +242,7 @@ async def evaluate_episode(
                     turn_index=index,
                     raw_user_input=turn.message,
                     latency_ms=round((time.perf_counter() - turn_started) * 1000, 3),
+                    first_progress_ms=first_progress_ms,
                     status_code=response.status_code,
                     response=body if response.status_code < 400 else {},
                     error=None if response.status_code < 400 else str(body),

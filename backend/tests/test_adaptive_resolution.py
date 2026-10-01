@@ -667,6 +667,62 @@ def test_missing_tool_capabilities_are_replanned_instead_of_escalated():
     }
 
 
+def test_action_id_must_come_from_runtime_discovery_before_execution():
+    case_id = "m2-grounded-action-id"
+    runtime = build_runtime(case_id)
+    planner = QueuedPlanner(
+        ResolutionPlan(
+            decision=ResolutionDecision.USE_TOOL,
+            rationale="尝试模型臆造的近义动作",
+            required_capabilities={"scenario_action", "state_change"},
+            tool_arguments={"action_id": "reconnect_vpn"},
+        ),
+        ResolutionPlan(
+            decision=ResolutionDecision.USE_TOOL,
+            rationale="改用环境明确公布的动作标识",
+            required_capabilities={"scenario_action", "state_change"},
+            tool_arguments={"action_id": "refresh_credential"},
+        ),
+        ResolutionPlan(
+            decision=ResolutionDecision.RESOLVE,
+            rationale="动作效果已由独立观察验证",
+            verification_complete=True,
+            resolution_evidence=["vpn=connected", "access=restored"],
+        ),
+    )
+    service = AdaptiveResolutionService(
+        checkpointer=InMemorySaver(),
+        tool_runtime=runtime,
+        planner=planner,
+    )
+
+    result = run(
+        service.resolve(
+            resolution_context=resolution_context(case_id),
+            permissions=["simulation:act"],
+        )
+    )
+
+    assert result.status is ResolutionStatus.RESOLVED
+    assert result.episode_decisions == 3
+    assert [
+        item["arguments"]["action_id"]
+        for item in result.tool_history
+        if item["tool_id"] == "simulation_execute_action"
+    ] == ["refresh_credential"]
+    assert result.guardrail_events == [
+        {
+            "cycle": 1,
+            "code": "ACTION_NOT_IN_DECLARED_AFFORDANCES",
+            "requested_action_id": "reconnect_vpn",
+            "declared_action_ids": ["refresh_credential"],
+        }
+    ]
+    assert "allowed=['refresh_credential']" in planner.calls[1][
+        "guardrail_feedback"
+    ]
+
+
 def test_user_evidence_resumes_same_case_without_repeating_bootstrap():
     case_id = "m2-user-resume"
     runtime = build_runtime(case_id)

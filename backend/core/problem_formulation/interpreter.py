@@ -6,11 +6,12 @@ import json
 import re
 from typing import Any, Protocol
 
+from langchain_core.exceptions import OutputParserException
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 
-from core.llm_utils import extract_text_content
+from core.llm_utils import extract_text_content, provider_thinking_options
 
 from .models import (
     SemanticRecoveryInterpretation,
@@ -108,6 +109,9 @@ class LangChainTurnInterpreter:
             ]
         ).partial(format_instructions=self._parser.get_format_instructions())
         self._chain = self._prompt | RunnableLambda(self._call_model) | self._parser
+        self._deliberative_chain = (
+            self._prompt | RunnableLambda(self._call_model_deliberative) | self._parser
+        )
         self._recovery_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", self.RECOVERY_SYSTEM_PROMPT),
@@ -115,10 +119,23 @@ class LangChainTurnInterpreter:
             ]
         ).partial(format_instructions=self._recovery_parser.get_format_instructions())
         self._recovery_chain = (
-            self._recovery_prompt | RunnableLambda(self._call_model) | self._recovery_parser
+            self._recovery_prompt
+            | RunnableLambda(self._call_model_deliberative)
+            | self._recovery_parser
         )
 
     async def _call_model(self, prompt_value: Any) -> str:
+        return await self._call_model_with_thinking(prompt_value, enabled=False)
+
+    async def _call_model_deliberative(self, prompt_value: Any) -> str:
+        return await self._call_model_with_thinking(prompt_value, enabled=True)
+
+    async def _call_model_with_thinking(
+        self,
+        prompt_value: Any,
+        *,
+        enabled: bool,
+    ) -> str:
         system_parts = []
         messages = []
         for message in prompt_value.to_messages():
@@ -140,6 +157,7 @@ class LangChainTurnInterpreter:
         }
         if getattr(self._client, "supports_json_object", False):
             request["response_format"] = {"type": "json_object"}
+        request.update(provider_thinking_options(self._client, enabled=enabled))
         response = await self._client.messages.create(
             **request,
         )
@@ -165,7 +183,21 @@ class LangChainTurnInterpreter:
             "previous_question": previous.question if previous else "",
             "current_state": json.dumps(compact_state, ensure_ascii=False),
         }
-        interpretation = await self._chain.ainvoke(inputs)
+        # Fast extraction is sufficient for a new or already actionable Case.
+        # If a prior turn still left the Case non-actionable, the next user
+        # contribution receives deliberate semantic integration.  This is a
+        # state-based control decision, not a vocabulary trigger.
+        needs_deliberation = current_state.turn_count > 0 and not current_state.readiness.ready
+        chain = self._deliberative_chain if needs_deliberation else self._chain
+        try:
+            interpretation = await chain.ainvoke(inputs)
+        except OutputParserException:
+            compact_recovery = await self._recovery_chain.ainvoke(inputs)
+            recovered = compact_recovery.to_turn_interpretation()
+            recovered._extraction_attempts = 2
+            recovered.unmapped_spans = self._uncovered_segments(message, recovered)
+            recovered.semantic_coverage_complete = not recovered.unmapped_spans
+            return recovered
         if not self._is_low_coverage(message, interpretation):
             interpretation.semantic_coverage_complete = True
             interpretation.unmapped_spans = []

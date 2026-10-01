@@ -1,0 +1,8 @@
+﻿domain,cross_domain_transfer,deadline_result_first,expert_precise,fragmented_novice,frustrated_repeat,half_expert_hypothesis,low_control,low_patience_stream,multi_issue_dump,procedural_only,self_correction
+commerce,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+education_it,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+enterprise_it,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+logistics,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+platform_operations,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+saas_operations,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS
+software_delivery,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS,PASS

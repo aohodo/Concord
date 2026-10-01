@@ -1,0 +1,16 @@
+{
+  "episodes": 36,
+  "passed": 34,
+  "failed": 2,
+  "failure_labels": {
+    "M2_NOT_REACHED": 1,
+    "GOAL_NOT_VERIFIED": 2,
+    "UNEXPECTED_FINAL_STATUS:formulation_error": 2
+  },
+  "coverage_notes": {},
+  "interaction": {
+    "average_turns": 2.5555555555555554,
+    "average_user_input_characters": 115.97222222222223,
+    "average_assistant_response_characters": 268.6388888888889
+  }
+}

@@ -337,7 +337,7 @@ class UserStateRevision(BaseModel):
 class EvidenceNeed(BaseModel):
     key: str
     description: str
-    question: str
+    question: str = ""
     priority: EvidencePriority = EvidencePriority.MEDIUM
     user_burden: CoarseLevel = CoarseLevel.LOW
     decision_impact: CoarseLevel = CoarseLevel.MEDIUM
@@ -361,6 +361,14 @@ class EvidenceNeed(BaseModel):
         """Clamp provider-side superlatives to this contract's coarsest level."""
         if isinstance(value, str) and value.strip().casefold() == "critical":
             return CoarseLevel.HIGH
+        return value
+
+    @field_validator("acquisition_actor", mode="before")
+    @classmethod
+    def normalize_unspecified_acquisition_actor(cls, value: Any) -> Any:
+        """Treat an omitted or blank provider value like the field default."""
+        if value is None or (isinstance(value, str) and not value.strip()):
+            return AcquisitionActor.USER
         return value
 
 
@@ -744,6 +752,22 @@ class GoalCandidate(BaseModel):
     goal_kind: GoalKind = GoalKind.UNKNOWN
     success_criteria: list[GroundedValueCandidate] = Field(default_factory=list)
 
+    @field_validator("scope_constraints", mode="before")
+    @classmethod
+    def normalize_grounded_scope_constraints(cls, value: Any) -> Any:
+        """Accept a provider's grounded-value object without losing its value."""
+        if not isinstance(value, list):
+            return value
+        normalized: list[str] = []
+        for item in value:
+            if isinstance(item, str) and item.strip():
+                normalized.append(item.strip())
+            elif isinstance(item, dict):
+                candidate = item.get("value") or item.get("constraint")
+                if isinstance(candidate, str) and candidate.strip():
+                    normalized.append(candidate.strip())
+        return normalized
+
 
 class IssueCandidate(BaseModel):
     summary: str
@@ -773,6 +797,23 @@ class ClaimCandidate(BaseModel):
     repetitions: int | None = None
     retry_condition: str | None = None
     issue_id: str | None = None
+
+    @field_validator("type", mode="before")
+    @classmethod
+    def normalize_unknown_claim_type(cls, value: Any) -> Any:
+        """Unknown provider labels must never promote a claim to an observation."""
+        allowed = {item.value for item in ClaimType}
+        if not isinstance(value, str) or value.strip().casefold() not in allowed:
+            return ClaimType.HYPOTHESIS
+        return value.strip().casefold()
+
+    @field_validator("outcome", mode="before")
+    @classmethod
+    def normalize_unknown_action_outcome(cls, value: Any) -> Any:
+        allowed = {item.value for item in ActionOutcome}
+        if not isinstance(value, str) or value.strip().casefold() not in allowed:
+            return ActionOutcome.UNKNOWN
+        return value.strip().casefold()
 
     @field_validator("repetitions", mode="before")
     @classmethod
@@ -826,6 +867,31 @@ class TurnInterpretation(BaseModel):
         """Models commonly emit null when a turn does not discuss the goal."""
         return {} if value is None else value
 
+    @field_validator("unmapped_spans", mode="before")
+    @classmethod
+    def normalize_unmapped_spans(cls, value: Any) -> Any:
+        if not isinstance(value, list):
+            return []
+        return [item.strip() for item in value if isinstance(item, str) and item.strip()]
+
+    @field_validator("user_state_signals", mode="before")
+    @classmethod
+    def discard_ungrounded_user_state_signals(cls, value: Any) -> Any:
+        if not isinstance(value, list):
+            return []
+        return [
+            item
+            for item in value
+            if isinstance(item, UserStateSignal)
+            or (
+                isinstance(item, dict)
+                and all(
+                    isinstance(item.get(field), str) and item[field].strip()
+                    for field in ("field", "value", "evidence_quote")
+                )
+            )
+        ]
+
 
 class SemanticRecoveryInterpretation(BaseModel):
     """Compact schema used only when the full semantic extraction is incomplete."""
@@ -846,6 +912,11 @@ class SemanticRecoveryInterpretation(BaseModel):
     @classmethod
     def normalize_null_goal(cls, value: Any) -> Any:
         return {} if value is None else value
+
+    @field_validator("user_state_signals", mode="before")
+    @classmethod
+    def discard_ungrounded_user_state_signals(cls, value: Any) -> Any:
+        return TurnInterpretation.discard_ungrounded_user_state_signals(value)
 
     def to_turn_interpretation(self) -> TurnInterpretation:
         return TurnInterpretation.model_validate(self.model_dump(mode="json"))

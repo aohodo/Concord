@@ -10,7 +10,7 @@ from langchain_core.exceptions import OutputParserException
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, ValidationError
 
-from core.llm_utils import extract_text_content
+from core.llm_utils import extract_text_content, provider_thinking_options
 
 from .models import (
     AgentContribution,
@@ -96,24 +96,25 @@ class _StructuredLLM:
         }
         if getattr(self._client, "supports_json_object", False):
             request["response_format"] = {"type": "json_object"}
+        request.update(provider_thinking_options(self._client, enabled=False))
         response = await self._client.messages.create(**request)
         record_model_response(response)
         raw = extract_text_content(response.content)
         try:
             return parser.parse(raw)
         except (OutputParserException, ValidationError, json.JSONDecodeError) as exc:
-            repair = await self._client.messages.create(
-                model=self._model,
-                max_tokens=max_tokens,
-                temperature=0.0,
-                response_format={"type": "json_object"},
-                system=(
+            repair_request: dict[str, Any] = {
+                "model": self._model,
+                "max_tokens": max_tokens,
+                "temperature": 0.0,
+                "response_format": {"type": "json_object"},
+                "system": (
                     "只修复给定输出的 JSON 结构以符合 schema。不得增加事实、"
                     "冲突或结论。只能使用 original_payload 中已有的 Agent、"
                     "证据与约束；允许补全与 decision 一致的必要结构字段和任务。"
                     "只输出 JSON object。"
                 ),
-                messages=[
+                "messages": [
                     {
                         "role": "user",
                         "content": json.dumps(
@@ -127,6 +128,10 @@ class _StructuredLLM:
                         ),
                     }
                 ],
+            }
+            repair_request.update(provider_thinking_options(self._client, enabled=False))
+            repair = await self._client.messages.create(
+                **repair_request,
             )
             record_model_response(repair)
             return parser.parse(extract_text_content(repair.content))

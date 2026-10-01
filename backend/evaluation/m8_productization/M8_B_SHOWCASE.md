@@ -62,54 +62,63 @@ Detailed producer → consumer evidence is listed in
 The current artifact uses `qwen3.8-flash` through the public HTTP product boundary. All model clients
 were run without inheriting `HTTP_PROXY`, `HTTPS_PROXY` or `ALL_PROXY`.
 
-- Catalog: 31 longitudinal Episodes, 7 domains and 3 user conditions.
-- Interaction: 21 three-turn and 10 two-turn Episodes.
-- Fault injection: 3 lost-response-after-commit Episodes and 1 retryable-timeout Episode.
-- First pass: 30/31 passed. The failed raw run is retained rather than overwritten.
-- Structural fixes: M3 plan semantic validation, atomic M3→M2 Case phase, and environment-first
-  evidence/retry priority.
-- Final merged evidence: 31/31 passed; 28 ended `resolved`, while 3 correctly preserved a human
+- Catalog: 111 longitudinal Episodes covering 7 domains, 10 declared fault environments and
+  11 noisy user-interaction conditions, plus one complete vertical Episode.
+- Interaction: average 2.35 user turns; 107/111 Cases reached M2 on the first turn rather than
+  waiting for an artificially complete M1 record.
+- Final merged evidence: 111/111 passed; 100 ended `resolved`, while 11 correctly preserved a human
   permission boundary.
-- Mean / median / p95 wall time: 180.48 / 183.10 / 297.11 seconds.
-- Total model decisions: 221; total audited tool calls: 162.
-- Conditional M3 appeared in 4/31 Cases; it was not forced into ordinary Cases.
+- Mean / median / p95 wall time: 130.42 / 94.90 / 296.04 seconds. Mean latency is 27.7% below the
+  earlier 31-Episode artifact, while the long tail remains visible.
+- Total model decisions: 722; total audited tool calls: 583.
+- Conditional M3 appeared in 15/111 Cases; it was not forced into ordinary Cases.
+- Mean post-formulation time to the first tool call was 4.60 seconds.
 
-The 31/31 result is a preserved 30/31 first pass plus one targeted post-fix rerun, not a claim that a
-fresh independent 31-Case repetition was performed. Environment state and tool audit determine PASS;
-fluent wording cannot compensate for an unmet goal.
+The final 111/111 artifact contains one targeted replacement after the runtime let a model invent an
+undeclared simulation action. The pre-fix raw evidence is retained under `failure_evidence`; the fix
+requires action identifiers to come from successful affordance discovery. This is not presented as a
+fresh independent repetition. Environment state and tool audit determine PASS; fluent wording cannot
+compensate for an unmet goal.
 
 Artifacts:
 
-- [`full/`](results/m8_b/full/) — untouched first pass.
-- [`reruns/`](results/m8_b/reruns/) — failure investigation and targeted reruns.
-- [`final/`](results/m8_b/final/) — catalog-complete merge with replacement provenance.
-- [`comparison/`](results/m8_b/comparison/) — representative mechanism controls.
+- [`expanded/final_batched/`](results/m8_b/expanded/final_batched/) — 111-Case merged outcome
+  artifact and report.
+- [`expanded/failure_evidence/`](results/m8_b/expanded/failure_evidence/) — preserved pre-fix run.
+- [`expanded/comparison_20/`](results/m8_b/expanded/comparison_20/) — 20 paired Episodes across
+  the full runtime and five controls, including excluded infrastructure evidence.
+- [`full/`](results/m8_b/full/) — earlier 31-Episode baseline retained for provenance.
 
 ## Mechanism controls
 
-Four representative Episodes were run across six variants. This is a directional engineering
-ablation, not a statistically powered causal study.
+Twenty predeclared Episodes were compared across the full runtime and five variants: 120 paired
+experiment cells. The full-runtime rows reuse the corresponding 20 Cases from the 111-Case run;
+the five controls add 100 real-model runs.
 
 | Variant | Passed | Model calls | Tool calls | Mean latency |
 |---|---:|---:|---:|---:|
-| Full runtime | 4/4 | 32 | 19 | 213.54 s |
-| M2 only | 4/4 | 22 | 18 | 150.59 s |
-| Fixed collaboration topology | 4/4 | 33 | 21 | 214.29 s |
-| No user-state control | 4/4 | 22 | 18 | 149.21 s |
-| No epistemic separation | 4/4 | 30 | 21 | 201.86 s |
-| No failure memory | 3/4 | 29 | 20 | 240.94 s |
+| Full runtime | 20/20 | 131 | 106 | 118.44 s |
+| M2 only | 17/20 | 129 | 98 | 143.80 s |
+| Fixed collaboration topology | 20/20 | 155 | 111 | 139.26 s |
+| No user-state control | 17/20 | 156 | 108 | 164.96 s |
+| No epistemic separation | 18/20 | 143 | 105 | 156.46 s |
+| No failure memory | 17/20 | 144 | 110 | 130.68 s |
 
-The evidence does not show that M3 improves success on ordinary Cases: M2-only passed this subset
-more cheaply. That supports the design objective that collaboration is optional and should be paid
-for only when its marginal value is positive. Fixed collaboration incurred only a small extra cost,
-so a broad dynamic-M3 efficiency claim would be premature.
+On this subset, dynamic collaboration preserved the same 20/20 endpoint success as fixed-three while
+using 24 fewer model calls and lowering mean latency by 20.82 seconds. M2-only saved eight tool calls
+but failed three Cases, including the specialist-recovery boundary. This supports sparse M3 as a
+fallback, not mandatory multi-Agent fan-out.
 
-Removing user-state control and epistemic separation did not change endpoint success in these four
-Cases; outcome-only evaluation is too coarse to establish their value. The no-failure-memory
-variant failed the targeted retry Case by stopping at `evidence_required` without verifying the
-goal. This clean single rerun is evidence for a failure-memory hypothesis, not population-level
-proof. A previous 8,080-second sample crossed a host sleep interval and is preserved but excluded
-as infrastructure-invalid.
+Removing user-state control, epistemic separation or failure memory reduced endpoint success by
+3, 2 and 3 Cases respectively and generally increased decision cost. These are paired engineering
+observations, not statistically powered causal estimates: each variant was run once with a stochastic
+model, and all outcomes are grounded in declared simulated environments. The raw per-Episode deltas
+and stratified slices remain public so the aggregate cannot hide counterexamples.
+
+Two initial control files were excluded after concurrent Case creation exposed SQLite lock contention.
+They are preserved under `invalid_infrastructure`; the active rows were rerun against an isolated
+database after adapters sharing one SQLite path received a common process-local access coordinator,
+WAL and a bounded busy timeout.
 
 ## Reproducible end-to-end evidence
 
@@ -138,13 +147,13 @@ also checks local SQLite for retained verified experience.
 
 - The results establish the checked-in simulated contracts, not universal competence in seven real
   industries.
-- Three user conditions are useful longitudinal stressors, not a representative human population.
-- The mean latency is far above an interactive product target; correctness currently comes before
-  responsiveness.
+- Eleven user conditions are useful longitudinal stressors, not a representative human population.
+- Mean latency improved to 130.42 seconds, but p95 remains 296.04 seconds and is still above an
+  interactive product target.
 - Dynamic collaboration is optional. If M2 independently solves and verifies a Case, skipping M3 is
   correct behavior.
-- The ablation is a four-Episode mechanism study; its one-Case differences are hypotheses for
-  repetition, not statistically powered causal claims.
+- The ablation contains 20 paired Episodes per variant, but one stochastic run per cell is still not
+  a statistically powered causal study.
 - Real production adapters still require organization-specific authorization, audit retention,
   incident procedures and integration tests.
 
@@ -160,7 +169,8 @@ python main.py
 cd backend
 python -m evaluation.m4_end_to_end `
   --base-url http://127.0.0.1:8000 `
-  --concurrency 8 `
+  --concurrency 4 `
+  --batch-size 4 `
   --output-dir evaluation/m8_productization/results/m8_b/new-run
 
 # Deterministic product checks

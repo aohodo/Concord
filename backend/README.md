@@ -450,7 +450,8 @@ GET /cases/by-conversation/{conv_id}?user_id=...&tenant_id=local
 
 本地 Redis 不可用时，工作记忆自动降级为进程内实现，`GET /health` 会明确返回实际 backend；设置 `CONCORD_REQUIRE_REDIS=true` 可以在需要生产一致性的环境中禁止降级。
 
-M4 数据集包含 30 个跨领域多轮 Episode，以及 1 条真实 M1→M2→M3→M2 垂直 Episode；全部只通过 HTTP API 运行：
+M4 扩展数据集包含 `10 个故障环境 × 11 种用户交互状态`，以及 1 条真实
+M1→M2→M3→M2 垂直 Episode，共 111 条；全部只通过 HTTP API 运行：
 
 ```powershell
 $env:HTTP_PROXY=''
@@ -462,13 +463,19 @@ $env:CONCORD_ENABLE_EVALUATION_VARIANTS='true'
 python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
 python -m evaluation.m4_end_to_end `
   --base-url http://127.0.0.1:8000 `
-  --concurrency 6 `
+  --concurrency 4 `
+  --batch-size 4 `
+  --resume `
   --output-dir evaluation/m4_end_to_end/results/latest
 ```
 
+运行器每 4 条保存一次检查点。因主机休眠、网络中断等外部原因需要替换指定样本时，
+使用 `--rerun-episode-id <episode_id>`；污染样本必须先移入 `invalid_infrastructure`
+保留，不能静默删除。
+
 方法、边界与对照设计见 [`evaluation/m4_end_to_end/M4_METHOD.md`](evaluation/m4_end_to_end/M4_METHOD.md)。
 
-2026-09-30 真实 `qwen3.8-flash` M4 结果：31 条 Episode 的环境结果验收为
+2026-09-30 的第一版真实 `qwen3.8-flash` M4 基线：31 条 Episode 的环境结果验收为
 `31/31`，其中 28 条 `resolved`，3 条权限边界正确停止为 `human_required`。
 该数字只代表声明过的合成环境，不代表通用行业成功率。7 条同子集机制对照如下：
 
@@ -483,8 +490,26 @@ python -m evaluation.m4_end_to_end `
 
 M2-only 唯一未解决项是连续工具失败后的专家恢复，说明 M3 应作为稀疏兜底而非固定步骤。
 关闭事实/假设分离后，独立交互 Judge 记录到 2 次 `HYPOTHESIS_AS_FACT`；用户状态
-显示小幅交互收益，但完整 31 条仍有 18 次 `USER_STATE_IGNORED`。因此 M4 冻结后不再
-扩展这些机制：稳定闭环进入 M5，用户适配的进一步验证留给 M6。
+显示小幅交互收益，但完整 31 条仍有 18 次 `USER_STATE_IGNORED`。该结果保留为历史
+基线；扩展版使用 111 条纵向 Episode 和预先声明的 20 条配对消融子集，检验 M5–M8
+接入调用链后的实际收益，而不是根据单个成功 Case 追加结论。
+
+2026-10-02 扩展版真实模型结果：111/111 通过声明环境验收，平均/中位/p95 时延为
+`130.42s / 94.90s / 296.04s`；记录 722 次模型决策、583 次工具调用，M3 仅在
+15/111 条 Case 中触发。20 条预声明配对子集的结果如下：
+
+| 方案 | 环境验收 | 模型调用 | 工具调用 | 平均时延 |
+|---|---:|---:|---:|---:|
+| 完整自适应链路 | 20/20 | 131 | 106 | 118.44s |
+| 仅 M2 | 17/20 | 129 | 98 | 143.80s |
+| 固定三 Agent | 20/20 | 155 | 111 | 139.26s |
+| 关闭用户状态控制 | 17/20 | 156 | 108 | 164.96s |
+| 关闭事实/推断分离 | 18/20 | 143 | 105 | 156.46s |
+| 关闭失败记忆 | 17/20 | 144 | 110 | 130.68s |
+
+完整链路与固定三 Agent 成功率相同，但少 24 次模型调用，平均快 20.82 秒；仅 M2
+成本较低但漏掉 3 条需要协作或恢复的 Case。该实验是一轮随机模型下的配对工程观察，
+不能解释为总体因果效应；每条原始结果、分层切片和被排除的基础设施污染均保留。
 
 公开方法边界和完整系统结果见：
 

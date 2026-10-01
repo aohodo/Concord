@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-import asyncio
 import copy
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import aiosqlite
+
+from infrastructure.sqlite_runtime import (
+    configure_sqlite_connection,
+    sqlite_access_lock,
+)
 
 from .runtime import (
     IdempotencyRecord,
@@ -27,12 +31,13 @@ class SqliteFaultPlan:
     def __init__(self, path: str | Path) -> None:
         self._path = Path(path).resolve()
         self._db: aiosqlite.Connection | None = None
-        self._lock = asyncio.Lock()
+        self._lock = sqlite_access_lock(self._path)
 
     async def setup(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._db = await aiosqlite.connect(self._path)
         self._db.row_factory = aiosqlite.Row
+        await configure_sqlite_connection(self._db)
         await self._db.execute(
             """
             CREATE TABLE IF NOT EXISTS simulation_faults (
@@ -108,11 +113,13 @@ class SqliteIdempotencyStore(IdempotencyStore):
         super().__init__()
         self._path = Path(path).resolve()
         self._db: aiosqlite.Connection | None = None
+        self._lock = sqlite_access_lock(self._path)
 
     async def setup(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._db = await aiosqlite.connect(self._path)
         self._db.row_factory = aiosqlite.Row
+        await configure_sqlite_connection(self._db)
         await self._db.execute(
             """
             CREATE TABLE IF NOT EXISTS tool_idempotency (
@@ -138,21 +145,22 @@ class SqliteIdempotencyStore(IdempotencyStore):
         return self._db
 
     async def get(self, case_id: str, tool_id: str, key: str) -> IdempotencyRecord | None:
-        db = self._require_db()
-        cursor = await db.execute(
-            """SELECT canonical_arguments, result_json FROM tool_idempotency
-               WHERE case_id=? AND tool_id=? AND key=?""",
-            (case_id, tool_id, key),
-        )
-        row = await cursor.fetchone()
-        if row is None:
-            return None
-        return IdempotencyRecord(
-            tool_id=tool_id,
-            key=key,
-            canonical_arguments=row["canonical_arguments"],
-            result=__import__("json").loads(row["result_json"]),
-        )
+        async with self._lock:
+            db = self._require_db()
+            cursor = await db.execute(
+                """SELECT canonical_arguments, result_json FROM tool_idempotency
+                   WHERE case_id=? AND tool_id=? AND key=?""",
+                (case_id, tool_id, key),
+            )
+            row = await cursor.fetchone()
+            if row is None:
+                return None
+            return IdempotencyRecord(
+                tool_id=tool_id,
+                key=key,
+                canonical_arguments=row["canonical_arguments"],
+                result=__import__("json").loads(row["result_json"]),
+            )
 
     async def put(
         self,
@@ -164,24 +172,25 @@ class SqliteIdempotencyStore(IdempotencyStore):
     ) -> None:
         import json
 
-        db = self._require_db()
-        canonical = self.canonicalize(arguments)
-        await db.execute(
-            """
-            INSERT INTO tool_idempotency(
-                case_id, tool_id, key, canonical_arguments, result_json
-            ) VALUES (?, ?, ?, ?, ?)
-            ON CONFLICT(case_id, tool_id, key) DO NOTHING
-            """,
-            (
-                case_id,
-                tool_id,
-                key,
-                canonical,
-                json.dumps(result, ensure_ascii=False, default=str),
-            ),
-        )
-        await db.commit()
+        async with self._lock:
+            db = self._require_db()
+            canonical = self.canonicalize(arguments)
+            await db.execute(
+                """
+                INSERT INTO tool_idempotency(
+                    case_id, tool_id, key, canonical_arguments, result_json
+                ) VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(case_id, tool_id, key) DO NOTHING
+                """,
+                (
+                    case_id,
+                    tool_id,
+                    key,
+                    canonical,
+                    json.dumps(result, ensure_ascii=False, default=str),
+                ),
+            )
+            await db.commit()
 
 
 class DurableScenarioRuntime(ScenarioRuntime):
@@ -191,11 +200,13 @@ class DurableScenarioRuntime(ScenarioRuntime):
         super().__init__()
         self._path = Path(path).resolve()
         self._db: aiosqlite.Connection | None = None
+        self._persistence_lock = sqlite_access_lock(self._path)
 
     async def setup(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._db = await aiosqlite.connect(self._path)
         self._db.row_factory = aiosqlite.Row
+        await configure_sqlite_connection(self._db)
         await self._db.execute(
             """
             CREATE TABLE IF NOT EXISTS simulation_cases (
@@ -218,13 +229,14 @@ class DurableScenarioRuntime(ScenarioRuntime):
     async def _persist(self, case_id: str) -> None:
         if self._db is None:
             raise RuntimeError("durable simulation runtime is not initialized")
-        case = self._cases[case_id]
-        await self._db.execute(
-            """INSERT INTO simulation_cases(case_id, case_json) VALUES (?, ?)
-               ON CONFLICT(case_id) DO UPDATE SET case_json=excluded.case_json""",
-            (case_id, case.model_dump_json()),
-        )
-        await self._db.commit()
+        async with self._persistence_lock:
+            case = self._cases[case_id]
+            await self._db.execute(
+                """INSERT INTO simulation_cases(case_id, case_json) VALUES (?, ?)
+                   ON CONFLICT(case_id) DO UPDATE SET case_json=excluded.case_json""",
+                (case_id, case.model_dump_json()),
+            )
+            await self._db.commit()
 
     async def create_case(
         self,

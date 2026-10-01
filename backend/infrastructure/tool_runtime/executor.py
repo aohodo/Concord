@@ -294,9 +294,20 @@ class AdaptiveToolRuntime:
 
         self._put_cache(spec.cache_ttl_s, invocation, committed_result)
 
-        after_fault = await self.fault_plan.take(
-            invocation.context.case_id, invocation.tool_id, "after"
-        )
+        # An after-call transport fault models a response that was lost only
+        # after the provider accepted (or partially accepted) the operation.
+        # A rejected/failed call never crossed that commit boundary, so it must
+        # not consume or be masked by an after-commit fault scheduled for the
+        # next valid invocation.
+        after_fault = None
+        if committed_result.status in {
+            ToolStatus.SUCCEEDED,
+            ToolStatus.PENDING,
+            ToolStatus.PARTIAL,
+        }:
+            after_fault = await self.fault_plan.take(
+                invocation.context.case_id, invocation.tool_id, "after"
+            )
         if after_fault is not None:
             result = self._fault_result(invocation, after_fault)
             if after_fault.kind is FaultKind.NETWORK_LOST_AFTER_COMMIT:

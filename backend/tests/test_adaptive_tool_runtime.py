@@ -181,6 +181,58 @@ def test_simulation_state_and_idempotency_survive_runtime_restart(tmp_path):
     run(scenario())
 
 
+def test_sqlite_runtime_adapters_coordinate_concurrent_writes(tmp_path):
+    async def scenario():
+        path = tmp_path / "runtime.sqlite3"
+        environments = DurableScenarioRuntime(path)
+        idempotency = SqliteIdempotencyStore(path)
+        faults = SqliteFaultPlan(path)
+        await environments.setup()
+        await idempotency.setup()
+        await faults.setup()
+
+        async def write_case(index: int) -> None:
+            case_id = f"concurrent-{index}"
+            await asyncio.gather(
+                environments.create_case(
+                    case_id,
+                    visible_state={"index": index},
+                ),
+                idempotency.put(
+                    case_id,
+                    "simulation_observe",
+                    f"read-{index}",
+                    {"path": "index"},
+                    {"status": "succeeded", "value": index},
+                ),
+                faults.add(
+                    case_id,
+                    "simulation_observe",
+                    SimulatedFault(kind="timeout", phase="before"),
+                ),
+            )
+
+        await asyncio.gather(*(write_case(index) for index in range(20)))
+
+        assert (await environments.snapshot("concurrent-19"))["visible_state"] == {
+            "index": 19
+        }
+        assert (
+            await idempotency.get(
+                "concurrent-19", "simulation_observe", "read-19"
+            )
+        ) is not None
+        assert (
+            await faults.take("concurrent-19", "simulation_observe", "before")
+        ) is not None
+
+        await faults.close()
+        await idempotency.close()
+        await environments.close()
+
+    run(scenario())
+
+
 def test_fault_queue_survives_restart_and_is_consumed_once(tmp_path):
     async def scenario():
         path = tmp_path / "runtime.sqlite3"
@@ -302,6 +354,50 @@ def test_network_loss_after_commit_is_recovered_by_idempotent_retry():
     assert retry.status is ToolStatus.SUCCEEDED
     assert retry.metadata["idempotent_replay"] is True
     assert run(scenarios.observe("case-vpn", "vpn.sync_count")) == 1
+
+
+def test_failed_action_does_not_consume_or_hide_after_commit_fault():
+    runtime, scenarios = build_scenario_runtime()
+    run(
+        runtime.fault_plan.add(
+            "case-vpn",
+            "simulation_execute_action",
+            SimulatedFault(kind=FaultKind.NETWORK_LOST_AFTER_COMMIT, phase="after"),
+        )
+    )
+
+    invalid = run(
+        runtime.execute(
+            ToolInvocation(
+                tool_id="simulation_execute_action",
+                arguments={"action_id": "invented_action"},
+                idempotency_key="invalid-action",
+                context=ToolContext(
+                    case_id="case-vpn", permissions={"simulation:act"}
+                ),
+            )
+        )
+    )
+    valid = run(
+        runtime.execute(
+            ToolInvocation(
+                tool_id="simulation_execute_action",
+                arguments={"action_id": "sync_credentials"},
+                idempotency_key="valid-action",
+                context=ToolContext(
+                    case_id="case-vpn", permissions={"simulation:act"}
+                ),
+            )
+        )
+    )
+
+    assert invalid.status is ToolStatus.FAILED
+    assert invalid.error_code == "UNKNOWN_SIMULATED_ACTION"
+    assert invalid.metadata.get("commit_outcome_uncertain") is not True
+    assert run(scenarios.observe("case-vpn", "vpn.sync_count")) == 1
+    assert valid.status is ToolStatus.TIMED_OUT
+    assert valid.error_code == "SIMULATED_NETWORK_LOST_AFTER_COMMIT"
+    assert valid.metadata["committed_before_transport_failure"] is True
 
 
 def test_delayed_action_only_changes_state_after_virtual_time_advances():

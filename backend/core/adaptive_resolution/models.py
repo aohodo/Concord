@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from datetime import UTC, datetime
 from enum import Enum
 from typing import Any
@@ -103,12 +104,58 @@ class UserProgressEvent(BaseModel):
     tool_id: str | None = None
 
 
+def _normalize_evidence_refs(value: Any) -> list[str]:
+    """Accept near-schema references without weakening runtime verification.
+
+    Models sometimes return the structured evidence object they just consumed
+    instead of its canonical string reference.  Converting only known identity
+    fields keeps parsing provider-tolerant; the verification layer still rejects
+    every reference that is absent from audited tool history.
+    """
+
+    if value is None:
+        return []
+    items = value if isinstance(value, list) else [value]
+    refs: list[str] = []
+    for item in items:
+        if isinstance(item, str):
+            refs.append(item)
+            continue
+        if not isinstance(item, dict):
+            refs.append(str(item))
+            continue
+        if item.get("invocation_id"):
+            refs.append(f"invocation:{item['invocation_id']}")
+        elif item.get("verification_target") or item.get("target"):
+            refs.append(
+                f"target:{item.get('verification_target') or item.get('target')}"
+            )
+        elif item.get("key") and "value" in item:
+            refs.append(f"fact:{item['key']}={item.get('value')}")
+        else:
+            refs.append(
+                "unresolved:"
+                + json.dumps(item, ensure_ascii=False, sort_keys=True, default=str)
+            )
+    return refs
+
+
 class ProvisionalExplanation(BaseModel):
     statement: str
     strength: BeliefStrength = BeliefStrength.LOW
     supporting_evidence: list[str] = Field(default_factory=list)
     contradicting_evidence: list[str] = Field(default_factory=list)
     distinguishing_evidence: list[str] = Field(default_factory=list)
+
+    @field_validator(
+        "supporting_evidence",
+        "contradicting_evidence",
+        "distinguishing_evidence",
+        mode="before",
+    )
+    @classmethod
+    def normalize_evidence_objects(cls, value: Any) -> list[str]:
+        return _normalize_evidence_refs(value)
 
 
 class CoordinationStructure(BaseModel):
@@ -149,6 +196,11 @@ class CriterionVerification(BaseModel):
 
     criterion: str
     evidence_refs: list[str] = Field(default_factory=list, min_length=1)
+
+    @field_validator("evidence_refs", mode="before")
+    @classmethod
+    def normalize_evidence_objects(cls, value: Any) -> list[str]:
+        return _normalize_evidence_refs(value)
 
 
 class ResolutionPlan(BaseModel):

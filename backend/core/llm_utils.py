@@ -4,6 +4,19 @@ from collections.abc import Iterable
 from typing import Any
 
 
+def provider_thinking_options(client: Any, *, enabled: bool) -> dict[str, bool]:
+    """Control provider thinking without leaking provider syntax to callers.
+
+    Concord normally supplies the control scaffold for extraction and bounded
+    planning.  The caller can still enable deeper integration when runtime
+    state shows that the fast path did not produce an actionable Case.
+    """
+
+    if getattr(client, "supports_thinking_control", False):
+        return {"enable_thinking": enabled}
+    return {}
+
+
 def extract_text_content(content: Iterable[Any]) -> str:
     """Return text from either object-based or dictionary response blocks."""
     texts: list[str] = []

@@ -1,0 +1,20 @@
+{
+  "episodes": 31,
+  "passed": 29,
+  "failed": 2,
+  "failure_labels": {
+    "EXCEPTION:ReadTimeout:": 2,
+    "M1_BYPASSED_OR_UNOBSERVABLE": 2,
+    "M2_NOT_REACHED": 2,
+    "GOAL_NOT_VERIFIED": 2,
+    "UNEXPECTED_FINAL_STATUS:missing": 2
+  },
+  "coverage_notes": {
+    "M3_COVERAGE_NOT_REACHED": 1
+  },
+  "interaction": {
+    "average_turns": 2.5161290322580645,
+    "average_user_input_characters": 114.19354838709677,
+    "average_assistant_response_characters": 274.6774193548387
+  }
+}

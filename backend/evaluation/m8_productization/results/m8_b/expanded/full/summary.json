@@ -1,0 +1,23 @@
+{
+  "episodes": 31,
+  "passed": 21,
+  "failed": 10,
+  "failure_labels": {
+    "M2_NOT_REACHED": 8,
+    "GOAL_NOT_VERIFIED": 5,
+    "UNEXPECTED_FINAL_STATUS:reconstructing_situation": 1,
+    "UNEXPECTED_FINAL_STATUS:error": 1,
+    "EXCEPTION:ReadTimeout:": 7,
+    "M1_BYPASSED_OR_UNOBSERVABLE": 7,
+    "UNEXPECTED_FINAL_STATUS:missing": 7,
+    "UNEXPECTED_FINAL_STATUS:paused": 1
+  },
+  "coverage_notes": {
+    "M3_COVERAGE_NOT_REACHED": 4
+  },
+  "interaction": {
+    "average_turns": 2.129032258064516,
+    "average_user_input_characters": 99.51612903225806,
+    "average_assistant_response_characters": 266.93548387096774
+  }
+}

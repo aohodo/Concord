@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-import asyncio
 from pathlib import Path
 
 import aiosqlite
+
+from infrastructure.sqlite_runtime import (
+    configure_sqlite_connection,
+    sqlite_access_lock,
+)
 
 from .models import (
     ExperienceFeedback,
@@ -23,15 +27,13 @@ class ContinualImprovementRepository:
     def __init__(self, path: str | Path) -> None:
         self._path = Path(path).resolve()
         self._db: aiosqlite.Connection | None = None
-        self._lock = asyncio.Lock()
+        self._lock = sqlite_access_lock(self._path)
 
     async def setup(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._db = await aiosqlite.connect(self._path)
         self._db.row_factory = aiosqlite.Row
-        await self._db.execute("PRAGMA busy_timeout=5000")
-        await self._db.execute("PRAGMA journal_mode=WAL")
-        await self._db.execute("PRAGMA synchronous=NORMAL")
+        await configure_sqlite_connection(self._db)
         await self._db.executescript(
             """
             CREATE TABLE IF NOT EXISTS m7_outcomes (

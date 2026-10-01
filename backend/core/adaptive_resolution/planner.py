@@ -10,7 +10,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda
 
-from core.llm_utils import extract_text_content
+from core.llm_utils import extract_text_content, provider_thinking_options
 
 from .models import ResolutionPlan
 
@@ -58,7 +58,7 @@ class LangChainResolutionPlanner:
 21. collaboration_history 已给出当前工具可执行的低风险取证或动作时，先由 M2 验证，不要仅因仍有非阻塞证据请求就 ask_user。只有所有可用环境取证均无法回答决策问题时，才把负担交给用户。
 22. 对 retryable=true、未产生状态改变且有幂等保护的失败，若独立协作明确复核了重试条件，可以携带相应 collaboration_source_ids 做一次受控重试；这不等于遗忘失败。不得要求用户解释工具自身已经声明的契约、能力或内部实现。
 
-工具由 required_capabilities 做语义选择，运行时根据能力、风险、耗时和权限排名。tool_arguments 必须符合可能被选中工具的 schema。
+工具由 required_capabilities 做语义选择，运行时根据能力、风险、耗时和权限排名。tool_arguments 必须符合可能被选中工具的 schema。对于先发现、后执行的动态能力，动作标识必须逐字复制自成功的发现工具结果；不得根据描述创造近义 action_id。
 
 M1 ResolutionContext：
 {resolution_context}
@@ -111,6 +111,7 @@ M1 ResolutionContext：
         }
         if getattr(self._client, "supports_json_object", False):
             request["response_format"] = {"type": "json_object"}
+        request.update(provider_thinking_options(self._client, enabled=False))
         response = await self._client.messages.create(**request)
         return extract_text_content(response.content)
 
@@ -138,16 +139,16 @@ M1 ResolutionContext：
             # One bounded schema-repair attempt handles malformed JSON without
             # changing the Case, tool state, prompt policy, or model settings.
             invalid = str(getattr(exc, "llm_output", "") or "")[:12000]
-            response = await self._client.messages.create(
-                model=self._model,
-                max_tokens=1400,
-                temperature=0.0,
-                response_format={"type": "json_object"},
-                system=(
+            request: dict[str, Any] = {
+                "model": self._model,
+                "max_tokens": 1400,
+                "temperature": 0.0,
+                "response_format": {"type": "json_object"},
+                "system": (
                     "只修复给定输出的 JSON 结构，使其满足 schema；不得增加新的事实、"
                     "工具调用、原因或结论。只输出一个 JSON object。"
                 ),
-                messages=[
+                "messages": [
                     {
                         "role": "user",
                         "content": (
@@ -157,5 +158,9 @@ M1 ResolutionContext：
                         ),
                     }
                 ],
+            }
+            request.update(provider_thinking_options(self._client, enabled=False))
+            response = await self._client.messages.create(
+                **request,
             )
             return self._parser.parse(extract_text_content(response.content))

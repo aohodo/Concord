@@ -1,0 +1,8 @@
+﻿domain,deadline_result_first,fragmented_novice,self_correction
+commerce,PASS,PASS,FAIL
+education_it,FAIL,PASS,PASS
+enterprise_it,FAIL,FAIL,FAIL
+logistics,PASS,PASS,PASS
+platform_operations,PASS,FAIL,FAIL
+saas_operations,FAIL,FAIL,FAIL
+software_delivery,PASS,PASS,PASS

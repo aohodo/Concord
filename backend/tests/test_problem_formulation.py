@@ -4,6 +4,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 
 from core.problem_formulation.interpreter import LangChainTurnInterpreter, TurnInterpreter
 from core.problem_formulation.models import (
+    AcquisitionActor,
     ActionOutcome,
     CaseStatus,
     ClaimCandidate,
@@ -60,17 +61,48 @@ def test_provider_near_schema_values_are_safely_normalized():
             "repetitions": "好几次",
         }
     )
+    unclassified_claim = ClaimCandidate.model_validate(
+        {
+            "content": "直接全部重启",
+            "type": "procedure_preference",
+            "evidence_quote": "是不是也直接全部重启",
+            "outcome": "",
+        }
+    )
+    goal = GoalCandidate.model_validate(
+        {"scope_constraints": [{"value": "尽快恢复", "evidence_quote": "我要尽快恢复"}]}
+    )
+    interpretation = TurnInterpretation.model_validate(
+        {
+            "unmapped_spans": [None, "", "仍未覆盖的原话"],
+            "user_state_signals": [
+                {"field": "progress_preference"},
+                {
+                    "field": "patience",
+                    "value": "low",
+                    "evidence_quote": "别讲太长",
+                },
+            ],
+        }
+    )
     need = EvidenceNeed.model_validate(
         {
             "key": "error_message",
             "description": "报错信息",
-            "question": "有什么报错？",
             "decision_impact": "critical",
+            "acquisition_actor": "",
         }
     )
 
     assert claim.repetitions is None
+    assert unclassified_claim.type is ClaimType.HYPOTHESIS
+    assert unclassified_claim.outcome is ActionOutcome.UNKNOWN
+    assert goal.scope_constraints == ["尽快恢复"]
+    assert interpretation.unmapped_spans == ["仍未覆盖的原话"]
+    assert len(interpretation.user_state_signals) == 1
     assert need.decision_impact is CoarseLevel.HIGH
+    assert need.question == ""
+    assert need.acquisition_actor is AcquisitionActor.USER
 
 
 class FakePlannerClient:
@@ -105,13 +137,17 @@ class FakePlannerClient:
 
 
 class QueuedSemanticClient:
+    supports_thinking_control = True
+
     class Messages:
         def __init__(self, payloads):
             self.payloads = list(payloads)
             self.calls = 0
+            self.requests = []
 
         async def create(self, **kwargs):
             self.calls += 1
+            self.requests.append(kwargs)
             payload = self.payloads.pop(0)
             return type(
                 "Response",
@@ -121,6 +157,23 @@ class QueuedSemanticClient:
 
     def __init__(self, *payloads):
         self.messages = self.Messages(payloads)
+
+
+def test_interpreter_deliberates_only_after_fast_path_left_case_unready():
+    payload = (
+        '{"claims":[{"content":"VPN 无法连接","type":"observation","evidence_quote":"VPN连不上"}]}'
+    )
+    client = QueuedSemanticClient(payload, payload)
+    interpreter = LangChainTurnInterpreter(client, "test-model")
+    fresh = SharedProblemState(case_id="case", user_id="u", conv_id="c")
+    unresolved = fresh.model_copy(deep=True)
+    unresolved.turn_count = 1
+
+    asyncio.run(interpreter.interpret("VPN连不上。", fresh))
+    asyncio.run(interpreter.interpret("VPN连不上。", unresolved))
+
+    assert client.messages.requests[0]["enable_thinking"] is False
+    assert client.messages.requests[1]["enable_thinking"] is True
 
 
 def first_turn() -> TurnInterpretation:
@@ -316,9 +369,7 @@ def test_case_compass_keeps_mainline_when_a_new_issue_is_added():
                     )
                 ],
             ),
-            reported_issues=[
-                IssueCandidate(summary="VPN 无法连接", evidence_quote="VPN连不上")
-            ],
+            reported_issues=[IssueCandidate(summary="VPN 无法连接", evidence_quote="VPN连不上")],
             claims=[
                 ClaimCandidate(
                     content="VPN 无法连接",
@@ -332,9 +383,7 @@ def test_case_compass_keeps_mainline_when_a_new_issue_is_added():
     second = reducer.merge_problem(
         first,
         TurnInterpretation(
-            reported_issues=[
-                IssueCandidate(summary="邮箱同步延迟", evidence_quote="邮箱也不同步")
-            ],
+            reported_issues=[IssueCandidate(summary="邮箱同步延迟", evidence_quote="邮箱也不同步")],
             claims=[
                 ClaimCandidate(
                     content="邮箱同步延迟",
@@ -397,9 +446,7 @@ def test_explicit_focus_switch_defers_old_issue_without_losing_it():
     first = reducer.merge_problem(
         SharedProblemState(case_id="case", user_id="u", conv_id="c"),
         TurnInterpretation(
-            reported_issues=[
-                IssueCandidate(summary="VPN 无法连接", evidence_quote="VPN连不上")
-            ]
+            reported_issues=[IssueCandidate(summary="VPN 无法连接", evidence_quote="VPN连不上")]
         ),
         "VPN连不上。",
     )
@@ -623,6 +670,28 @@ def test_empty_semantic_extraction_gets_one_model_based_recovery_not_keywords():
     assert result.extraction_attempts == 2
     assert result.claims[0].outcome.value == "failure"
     assert result.user_state_signals[0].field == "deadline"
+
+
+def test_invalid_full_schema_uses_compact_semantic_recovery():
+    client = QueuedSemanticClient(
+        '{"claims":[{"type":"observation"}]}',
+        (
+            '{"claims":[{"content":"Webhook 持续返回 401",'
+            '"type":"observation","evidence_quote":"现在一直报401"}]}'
+        ),
+    )
+    interpreter = LangChainTurnInterpreter(client, "test-model")
+
+    result = asyncio.run(
+        interpreter.interpret(
+            "现在一直报401。",
+            SharedProblemState(case_id="case", user_id="u", conv_id="c"),
+        )
+    )
+
+    assert client.messages.calls == 2
+    assert result.extraction_attempts == 2
+    assert result.claims[0].content == "Webhook 持续返回 401"
 
 
 def test_partial_semantic_extraction_retries_when_a_clause_has_no_grounding_quote():
@@ -1498,9 +1567,10 @@ def test_failed_action_is_an_attention_and_experience_prior():
     assert "已经重启八遍" in result.policy.contract.forbidden_actions
     assert result.resolution_context is not None
     assert result.resolution_context["salient_failures"][0]["action"] == "已经重启八遍"
-    assert "已经重启八遍" in result.resolution_context["provisional_resolution_policy"][
-        "forbidden_retries"
-    ]
+    assert (
+        "已经重启八遍"
+        in result.resolution_context["provisional_resolution_policy"]["forbidden_retries"]
+    )
 
 
 def test_user_profile_is_a_revisable_case_snapshot_not_a_permanent_label():
@@ -1524,7 +1594,9 @@ def test_user_profile_is_a_revisable_case_snapshot_not_a_permanent_label():
                     value="minimal",
                     evidence_quote="先别解释",
                 ),
-                UserStateSignal(field="deadline", value="十分钟后演示", evidence_quote="十分钟后演示"),
+                UserStateSignal(
+                    field="deadline", value="十分钟后演示", evidence_quote="十分钟后演示"
+                ),
             ],
         ),
         "VPN连不上，我现在很急，十分钟后演示，先别解释。",

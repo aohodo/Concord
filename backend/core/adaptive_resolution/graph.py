@@ -597,6 +597,32 @@ class AdaptiveResolutionGraph:
             allowed.add(OperationMode.SIMULATED_WRITE)
         return allowed & set(plan.allowed_modes)
 
+    @staticmethod
+    def _declared_simulation_action_ids(
+        history: list[dict[str, Any]],
+    ) -> set[str]:
+        """Return action IDs published by successful runtime discovery.
+
+        The action catalog is environment state, not a language convention. A
+        planner may choose among published affordances, but it cannot invent a
+        new affordance and send it to a state-changing tool.
+        """
+
+        declared: set[str] = set()
+        for item in history:
+            if (
+                item.get("tool_id") != "simulation_list_actions"
+                or item.get("status") != ToolStatus.SUCCEEDED.value
+                or not isinstance(item.get("data"), list)
+            ):
+                continue
+            declared.update(
+                str(action["action_id"])
+                for action in item["data"]
+                if isinstance(action, dict) and action.get("action_id")
+            )
+        return declared
+
     async def _select_tool(self, state: ResolutionGraphState) -> dict[str, Any]:
         plan = ResolutionPlan.model_validate(state["plan"])
         if not plan.required_capabilities:
@@ -714,6 +740,39 @@ class AdaptiveResolutionGraph:
                 "route": "finalize",
             }
         selected_spec = self._runtime.registry.require(selection.tool_id)
+        if selection.tool_id == "simulation_execute_action":
+            requested_action_id = str(plan.tool_arguments.get("action_id", ""))
+            declared_action_ids = self._declared_simulation_action_ids(
+                list(state.get("tool_history", []))
+            )
+            if requested_action_id not in declared_action_ids:
+                allowed = sorted(declared_action_ids)
+                feedback = (
+                    "state-changing action rejected: action_id must be copied "
+                    "exactly from a successful simulation_list_actions result; "
+                    f"requested={requested_action_id!r}, allowed={allowed}"
+                )
+                guardrail_events = list(state.get("guardrail_events", []))
+                guardrail_events.append(
+                    {
+                        "cycle": state["cycles"],
+                        "code": "ACTION_NOT_IN_DECLARED_AFFORDANCES",
+                        "requested_action_id": requested_action_id,
+                        "declared_action_ids": allowed,
+                    }
+                )
+                return {
+                    "guardrail_feedback": feedback,
+                    "guardrail_events": guardrail_events,
+                    "decision_event": DecisionEvent.GUARDRAIL_REJECTION.value,
+                    "decision_events": self._append_decision_event(
+                        state,
+                        DecisionEvent.GUARDRAIL_REJECTION,
+                        code="ACTION_NOT_IN_DECLARED_AFFORDANCES",
+                    ),
+                    "control_events": control_events,
+                    "route": "plan",
+                }
         collaboration_preference = str(
             user_state.get("collaboration_preference")
             or resolution_policy.get("collaboration_mode")

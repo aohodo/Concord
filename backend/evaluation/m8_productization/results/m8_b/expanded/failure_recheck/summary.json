@@ -1,0 +1,16 @@
+{
+  "episodes": 5,
+  "passed": 4,
+  "failed": 1,
+  "failure_labels": {
+    "M2_NOT_REACHED": 1,
+    "GOAL_NOT_VERIFIED": 1,
+    "UNEXPECTED_FINAL_STATUS:reconstructing_situation": 1
+  },
+  "coverage_notes": {},
+  "interaction": {
+    "average_turns": 2.6,
+    "average_user_input_characters": 105.0,
+    "average_assistant_response_characters": 213.0
+  }
+}

@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-import asyncio
 import json
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
 import aiosqlite
+
+from infrastructure.sqlite_runtime import (
+    configure_sqlite_connection,
+    sqlite_access_lock,
+)
 
 from .models import CaseJob, CaseJobKind, CaseJobStatus, CasePhase, CaseRunSnapshot
 from .registry import InMemoryCaseRunRegistry, StaleCaseResultError
@@ -29,7 +33,7 @@ class DurableCaseRunRegistry(InMemoryCaseRunRegistry):
         super().__init__(max_events=max_events)
         self._path = Path(path).resolve()
         self._db: aiosqlite.Connection | None = None
-        self._db_lock = asyncio.Lock()
+        self._db_lock = sqlite_access_lock(self._path)
 
     @property
     def storage_backend(self) -> str:
@@ -39,9 +43,7 @@ class DurableCaseRunRegistry(InMemoryCaseRunRegistry):
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._db = await aiosqlite.connect(self._path)
         self._db.row_factory = aiosqlite.Row
-        await self._db.execute("PRAGMA busy_timeout=5000")
-        await self._db.execute("PRAGMA journal_mode=WAL")
-        await self._db.execute("PRAGMA synchronous=NORMAL")
+        await configure_sqlite_connection(self._db)
         await self._db.executescript(
             """
             CREATE TABLE IF NOT EXISTS cases (

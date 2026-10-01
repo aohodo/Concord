@@ -47,6 +47,33 @@ def test_openai_config_defaults_qwen_to_low_reasoning():
 def test_openai_adapter_declares_json_object_capability():
     assert OpenAICompatibleMessagesClient.supports_json_object is True
     assert OpenAICompatibleMessagesClient.supports_vision is True
+    assert OpenAICompatibleMessagesClient.supports_thinking_control is True
+
+
+def test_openai_adapter_translates_thinking_control_without_reasoning_conflict():
+    fake = FakeOpenAI([_response(content='{"ok":true}')])
+    client = OpenAICompatibleMessagesClient(
+        api_key="test-key",
+        base_url="https://workspace.invalid/compatible-mode/v1",
+        reasoning_effort="low",
+        openai_client=fake,
+    )
+
+    asyncio.run(
+        client.messages.create(
+            model="qwen3.8-flash",
+            messages=[{"role": "user", "content": "return json"}],
+            enable_thinking=False,
+            extra_body={"trace_id": "test"},
+        )
+    )
+
+    request = fake.completions.calls[0]
+    assert request["extra_body"] == {
+        "trace_id": "test",
+        "enable_thinking": False,
+    }
+    assert "reasoning_effort" not in request
 
 
 def test_openai_adapter_preserves_image_input_blocks():

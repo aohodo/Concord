@@ -1,0 +1,15 @@
+{
+  "episodes": 82,
+  "passed": 81,
+  "failed": 1,
+  "failure_labels": {
+    "GOAL_NOT_VERIFIED": 1,
+    "UNEXPECTED_FINAL_STATUS:evidence_required": 1
+  },
+  "coverage_notes": {},
+  "interaction": {
+    "average_turns": 2.3902439024390243,
+    "average_user_input_characters": 137.890243902439,
+    "average_assistant_response_characters": 290.8170731707317
+  }
+}

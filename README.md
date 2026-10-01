@@ -32,6 +32,76 @@ Concord 是面向受限理性与有噪声沟通场景的人机协同问题求解
 不能自行修改和发布代码、Prompt、Skill 或工具。M8-B 不再增加运行时范式，而是完成
 长链实验、故障注入、关键消融、可复现实证和工程证据收口。
 
+## 系统架构
+
+```mermaid
+flowchart TB
+    User[用户：文本或图片，多轮补充与纠正] --> UI[Vue Case Console]
+    UI --> API[FastAPI /chat 与 Case API]
+
+    subgraph Control[LangGraph 自适应控制链]
+        direction LR
+        M1[M1 Shared Problem Formulation<br/>对齐目标 · 重建情境 · 分离事实/推断<br/>形成动态用户状态与 ResolutionContext]
+        M2[M2 Adaptive Resolution<br/>暂定解释 · 主动取证 · 低风险行动<br/>观察反馈 · 更新判断 · 独立验证]
+        Gate{继续由 Case Owner<br/>解决仍是最优选择？}
+        M3[M3 Adaptive Collaboration<br/>按需选择 Specialist / Parallel<br/>Reviewer / Explorer]
+
+        M1 -->|CASE_READY：允许信息不完整| M2
+        M2 --> Gate
+        Gate -->|是| M2
+        Gate -->|能力、风险、时间或停滞边界| M3
+        M3 -->|带来源的候选建议，不视为事实| M2
+    end
+
+    API --> M1
+    M2 --> Reply[短反馈、可见进度与最终结果]
+    Reply --> API --> UI
+
+    subgraph Runtime[统一环境交互运行时]
+        direction LR
+        Tools[AdaptiveToolRuntime<br/>权限 · 幂等 · 审计 · 故障注入]
+        Read[只读数据 / 搜索 / 检索 Adapter]
+        Sim[可重置规则模拟环境<br/>写入 · 延迟 · 冲突 · 权限边界]
+        Real[真实系统 Adapter<br/>默认禁用外部写入]
+        Tools --> Read
+        Tools --> Sim
+        Tools -. 上线时替换并重新验收 .-> Real
+    end
+
+    M2 <--> Tools
+    M3 -. 协作者不能直接写环境 .-> Tools
+
+    subgraph State[状态、经验与可观测性]
+        Working[短期工作记忆<br/>Redis 可选 / 进程内降级]
+        CaseDB[Case、Job 与 LangGraph Checkpoint<br/>本地 SQLite]
+        Experience[经独立验证的结构化经验<br/>仅作为候选策略]
+        Trace[审计日志、阶段时延<br/>LangSmith 可选]
+    end
+
+    API <--> Working
+    Control <--> CaseDB
+    M2 <--> Experience
+    Tools --> Trace
+    Control --> Trace
+```
+
+主链路始终由一个 `Primary / Case Owner` 负责。M3 是稀疏触发的协作机制，而不是每个
+请求固定调用多个 Agent；协作建议必须返回 M2，经同一工具运行时执行和独立验证后才能
+成为当前 Case 的事实。模拟写入与真实 Adapter 共用契约，开发测试不会直接改动外部系统。
+
+## 实验快照
+
+- 真实 `qwen3.8-flash` 纵向实验覆盖 111 条 Episode、7 个领域、10 类故障环境和
+  11 种有噪声用户交互状态，最终环境验收为 111/111；其中 100 条解决，11 条正确停在
+  人工权限边界。
+- 平均时延由早期基线约 180.5 秒降至 130.42 秒，下降 27.7%；中位数 94.90 秒，
+  p95 仍为 296.04 秒，因此长尾时延仍是明确边界。
+- 预先声明的 20 条子集在完整链路与五个控制组间形成 120 个配对实验单元。
+  完整链路为 20/20；固定三 Agent 同为 20/20，但多使用 24 次模型调用且平均慢
+  20.82 秒；关闭用户状态、认知分离和失败记忆后分别为 17/20、18/20、17/20。
+- 上述数字来自声明式模拟环境和单次随机模型运行，不等同于真实行业成功率或统计因果证明；
+  原始 Case、失败样本、逐项差值和排除的基础设施污染均随仓库保留。
+
 ## 一键验证与启动
 
 ```powershell

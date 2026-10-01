@@ -1,0 +1,4 @@
+﻿domain,deadline_result_first,fragmented_novice,self_correction
+education_it,FAIL,PASS,NOT_RUN
+enterprise_it,PASS,FAIL,PASS
+saas_operations,PASS,PASS,PASS
