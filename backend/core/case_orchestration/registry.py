@@ -427,7 +427,10 @@ class InMemoryCaseRunRegistry:
                 raise ValueError("stale collaboration result cannot update the Case")
             snapshot.phase = {
                 CollaborationStatus.READY_FOR_M2: CasePhase.VERIFICATION,
-                CollaborationStatus.EVIDENCE_REQUIRED: CasePhase.WAITING_FOR_USER,
+                # M3 evidence requests are advisory until the Case Owner consumes
+                # the resume packet.  They may be satisfiable by a read-only tool,
+                # so exposing WAITING_FOR_USER here creates a false terminal window.
+                CollaborationStatus.EVIDENCE_REQUIRED: CasePhase.VERIFICATION,
                 CollaborationStatus.GOAL_ALIGNMENT_REQUIRED: CasePhase.WAITING_FOR_USER,
                 CollaborationStatus.HUMAN_REQUIRED: CasePhase.HUMAN_REQUIRED,
                 CollaborationStatus.NO_BENEFIT: CasePhase.PAUSED,

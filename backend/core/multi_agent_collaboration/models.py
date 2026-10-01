@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import Enum
 from uuid import uuid4
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from core.adaptive_resolution.models import CollaborationMode
 
@@ -115,6 +115,14 @@ class CollaborationPlan(BaseModel):
         if len(value) > 4:
             raise ValueError("a collaboration round may recruit at most four agents")
         return value
+
+    @model_validator(mode="after")
+    def require_executable_recruitment(self):
+        """Reject a nominal recruit decision that cannot dispatch any work."""
+
+        if self.decision is CollaborationDecision.RECRUIT and not self.assignments:
+            raise ValueError("a recruit decision requires at least one assignment")
+        return self
 
 
 class ContributionItem(BaseModel):

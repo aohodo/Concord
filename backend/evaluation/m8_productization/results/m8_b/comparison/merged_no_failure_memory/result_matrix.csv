@@ -1,0 +1,5 @@
+﻿domain,deadline_result_first,self_correction
+enterprise_it,PASS,NOT_RUN
+platform_operations,NOT_RUN,FAIL
+saas_operations,PASS,NOT_RUN
+software_delivery,NOT_RUN,PASS

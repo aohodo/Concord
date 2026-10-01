@@ -19,6 +19,14 @@ def _read(path: Path) -> list[M4EpisodeRun]:
     ]
 
 
+def _portable_path(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return path.name
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Merge M4 raw runs, preferring later sources"
@@ -26,9 +34,20 @@ def main() -> None:
     parser.add_argument("--input", action="append", required=True)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--catalog")
+    parser.add_argument(
+        "--episode-id",
+        action="append",
+        help="Restrict the expected catalog to named Episodes (repeatable).",
+    )
     args = parser.parse_args()
 
     expected_order = [item.episode_id for item in load_episodes(args.catalog)]
+    if args.episode_id:
+        requested = set(args.episode_id)
+        unknown = sorted(requested.difference(expected_order))
+        if unknown:
+            raise ValueError(f"unknown Episode IDs: {unknown}")
+        expected_order = [item for item in expected_order if item in requested]
     merged: dict[str, M4EpisodeRun] = {}
     replacements = 0
     sources: list[dict[str, object]] = []
@@ -39,7 +58,7 @@ def main() -> None:
             if row.episode_id in merged:
                 replacements += 1
             merged[row.episode_id] = row
-        sources.append({"path": str(path), "episodes": len(rows)})
+        sources.append({"path": _portable_path(path), "episodes": len(rows)})
 
     missing = [episode_id for episode_id in expected_order if episode_id not in merged]
     unexpected = sorted(set(merged).difference(expected_order))

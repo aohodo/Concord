@@ -1,4 +1,4 @@
-"""Run the reproducible M8-A productization checks and write public evidence."""
+"""Run the reproducible M8-B productization checks and write public evidence."""
 
 from __future__ import annotations
 
@@ -67,7 +67,7 @@ def _run(name: str, command: list[str], root: Path) -> dict[str, Any]:
 def _report(results: list[dict[str, Any]], generated_at: str) -> str:
     passed = sum(item["passed"] for item in results)
     lines = [
-        "# M8-A Productization Validation",
+        "# M8-B Productization Validation",
         "",
         f"Generated: `{generated_at}`",
         "",
@@ -87,9 +87,9 @@ def _report(results: list[dict[str, Any]], generated_at: str) -> str:
             "## Coverage interpretation",
             "",
             (
-                "- Backend tests include M1–M7 unit/integration, longitudinal Case, fault "
-                "injection, human-collaboration, ablation and verified-experience call-chain "
-                "coverage."
+                "- Backend tests include M1–M7 unit/integration plus the M8-B product boundary, "
+                "longitudinal Case, fault injection, human-collaboration, ablation and "
+                "verified-experience call-chain coverage."
             ),
             "- Frontend build proves the Vue Case Console compiles against its checked-in lockfile.",
             "- Compose validation proves the optional Redis and full-stack topology parses.",
@@ -119,7 +119,7 @@ def main() -> int:
     docker = shutil.which("docker.exe") or shutil.which("docker") or "docker"
     commands = [
         (
-            "backend M1-M7 regression and M8-A call-chain tests",
+            "backend M1-M8-B regression and call-chain tests",
             [sys.executable, "-m", "pytest", "backend/tests", "-q"],
         ),
         (
@@ -155,6 +155,17 @@ def main() -> int:
             [npm, "audit", "--audit-level=high", "--prefix", "frontend"],
         ),
         (
+            "M8-B recorded vertical-slice evidence",
+            [
+                sys.executable,
+                "-m",
+                "backend.evaluation.m8_productization.showcase",
+                "--artifact",
+                "backend/evaluation/m8_productization/results/m8_b/final/raw_runs.jsonl",
+                "--require-pass",
+            ],
+        ),
+        (
             "backend Docker Compose topology",
             [docker, "compose", "-f", "backend/docker-compose.yml", "config", "-q"],
         ),
@@ -176,7 +187,7 @@ def main() -> int:
         + "\n",
         encoding="utf-8",
     )
-    (output / "M8_A_REPORT.md").write_text(
+    (output / "M8_B_REPORT.md").write_text(
         _report(results, generated_at), encoding="utf-8"
     )
     print(_report(results, generated_at))

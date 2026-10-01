@@ -1,4 +1,4 @@
-# M8-A Active Call-Chain Audit
+# M8-B Active Call-Chain Audit
 
 This matrix distinguishes implemented code from mechanisms that measurably affect the default
 product path. A row passes only when a producer feeds a consumer and a behavior-level test covers

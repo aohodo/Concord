@@ -43,6 +43,7 @@ class CollaborationGraphState(TypedDict, total=False):
     max_agents: int
     minimum_gain_margin: float
     topology: str
+    coordinator_timeout_seconds: float
     worker_timeout_seconds: float
     round_index: int
     plans: list[dict[str, Any]]
@@ -297,15 +298,18 @@ class AdaptiveCollaborationGraph:
         ):
             plan = self._fixed_plan()
         else:
-            plan = await self._coordinator.plan(
-                handoff=state["handoff"],
-                available_agents=self._directory.catalog(performance),
-                prior_contributions=[
-                    AgentContribution.model_validate(item)
-                    for item in state.get("contributions", [])
-                ],
-                round_index=int(state.get("round_index", 0)),
-                recruited_agents=list(state.get("recruited_agents", [])),
+            plan = await asyncio.wait_for(
+                self._coordinator.plan(
+                    handoff=state["handoff"],
+                    available_agents=self._directory.catalog(performance),
+                    prior_contributions=[
+                        AgentContribution.model_validate(item)
+                        for item in state.get("contributions", [])
+                    ],
+                    round_index=int(state.get("round_index", 0)),
+                    recruited_agents=list(state.get("recruited_agents", [])),
+                ),
+                timeout=float(state.get("coordinator_timeout_seconds", 120.0)),
             )
             coordinator_calls += 1
         parallel_blocked = (
@@ -337,6 +341,19 @@ class AdaptiveCollaborationGraph:
                 "estimated_coordination_cost": effective_cost,
             }
         )
+        if (
+            plan.decision is CollaborationDecision.RECRUIT
+            and not assignments
+        ):
+            plan = plan.model_copy(
+                update={
+                    "decision": CollaborationDecision.RETURN_TO_M2,
+                    "rationale": (
+                        f"{plan.rationale}; no executable assignment remained after "
+                        "capability, topology, and team-size validation"
+                    ),
+                }
+            )
         plans = [*state.get("plans", []), plan.model_dump(mode="json")]
         if plan.decision is CollaborationDecision.REQUIRE_HUMAN:
             return {
@@ -546,14 +563,19 @@ class AdaptiveCollaborationGraph:
                     status="exhausted",
                 ),
             }
-        synthesis = await self._coordinator.synthesize(
-            handoff=state["handoff"],
-            plans=[CollaborationPlan.model_validate(item) for item in state["plans"]],
-            contributions=[
-                AgentContribution.model_validate(item)
-                for item in state["contributions"]
-            ],
-            round_index=int(state["round_index"]),
+        synthesis = await asyncio.wait_for(
+            self._coordinator.synthesize(
+                handoff=state["handoff"],
+                plans=[
+                    CollaborationPlan.model_validate(item) for item in state["plans"]
+                ],
+                contributions=[
+                    AgentContribution.model_validate(item)
+                    for item in state["contributions"]
+                ],
+                round_index=int(state["round_index"]),
+            ),
+            timeout=float(state.get("coordinator_timeout_seconds", 120.0)),
         )
         coordinator_calls = int(state.get("coordinator_calls", 0)) + 1
         synthesis = self._enforce_conflict_policy(synthesis)

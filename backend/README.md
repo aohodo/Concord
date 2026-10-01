@@ -1,6 +1,6 @@
 # Concord Python Backend
 
-Concord Python Runtime 当前版本为 **M8-A**，研究“受限理性与有噪声沟通条件下的人机协同问题表征与自适应多智能体求解”；具体业务场景作为可替换模块存在。
+Concord Python Runtime 当前版本为 **M8-B**，研究“受限理性与有噪声沟通条件下的人机协同问题表征与自适应多智能体求解”；具体业务场景作为可替换模块存在。
 
 全项目设计总纲是 **Human behavior provides computational priors for Agent control**：人类行为研究提供注意、深思、停止、搜索控制与经验复用先验，而不是一层拟人化话术。
 
@@ -19,7 +19,8 @@ Concord Python Runtime 当前版本为 **M8-A**，研究“受限理性与有噪
 - [项目入口](../README.md)
 - [V2 多轮 Episode 评测协议](../evaluation/v2_interaction/README.md)
 - [人类行为可证伪契约](../evaluation/v2_interaction/HUMAN_BEHAVIOR_CONTRACT.md)
-- [M8-A 调用链审计](evaluation/m8_productization/CALL_CHAIN_AUDIT.md)
+- [M8-B 架构、证据与复现](evaluation/m8_productization/M8_B_SHOWCASE.md)
+- [活动调用链审计](evaluation/m8_productization/CALL_CHAIN_AUDIT.md)
 
 ## 快速开始
 

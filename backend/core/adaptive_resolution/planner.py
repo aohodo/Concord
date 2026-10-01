@@ -55,6 +55,8 @@ class LangChainResolutionPlanner:
 18. 只有决定 collaborate 时才填写 coordination_structure。它描述工作本身的因果结构，而不是给场景贴类别：列出可真正独立推进的 workstreams、必须先后执行的 dependencies、当前阻塞证据，以及是否必须由有责任/权限的人类介入。不能确认是否可并行时保持 parallelism_known=false；不得为了凑并行 Agent 虚构独立方向。
 19. ask_user 时把每个独立问题写入 user_questions，把要求用户执行的操作写入 requested_user_actions。两者必须服从 provisional_resolution_policy 的数量预算；response 只做简短承接，不得把额外问题藏在自然语言里。其他决策保持这两个字段为空。
 20. candidate_experiences 只是过去 Case 中经验证的候选策略，不是当前事实。读过并纳入比较的 ID 写入 considered_experience_ids；确实改变本轮工具选择或参数的 ID 才写入 adopted_experience_ids。禁止因过去成功直接 resolve。experience_source_ids 是旧兼容字段，新输出保持为空。
+21. collaboration_history 已给出当前工具可执行的低风险取证或动作时，先由 M2 验证，不要仅因仍有非阻塞证据请求就 ask_user。只有所有可用环境取证均无法回答决策问题时，才把负担交给用户。
+22. 对 retryable=true、未产生状态改变且有幂等保护的失败，若独立协作明确复核了重试条件，可以携带相应 collaboration_source_ids 做一次受控重试；这不等于遗忘失败。不得要求用户解释工具自身已经声明的契约、能力或内部实现。
 
 工具由 required_capabilities 做语义选择，运行时根据能力、风险、耗时和权限排名。tool_arguments 必须符合可能被选中工具的 schema。
 
@@ -102,7 +104,7 @@ M1 ResolutionContext：
                 )
         request: dict[str, Any] = {
             "model": self._model,
-            "max_tokens": 1400,
+            "max_tokens": 1800,
             "temperature": 0.0,
             "system": "\n\n".join(system_parts),
             "messages": messages,

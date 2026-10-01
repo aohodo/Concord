@@ -1,0 +1,7 @@
+﻿variant,episodes,passed,resolved,m3_reached,avg_latency_ms,model_calls,tool_calls,avg_user_turns,avg_response_characters,failure_labels,coverage_notes
+v2_full,4,4,3,2,213541.158,32,19,2.5,283.5,{},{}
+v2_m2_only,4,4,3,0,150589.073,22,18,2.0,143.5,{},{}
+v2_fixed_three,4,4,3,2,214294.854,33,21,2.5,268.5,{},{}
+v2_no_user_state,4,4,3,1,149210.375,22,18,2.0,204.25,{},"{""M3_COVERAGE_NOT_REACHED"": 1}"
+v2_no_epistemic_separation,4,4,3,2,201864.681,30,21,2.5,250.5,{},{}
+v2_no_failure_memory,4,3,2,2,240941.228,29,20,2.5,227.0,"{""GOAL_NOT_VERIFIED"": 1, ""UNEXPECTED_FINAL_STATUS:evidence_required"": 1}",{}

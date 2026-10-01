@@ -1,0 +1,15 @@
+{
+  "strategy": "later input replaces the same episode_id; every raw source is retained",
+  "catalog_episodes": 31,
+  "replacements": 1,
+  "sources": [
+    {
+      "path": "evaluation/m8_productization/results/m8_b/full/raw_runs.jsonl",
+      "episodes": 31
+    },
+    {
+      "path": "evaluation/m8_productization/results/m8_b/reruns/specialist_recovery_policy_fix/raw_runs.jsonl",
+      "episodes": 1
+    }
+  ]
+}

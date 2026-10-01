@@ -1,0 +1,80 @@
+{
+  "schema_version": "m4-ablation-manifest-v1",
+  "generated_at": "2026-10-01T03:14:59.365751+00:00",
+  "model": "qwen3.8-flash",
+  "entry_boundary": "HTTP product APIs only",
+  "success_authority": "simulated environment outcome and tool audit",
+  "full_run_source": "evaluation/m8_productization/results/m8_b/final/raw_runs.jsonl",
+  "variants": {
+    "v2_full": {
+      "artifact": "evaluation/m8_productization/results/m8_b/final/raw_runs.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    },
+    "v2_m2_only": {
+      "artifact": "v2_m2_only.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    },
+    "v2_fixed_three": {
+      "artifact": "v2_fixed_three.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    },
+    "v2_no_user_state": {
+      "artifact": "v2_no_user_state.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    },
+    "v2_no_epistemic_separation": {
+      "artifact": "v2_no_epistemic_separation.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    },
+    "v2_no_failure_memory": {
+      "artifact": "v2_no_failure_memory.jsonl",
+      "episodes": 4,
+      "episode_ids": [
+        "saas_webhook_secret__deadline_result_first",
+        "permission_boundary__deadline_result_first",
+        "conflicting_config_reports__self_correction",
+        "specialist_recovery_after_tool_failures__self_correction"
+      ]
+    }
+  },
+  "derived_artifacts": [
+    "comparison_summary.json",
+    "comparison_summary.csv",
+    "M4_COMPARISON_REPORT.md"
+  ],
+  "notes": [
+    "Each per-variant JSONL preserves case-level raw results.",
+    "M3 coverage is not a success gate when M2 independently verifies the goal.",
+    "LLM-as-Judge interaction results are stored separately from outcome success."
+  ]
+}

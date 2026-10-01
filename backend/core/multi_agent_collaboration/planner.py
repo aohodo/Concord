@@ -109,7 +109,9 @@ class _StructuredLLM:
                 response_format={"type": "json_object"},
                 system=(
                     "只修复给定输出的 JSON 结构以符合 schema。不得增加事实、"
-                    "Agent、任务、冲突或结论。只输出 JSON object。"
+                    "冲突或结论。只能使用 original_payload 中已有的 Agent、"
+                    "证据与约束；允许补全与 decision 一致的必要结构字段和任务。"
+                    "只输出 JSON object。"
                 ),
                 messages=[
                     {
@@ -119,6 +121,7 @@ class _StructuredLLM:
                                 "schema": schema.model_json_schema(),
                                 "validation_error": str(exc),
                                 "invalid_output": raw[:12000],
+                                "original_payload": payload,
                             },
                             ensure_ascii=False,
                         ),
@@ -186,7 +189,7 @@ class LangChainCollaborationCoordinator:
                 "round_index": round_index,
                 "already_recruited": recruited_agents,
             },
-            max_tokens=1800,
+            max_tokens=2800,
         )
 
     async def synthesize(
@@ -208,7 +211,7 @@ class LangChainCollaborationCoordinator:
                 ],
                 "round_index": round_index,
             },
-            max_tokens=2200,
+            max_tokens=2600,
         )
 
 

@@ -1,6 +1,8 @@
 import asyncio
 
+import pytest
 from langgraph.checkpoint.memory import InMemorySaver
+from pydantic import ValidationError
 
 from core.adaptive_resolution import CollaborationHandoff, CollaborationMode
 from core.multi_agent_collaboration import (
@@ -120,6 +122,18 @@ def parallel_plan(*, gain=0.8, cost=0.2):
         expected_information_gain=gain,
         estimated_coordination_cost=cost,
     )
+
+
+def test_recruit_plan_requires_an_executable_assignment():
+    with pytest.raises(ValidationError, match="requires at least one assignment"):
+        CollaborationPlan(
+            decision=CollaborationDecision.RECRUIT,
+            mode=CollaborationMode.DIVERSE_EXPLORATION,
+            rationale="search is stalled",
+            assignments=[],
+            expected_information_gain=0.8,
+            estimated_coordination_cost=0.2,
+        )
 
 
 def complete_synthesis(*conflicts):

@@ -1,0 +1,15 @@
+{
+  "strategy": "later input replaces the same episode_id; every raw source is retained",
+  "catalog_episodes": 4,
+  "replacements": 1,
+  "sources": [
+    {
+      "path": "evaluation/m8_productization/results/m8_b/comparison/invalid_infrastructure/host_suspension/v2_no_failure_memory.jsonl",
+      "episodes": 4
+    },
+    {
+      "path": "evaluation/m8_productization/results/m8_b/comparison/reruns/no_failure_memory_timeout_fix/raw_runs.jsonl",
+      "episodes": 1
+    }
+  ]
+}

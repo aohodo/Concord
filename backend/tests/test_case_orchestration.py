@@ -149,6 +149,39 @@ def test_registry_exposes_complete_m1_m2_m3_m2_lifecycle():
     ]
 
 
+def test_m3_evidence_request_is_not_exposed_as_waiting_before_m2_consumes_it():
+    registry = InMemoryCaseRunRegistry()
+    run(
+        registry.record_formulation(
+            formulation=formulation(),
+            user_id="user-1",
+            tenant_id="local",
+            conv_id="conv-1",
+        )
+    )
+    run(
+        registry.record_collaboration_started(
+            case_id="case-1",
+            user_id="user-1",
+            tenant_id="local",
+            collaboration_id="collab-1",
+            thread_id="m3:m2:case-1:collab-1",
+            case_revision=1,
+        )
+    )
+
+    snapshot = run(
+        registry.record_collaboration_completed(
+            collaboration(CollaborationStatus.EVIDENCE_REQUIRED),
+            user_id="user-1",
+            tenant_id="local",
+        )
+    )
+
+    assert snapshot.phase is CasePhase.VERIFICATION
+    assert snapshot.status == "evidence_required"
+
+
 def test_registry_keeps_one_case_across_formulation_turns():
     registry = InMemoryCaseRunRegistry()
     run(

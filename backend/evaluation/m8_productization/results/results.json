@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-30T13:57:08.364265+00:00",
+  "generated_at": "2026-10-01T03:20:34.791462+00:00",
   "checks": [
     {
-      "name": "backend M1-M7 regression and M8-A call-chain tests",
+      "name": "backend M1-M8-B regression and call-chain tests",
       "command": [
         "python",
         "-m",
@@ -12,8 +12,8 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 8.609,
-      "output_tail": "........................................................................ [ 36%]\n........................................................................ [ 72%]\n......................................................                   [100%]\n198 passed in 6.46s"
+      "duration_seconds": 7.489,
+      "output_tail": "........................................................................ [ 35%]\n........................................................................ [ 71%]\n..........................................................               [100%]\n202 passed in 5.72s"
     },
     {
       "name": "longitudinal interaction evaluation protocol",
@@ -26,8 +26,8 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 1.499,
-      "output_tail": "...............                                                          [100%]\n15 passed in 0.23s"
+      "duration_seconds": 1.132,
+      "output_tail": "...............                                                          [100%]\n15 passed in 0.18s"
     },
     {
       "name": "Python lint",
@@ -41,7 +41,7 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 0.11,
+      "duration_seconds": 0.105,
       "output_tail": "All checks passed!"
     },
     {
@@ -54,7 +54,7 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 1.932,
+      "duration_seconds": 2.399,
       "output_tail": "Public safety scan passed: tracked private docs and obvious secrets not found."
     },
     {
@@ -68,7 +68,7 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 36.539,
+      "duration_seconds": 41.097,
       "output_tail": "No known vulnerabilities found"
     },
     {
@@ -82,8 +82,8 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 0.937,
-      "output_tail": "> concord-case-console@8.0.0-alpha.0 build\n> vite build\n\nvite v8.3.1 building client environment for production...\ntransforming...\n✓ 13 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                  0.46 kB │ gzip:  0.29 kB\ndist/assets/index-c0MW7rVf.css  21.78 kB │ gzip:  5.21 kB\ndist/assets/index-oVVR_bpW.js   90.82 kB │ gzip: 34.47 kB\n\n✓ built in 139ms"
+      "duration_seconds": 1.799,
+      "output_tail": "> concord-case-console@8.0.0-beta.0 build\n> vite build\n\nvite v8.3.1 building client environment for production...\ntransforming...\n✓ 13 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                  0.46 kB │ gzip:  0.29 kB\ndist/assets/index-c0MW7rVf.css  21.78 kB │ gzip:  5.21 kB\ndist/assets/index-oVVR_bpW.js   90.82 kB │ gzip: 34.47 kB\n\n✓ built in 138ms"
     },
     {
       "name": "frontend high-severity dependency audit",
@@ -96,8 +96,23 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 1.461,
+      "duration_seconds": 1.292,
       "output_tail": "found 0 vulnerabilities"
+    },
+    {
+      "name": "M8-B recorded vertical-slice evidence",
+      "command": [
+        "python",
+        "-m",
+        "backend.evaluation.m8_productization.showcase",
+        "--artifact",
+        "backend/evaluation/m8_productization/results/m8_b/final/raw_runs.jsonl",
+        "--require-pass"
+      ],
+      "passed": true,
+      "return_code": 0,
+      "duration_seconds": 0.123,
+      "output_tail": "Concord M8-B vertical slice\nEpisode: specialist_recovery_after_tool_failures__self_correction\nResult: PASS (resolved)\nCost: 381.46s, 3 user turns, 14 model calls, 7 tool calls\nM3 agents: alternative_explorer, operations_planner\n\n[x] M1 shared formulation: True\n[x] M2 evidence-action loop: True\n[x] Conditional M3: True\n[x] M2 resumed: True\n[x] Goal independently verified: True\n[?] Verified experience retained: unavailable\n\nThis is one environment-grounded vertical slice, not a universal quality claim."
     },
     {
       "name": "backend Docker Compose topology",
@@ -111,7 +126,7 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 0.358,
+      "duration_seconds": 0.552,
       "output_tail": ""
     },
     {
@@ -126,7 +141,7 @@
       ],
       "passed": true,
       "return_code": 0,
-      "duration_seconds": 0.354,
+      "duration_seconds": 0.323,
       "output_tail": ""
     }
   ]

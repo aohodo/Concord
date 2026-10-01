@@ -1,0 +1,91 @@
+[
+  {
+    "variant": "v2_full",
+    "episodes": 4,
+    "passed": 4,
+    "resolved": 3,
+    "m3_reached": 2,
+    "avg_latency_ms": 213541.158,
+    "model_calls": 32,
+    "tool_calls": 19,
+    "avg_user_turns": 2.5,
+    "avg_response_characters": 283.5,
+    "failure_labels": {},
+    "coverage_notes": {}
+  },
+  {
+    "variant": "v2_m2_only",
+    "episodes": 4,
+    "passed": 4,
+    "resolved": 3,
+    "m3_reached": 0,
+    "avg_latency_ms": 150589.073,
+    "model_calls": 22,
+    "tool_calls": 18,
+    "avg_user_turns": 2.0,
+    "avg_response_characters": 143.5,
+    "failure_labels": {},
+    "coverage_notes": {}
+  },
+  {
+    "variant": "v2_fixed_three",
+    "episodes": 4,
+    "passed": 4,
+    "resolved": 3,
+    "m3_reached": 2,
+    "avg_latency_ms": 214294.854,
+    "model_calls": 33,
+    "tool_calls": 21,
+    "avg_user_turns": 2.5,
+    "avg_response_characters": 268.5,
+    "failure_labels": {},
+    "coverage_notes": {}
+  },
+  {
+    "variant": "v2_no_user_state",
+    "episodes": 4,
+    "passed": 4,
+    "resolved": 3,
+    "m3_reached": 1,
+    "avg_latency_ms": 149210.375,
+    "model_calls": 22,
+    "tool_calls": 18,
+    "avg_user_turns": 2.0,
+    "avg_response_characters": 204.25,
+    "failure_labels": {},
+    "coverage_notes": {
+      "M3_COVERAGE_NOT_REACHED": 1
+    }
+  },
+  {
+    "variant": "v2_no_epistemic_separation",
+    "episodes": 4,
+    "passed": 4,
+    "resolved": 3,
+    "m3_reached": 2,
+    "avg_latency_ms": 201864.681,
+    "model_calls": 30,
+    "tool_calls": 21,
+    "avg_user_turns": 2.5,
+    "avg_response_characters": 250.5,
+    "failure_labels": {},
+    "coverage_notes": {}
+  },
+  {
+    "variant": "v2_no_failure_memory",
+    "episodes": 4,
+    "passed": 3,
+    "resolved": 2,
+    "m3_reached": 2,
+    "avg_latency_ms": 240941.228,
+    "model_calls": 29,
+    "tool_calls": 20,
+    "avg_user_turns": 2.5,
+    "avg_response_characters": 227.0,
+    "failure_labels": {
+      "GOAL_NOT_VERIFIED": 1,
+      "UNEXPECTED_FINAL_STATUS:evidence_required": 1
+    },
+    "coverage_notes": {}
+  }
+]

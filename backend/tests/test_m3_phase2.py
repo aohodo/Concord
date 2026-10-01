@@ -135,6 +135,24 @@ def test_worker_timeout_isolated_and_measured():
     assert all(item.error == "COLLABORATOR_FAILURE" for item in result.contributions)
 
 
+def test_coordinator_timeout_returns_a_bounded_runtime_error():
+    class SlowCoordinator(QueuedCoordinator):
+        async def plan(self, **kwargs):
+            await asyncio.sleep(0.2)
+            return await super().plan(**kwargs)
+
+    result = run(
+        make_service(SlowCoordinator([parallel_plan()])).collaborate(
+            handoff=handoff(),
+            coordinator_timeout_seconds=0.1,
+        )
+    )
+
+    assert result.status is CollaborationStatus.ERROR
+    assert result.error == "M3_RUNTIME_FAILURE"
+    assert result.metrics.wall_time_ms < 1000
+
+
 def test_shared_source_agreement_is_not_independent_corroboration():
     class SharedSourceWorker(RecordingWorker):
         async def contribute(self, *, profile, assignment, context):

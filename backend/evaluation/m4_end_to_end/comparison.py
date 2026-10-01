@@ -33,6 +33,16 @@ DEFAULT_VARIANTS = [
 ]
 
 
+def _portable_path(path: Path) -> str:
+    """Render experiment references without publishing workstation paths."""
+
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(Path.cwd().resolve()).as_posix()
+    except ValueError:
+        return path.name
+
+
 def _read_jsonl(path: Path) -> list[M4EpisodeRun]:
     return [
         M4EpisodeRun.model_validate_json(line)
@@ -45,6 +55,12 @@ def _summarize(variant: str, runs: list[M4EpisodeRun]) -> dict:
     total = len(runs)
     failures = Counter(item for run in runs for item in run.failures)
     coverage_notes = Counter(item for run in runs for item in run.coverage_notes)
+    user_turns = sum(len(run.turns) for run in runs)
+    response_characters = sum(
+        len(str(turn.response.get("response", "")))
+        for run in runs
+        for turn in run.turns
+    )
     return {
         "variant": variant,
         "episodes": total,
@@ -59,6 +75,10 @@ def _summarize(variant: str, runs: list[M4EpisodeRun]) -> dict:
             for item in runs
         ),
         "tool_calls": sum(item.tool_calls for item in runs),
+        "avg_user_turns": round(user_turns / total, 3) if total else 0.0,
+        "avg_response_characters": (
+            round(response_characters / total, 3) if total else 0.0
+        ),
         "failure_labels": dict(failures),
         "coverage_notes": dict(coverage_notes),
     }
@@ -84,6 +104,8 @@ def _write_comparison(output: Path, grouped: dict[str, list[M4EpisodeRun]]) -> N
                 "avg_latency_ms",
                 "model_calls",
                 "tool_calls",
+                "avg_user_turns",
+                "avg_response_characters",
                 "failure_labels",
                 "coverage_notes",
             ],
@@ -100,14 +122,15 @@ def _write_comparison(output: Path, grouped: dict[str, list[M4EpisodeRun]]) -> N
     lines = [
         "# M4 Mechanism Comparison",
         "",
-        "| variant | pass | resolved | M3 reached | model calls | tool calls | avg latency ms |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| variant | pass | resolved | M3 reached | model calls | tool calls | avg turns | avg response chars | avg latency ms |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in summaries:
         lines.append(
             f"| {row['variant']} | {row['passed']}/{row['episodes']} | "
             f"{row['resolved']} | {row['m3_reached']} | {row['model_calls']} | "
-            f"{row['tool_calls']} | {row['avg_latency_ms']:.1f} |"
+            f"{row['tool_calls']} | {row['avg_user_turns']:.2f} | "
+            f"{row['avg_response_characters']:.1f} | {row['avg_latency_ms']:.1f} |"
         )
     lines.extend(
         [
@@ -120,6 +143,34 @@ def _write_comparison(output: Path, grouped: dict[str, list[M4EpisodeRun]]) -> N
             (
                 "M3 is dynamically optional. Solving and verifying a case in M2 remains a pass; "
                 "missing a targeted M3 branch is reported only as a coverage note."
+            ),
+            "",
+            "## Interpretation of this subset",
+            "",
+            (
+                "- `v2_m2_only` also passed 4/4 and used fewer model calls and less wall time. "
+                "This subset does not demonstrate a success-rate advantage for M3; it supports "
+                "keeping collaboration conditional instead of mandatory."
+            ),
+            (
+                "- `v2_fixed_three` also passed 4/4 but used one more model call and two more "
+                "tool calls than `v2_full`. This is only a small observed cost difference, not a "
+                "general efficiency claim."
+            ),
+            (
+                "- Removing user-state control or epistemic separation did not reduce endpoint "
+                "success in these four Episodes. Their value therefore needs interaction- and "
+                "semantic-safety-sensitive evaluation rather than outcome success alone."
+            ),
+            (
+                "- `v2_no_failure_memory` passed 3/4. In the failed retry Episode it stopped at "
+                "`evidence_required` without verifying the goal. This single clean rerun is a "
+                "causal candidate, not proof of a population-level memory benefit."
+            ),
+            (
+                "- A prior `v2_no_failure_memory` sample crossed a host sleep interval and is "
+                "excluded from the table as infrastructure-invalid; it is retained separately "
+                "for provenance."
             ),
             "",
         ]
@@ -140,10 +191,14 @@ def _write_manifest(
         "model": model_label,
         "entry_boundary": "HTTP product APIs only",
         "success_authority": "simulated environment outcome and tool audit",
-        "full_run_source": str(full_runs.resolve()),
+        "full_run_source": _portable_path(full_runs),
         "variants": {
             variant: {
-                "artifact": f"{variant}.jsonl" if variant != "v2_full" else str(full_runs.resolve()),
+                "artifact": (
+                    f"{variant}.jsonl"
+                    if variant != "v2_full"
+                    else _portable_path(full_runs)
+                ),
                 "episodes": len(runs),
                 "episode_ids": [item.episode_id for item in runs],
             }
@@ -175,6 +230,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-label", default="qwen3.8-flash")
     parser.add_argument("--variants", nargs="*", default=DEFAULT_VARIANTS)
     parser.add_argument(
+        "--episode-id",
+        action="append",
+        help="Restrict the comparison to one or more named Episodes.",
+    )
+    parser.add_argument(
         "--resume",
         action="store_true",
         help="Reuse a complete per-variant JSONL already present in the output directory.",
@@ -184,12 +244,18 @@ def parse_args() -> argparse.Namespace:
 
 async def main() -> None:
     args = parse_args()
-    episodes = [item for item in load_episodes() if item.episode_id in DEFAULT_EPISODES]
+    requested = set(args.episode_id or DEFAULT_EPISODES)
+    episodes = [item for item in load_episodes() if item.episode_id in requested]
+    missing = sorted(requested.difference(item.episode_id for item in episodes))
+    if missing:
+        raise ValueError(f"unknown Episode IDs: {missing}")
     full = [
         item
         for item in _read_jsonl(Path(args.full_runs))
-        if item.episode_id in DEFAULT_EPISODES
+        if item.episode_id in requested
     ]
+    if len(full) != len(episodes):
+        raise ValueError("full-run artifact does not cover every requested Episode")
     grouped: dict[str, list[M4EpisodeRun]] = {"v2_full": full}
     output = Path(args.output_dir).resolve()
     output.mkdir(parents=True, exist_ok=True)

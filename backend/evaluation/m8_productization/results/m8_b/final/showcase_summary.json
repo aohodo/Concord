@@ -1,0 +1,61 @@
+{
+  "episode_id": "specialist_recovery_after_tool_failures__self_correction",
+  "case_id": "case-m8b-rerun-specialist-policy-fix-001",
+  "passed": true,
+  "final_status": "resolved",
+  "latency_seconds": 381.46,
+  "user_turns": 3,
+  "model_calls": 14,
+  "tool_calls": 7,
+  "chain": {
+    "m1_formulated": true,
+    "m2_executed": true,
+    "m3_triggered": true,
+    "m3_agents": [
+      "alternative_explorer",
+      "operations_planner"
+    ],
+    "m2_resumed": true,
+    "goal_verified": true,
+    "outcome_verdict": "verified_success",
+    "retained_experiences": 2
+  },
+  "tool_statuses": [
+    {
+      "tool_id": "simulation_list_actions",
+      "status": "succeeded",
+      "error_code": null
+    },
+    {
+      "tool_id": "simulation_observe_state",
+      "status": "succeeded",
+      "error_code": null
+    },
+    {
+      "tool_id": "simulation_execute_action",
+      "status": "timed_out",
+      "error_code": "SIMULATED_TIMEOUT"
+    },
+    {
+      "tool_id": "simulation_wait",
+      "status": "succeeded",
+      "error_code": null
+    },
+    {
+      "tool_id": "simulation_observe_state",
+      "status": "succeeded",
+      "error_code": null
+    },
+    {
+      "tool_id": "simulation_execute_action",
+      "status": "succeeded",
+      "error_code": null
+    },
+    {
+      "tool_id": "simulation_observe_state",
+      "status": "succeeded",
+      "error_code": null
+    }
+  ],
+  "interpretation": "This is one environment-grounded vertical slice, not a universal quality claim."
+}

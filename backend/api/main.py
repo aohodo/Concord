@@ -664,7 +664,7 @@ async def lifespan(app: FastAPI):
 # ── FastAPI ───────────────────────────────────────────────────────────────────
 app = FastAPI(
     title="Concord Adaptive Collaboration Runtime",
-    version="M8-A",
+    version="M8-B",
     lifespan=lifespan,
     docs_url="/docs",
 )

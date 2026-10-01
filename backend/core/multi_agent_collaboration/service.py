@@ -71,6 +71,7 @@ class AdaptiveCollaborationService:
         max_agents: int = 4,
         minimum_gain_margin: float = 0.05,
         topology: CollaborationTopology | str = CollaborationTopology.ADAPTIVE,
+        coordinator_timeout_seconds: float = 120.0,
         worker_timeout_seconds: float = 120.0,
     ) -> CollaborationResult:
         validated = (
@@ -123,6 +124,9 @@ class AdaptiveCollaborationService:
                     "max_agents": max(1, min(max_agents, 6)),
                     "minimum_gain_margin": max(0.0, min(minimum_gain_margin, 1.0)),
                     "topology": topology.value,
+                    "coordinator_timeout_seconds": max(
+                        0.1, min(float(coordinator_timeout_seconds), 600.0)
+                    ),
                     "worker_timeout_seconds": max(
                         0.1, min(float(worker_timeout_seconds), 600.0)
                     ),
